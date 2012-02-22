@@ -68,14 +68,14 @@ highlight ExtraWhitespace ctermbg=darkred guibg=darkgreen
 autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 " Highlight column 80
-"if exists('+colorcolumn')
-"  highlight ColorColumn ctermbg=lightgrey guibg=black
-"  set colorcolumn=80
-"endif
+if exists('+colorcolumn')
+  highlight ColorColumn ctermbg=233 guibg=#121212
+  set colorcolumn=80
+endif
 
 " Highlight overlength
-highlight OverLength ctermbg=darkred guibg=darkgreen
-match OverLength /\%81v.\+/
+"highlight OverLength ctermbg=darkred guibg=darkgreen
+"match OverLength /\%81v.\+/
 
 " Search settings
 set incsearch
@@ -116,6 +116,7 @@ if has("autocmd")
     \ setlocal noexpandtab
   au BufNewFile,BufRead /*apache*
     \ setfiletype apache
+  au BufNewFile,BufRead */JP/* call s:MyJPSettings()
 
   au FileType c,cpp call s:MyCSettings()
   au FileType python call s:MyPythonSettings()
@@ -129,6 +130,13 @@ if has("autocmd")
     \ setfiletype viki
   augroup END
 endif
+
+" For JP code
+function! s:MyJPSettings()
+  compiler iar
+  set makeprg=paver\ build
+  syn keyword cType uint8 uint16 uint32 int8 int16 int32 boolean
+endfunction
 
 " For kernel code
 function! s:MyKernelSettings()
@@ -159,7 +167,6 @@ function! s:MyCSettings()
   setlocal shiftwidth=2
   setlocal autoindent
   setlocal smartindent
-  syn keyword cType uint8 uint16 uint32 int8 int16 int32 boolean
 endfunction
 
 " For Python
