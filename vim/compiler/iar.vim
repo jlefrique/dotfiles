@@ -11,8 +11,8 @@ let current_compiler = "iar"
 " errorformat matches errors and warning like:
 " C:\my\path\myfile.c(line) : Error[Pe165]: some information
 CompilerSet errorformat=
-  \%E%f(%l)\ :\ Error[Pe%n]:\ %m,
-  \%W%f(%l)\ :\ Warning[Pe%n]:\ %m
+  \%f(%l)\ :\ %trror[Pe%n]:\ %m,
+  \%f(%l)\ :\ %tarning[Pe%n]:\ %m
 
 " ---- End of Vim compiler file ----
 "
