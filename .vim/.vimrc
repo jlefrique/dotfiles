@@ -1,5 +1,9 @@
 " Vim configuration file
 
+" Activate pathogen
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
 " Global settings
 set incsearch
 set modelines=0
