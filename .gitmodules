@@ -1,21 +1,28 @@
 [submodule "vim/bundle/drawit"]
 	path = vim/bundle/drawit
 	url = https://github.com/vim-scripts/DrawIt.git
+	ignore = dirty
 [submodule "vim/bundle/xoria256"]
 	path = vim/bundle/xoria256
 	url = https://github.com/vim-scripts/xoria256.vim.git
+	ignore = dirty
 [submodule "vim/bundle/nerdtree"]
 	path = vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
+	ignore = dirty
 [submodule "vim/bundle/snipmate"]
 	path = vim/bundle/snipmate
 	url = https://github.com/msanders/snipmate.vim.git
+	ignore = dirty
 [submodule "vim/bundle/taglist"]
 	path = vim/bundle/taglist
 	url = https://github.com/vim-scripts/taglist.vim.git
+	ignore = dirty
 [submodule "vim/bundle/a"]
 	path = vim/bundle/a
 	url = https://github.com/vim-scripts/a.vim.git
+	ignore = dirty
 [submodule "vim/bundle/command-t"]
 	path = vim/bundle/command-t
 	url = https://github.com/vim-scripts/Command-T
+	ignore = dirty
