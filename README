@@ -9,6 +9,7 @@ Create symlinks:
 
   ln -s ~/dotfiles/vimrc ~/.vimrc
   ln -s ~/dotfiles/vim ~/.vim
+  ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 
 Switch to the `~/dotfiles` directory, and fetch submodules:
 
