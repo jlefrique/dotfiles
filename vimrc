@@ -137,9 +137,16 @@ endif
 
 " For JP code
 function! s:MyJPSettings()
-  compiler iar
-  set makeprg=paver\ build
   syn keyword cType uint8 uint16 uint32 int8 int16 int32 boolean
+  compiler iar
+if has("win32")
+  set makeprg=paver\ build
+else
+  if has("unix")
+    " Converts Windows paths to Unix paths.
+    set makeprg=paver\ build\ \\\|&\ iar_unix_path
+  endif
+endif
 endfunction
 
 " For kernel code
