@@ -8,9 +8,10 @@ import System.IO
 myManageHook = composeAll
     [ className =? "Gimp"      --> doFloat
     , className =? "Vncviewer" --> doFloat
+    , className =? "VirtualBox" --> doFloat
     ]
 
-myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8"]
+myWorkspaces = ["1:term", "2:www", "3:mail", "4:dev", "5:doc", "6:debug", "7", "8", "9:vm"]
 
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
