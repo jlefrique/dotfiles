@@ -11,7 +11,7 @@ myManageHook = composeAll
     , className =? "VirtualBox" --> doFloat
     ]
 
-myWorkspaces = ["1:term", "2:www", "3:mail", "4:dev", "5:doc", "6:debug", "7", "8", "9:vm"]
+myWorkspaces = ["1:main", "2:www", "3:mail", "4:dev", "5:doc", "6:log", "7", "8", "9:vm"]
 
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
