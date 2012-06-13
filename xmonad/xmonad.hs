@@ -24,6 +24,7 @@ main = do
                         , ppTitle = xmobarColor "green" "" . shorten 50
                         }
         , workspaces = myWorkspaces
+        , modMask = mod4Mask -- Use Super instead of Alt
         } `additionalKeys`
         [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s")
         , ((0, xK_Print), spawn "scrot")
