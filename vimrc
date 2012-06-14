@@ -218,6 +218,9 @@ nnoremap <F3> :NERDTreeToggle<CR>
 nnoremap <F4> :TlistToggle<CR>
 let Tlist_Use_Right_Window = 1       " Display the taglist on the right
 
+" Python-mode plugin
+let g:pymode_folding = 0
+
 " Alt-right/left to navigate forward/backward in the tags stack
 map <M-Left> <C-T>
 map <M-Right> <C-]>
