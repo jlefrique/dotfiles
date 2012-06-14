@@ -26,6 +26,3 @@
 	path = vim/bundle/command-t
 	url = https://github.com/vim-scripts/Command-T
 	ignore = dirty
-[submodule "bundle/python-mode"]
-	path = bundle/python-mode
-	url = https://github.com/klen/python-mode.git
