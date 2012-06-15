@@ -1,29 +1,98 @@
+-- Xmonad config
+--
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
+import XMonad.Layout.Fullscreen
+import XMonad.Layout.NoBorders
+import XMonad.Layout.Spiral
+import XMonad.Layout.Tabbed
 
+-- -- The default number of workspaces (virtual screens) and their names.
+-- -- By default we use numeric strings, but any string may be used as a
+-- -- workspace name. The number of workspaces is determined by the length
+-- -- of this list.
+-- --
+-- -- A tagging example:
+-- --
+-- -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
+-- --
+myWorkspaces = ["1:main", "2:www", "3:mail", "4:dev", "5:doc", "6:log",
+    "7", "8", "9:vm"]
+
+------------------------------------------------------------------------
+---- Layouts:
+-- 
+-- -- You can specify and transform your layouts by modifying these values.
+-- -- If you change layout bindings be sure to use 'mod-shift-space' after
+-- -- restarting (with 'mod-q') to reset your layout state to the new
+-- -- defaults, as xmonad preserves your old layout settings by default.
+-- --
+-- -- * NOTE: XMonad.Hooks.EwmhDesktops users must remove the obsolete
+-- -- ewmhDesktopsLayout modifier from layoutHook. It no longer exists.
+-- -- Instead use the 'ewmh' function from that module to modify your
+-- -- defaultConfig as a whole. (See also logHook, handleEventHook, and
+-- -- startupHook ewmh notes.)
+-- --
+-- -- The available layouts.  Note that each layout is separated by |||,
+-- -- which denotes layout choice.
+-- --
+myLayout = avoidStruts (
+    tiled |||
+    Mirror tiled |||
+    tabbed shrinkText tabConfig |||
+    Full |||
+    spiral (6/7)) |||
+    noBorders (fullscreenFull Full)
+         where tiled = Tall 1 (3/100) (1/2)
+
+tabConfig = defaultTheme {
+    activeBorderColor = "grey",
+    activeTextColor = "green",
+    activeColor = "black",
+    inactiveBorderColor = "grey",
+    inactiveTextColor = "grey",
+    inactiveColor = "black"
+}
+
+------------------------------------------------------------------------
+---- Window rules:
+-- 
+-- -- Execute arbitrary actions and WindowSet manipulations when managing
+-- -- a new window. You can use this to, for example, always float a
+-- -- particular program, or have a client always appear on a particular
+-- -- workspace.
+-- --
+-- -- To find the property name associated with a program, use
+-- -- > xprop | grep WM_CLASS
+-- -- and click on the client you're interested in.
+-- --
+-- -- To match on the WM_NAME, you can use 'title' in the same way that
+-- -- 'className' and 'resource' are used below.
+-- --
 myManageHook = composeAll
-    [ className =? "Gimp"      --> doFloat
-    , className =? "Vncviewer" --> doFloat
-    , className =? "VirtualBox" --> doFloat
+    [ className =? "Gimp"          --> doFloat
+    , className =? "Vncviewer"     --> doFloat
+    , className =? "Firefox"       --> doShift "2:www"
+    , className =? "Thunderbird"   --> doShift "3:mail"
+    , className =? "Pidgin"        --> doShift "3:mail"
+    , className =? "VirtualBox"    --> doShift "9:vm"
     ]
-
-myWorkspaces = ["1:main", "2:www", "3:mail", "4:dev", "5:doc", "6:log", "7", "8", "9:vm"]
 
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
     xmonad $ defaultConfig
-        { manageHook = manageDocks <+> myManageHook -- make sure to include myManageHook definition from above
+        { manageHook = manageDocks <+> myManageHook
                         <+> manageHook defaultConfig
-        , layoutHook = avoidStruts  $  layoutHook defaultConfig
         , logHook = dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
                         }
         , workspaces = myWorkspaces
+        , layoutHook = smartBorders $ myLayout
         , modMask = mod4Mask -- Use Super instead of Alt
         } `additionalKeys`
         [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s")
