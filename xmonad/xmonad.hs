@@ -1,5 +1,5 @@
 -- Xmonad config
---
+
 import XMonad
 import System.Exit
 import XMonad.Hooks.DynamicLog
@@ -110,11 +110,14 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Custom key bindings
     --
 
-    -- Go to the windows
+    -- Go to the window
     , ((modm .|. shiftMask, xK_g     ), gotoMenu)
 
-    -- Bring the windows
+    -- Bring the window
     , ((modm .|. shiftMask, xK_b     ), bringMenu)
+
+    -- Lock the screen
+    , ((modm .|. shiftMask, xK_l     ), spawn "xscreensaver-command -lock")
     ]
     ++
 
