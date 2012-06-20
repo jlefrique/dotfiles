@@ -1,0 +1,80 @@
+#---------------#
+# Account Hooks #
+#---------------#
+account-hook . "unset imap_user; unset imap_pass; unset tunnel" # unset first!
+account-hook        "imaps://julien.lefrique@imap.gmail.com/" "\
+    set imap_user   = julien.lefrique@gmail.com"
+account-hook        "imaps://julien311085@imap.gmail.com/" "\
+    set imap_user   = julien311085@gmail.com"
+
+#-------------------------------------#
+# Folders, mailboxes and folder hooks #
+#-------------------------------------#
+# Setup for julien.lefrique:
+set folder          = imaps://julien.lefrique@imap.gmail.com/
+mailboxes           = +INBOX =[Gmail]/Drafts =[Gmail]/'Sent Mail' =[Gmail]/Spam =[Gmail]/Trash
+set spoolfile       = +INBOX
+folder-hook         imaps://julien.lefrique@imap.gmail.com/ "\
+    set folder      = imaps://julien.lefrique@imap.gmail.com/ \
+        spoolfile   = +INBOX \
+        postponed   = +[Gmail]/Drafts \
+        record      = +[Gmail]/'Sent Mail' \
+        from        = 'Julien Lefrique <julien.lefrique@gmail.com> ' \
+        realname    = 'Julien Lefrique' \
+        smtp_url    = smtps://julien.lefrique@smtp.gmail.com"
+
+# Setup for julien311085:
+set folder          = imaps://julien311085@imap.gmail.com/
+mailboxes           = +INBOX =[Gmail]/Drafts =[Gmail]/'Sent Mail' =[Gmail]/Spam =[Gmail]/Trash
+set spoolfile       = +INBOX
+folder-hook         imaps://julien311085@imap.gmail.com/ "\
+    set folder      = imaps://julien311085@imap.gmail.com/ \
+        spoolfile   = +INBOX \
+        postponed   = +[Gmail]/Drafts \
+        record      = +[Gmail]/'Sent Mail' \
+        from        = 'Julien Lefrique <julien311085@gmail.com> ' \
+        realname    = 'Julien Lefrique' \
+        smtp_url    = smtps://julien311085@smtp.gmail.com"
+
+#--------#
+# Macros #
+#--------#
+macro index <F2> "y12<return><return>" # jump to mailbox number 12 (user1 inbox)
+macro index <F3> "y6<return><return>"  # jump to mailbox number 6 (user2 inbox)
+
+#-----------------------#
+# Gmail-specific macros #
+#-----------------------#
+# to delete more than 1 message, just mark them with "t" key and then do "d" on them
+macro index d ";s+[Gmail]/Trash<enter><enter>" "Move to Gmail's Trash"
+# delete message, but from pager (opened email)
+macro pager d "s+[Gmail]/Trash<enter><enter>"  "Move to Gmail's Trash"
+# undelete messages
+macro index u ";s+INBOX<enter><enter>"         "Move to Gmail's INBOX"
+macro pager u "s+INBOX<enter><enter>"          "Move to Gmail's INBOX"
+
+#-------------------------#
+# Misc. optional settings #
+#-------------------------#
+set editor = "vim"
+# Check for mail every minute for current IMAP mailbox every 1 min
+set timeout = 60
+# Check for new mail in ALL mailboxes every 2 min
+set mail_check = 120
+# keep imap connection alive by polling intermittently (time in seconds)
+set imap_keepalive = 300
+# allow mutt to open new imap connection automatically
+unset imap_passive
+# store message headers locally to speed things up
+# (the ~/.mutt folder MUST exist! Arch does not create it by default)
+set header_cache = ~/.mutt/hcache
+# sort mail by threads
+set sort = threads
+# and sort threads by date
+set sort_aux = last-date-received
+
+hdr_order Date From To Cc
+alternative_order text/plain text/html *
+auto_view text/html
+bind editor <Tab> complete-query
+
