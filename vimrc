@@ -144,7 +144,7 @@ if has("win32")
 else
   if has("unix")
     " Converts Windows paths to Unix paths.
-    set makeprg=paver\ build\ \\\|&\ iar_unix_path
+    set makeprg=paver\ build\ $*\ \\\|&\ iar_unix_path
   endif
 endif
 endfunction
