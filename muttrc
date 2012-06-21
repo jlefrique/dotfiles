@@ -46,9 +46,9 @@ macro index <F3> "y6<return><return>"  # jump to mailbox number 6 (user2 inbox)
 # Gmail-specific macros #
 #-----------------------#
 # to delete more than 1 message, just mark them with "t" key and then do "d" on them
-macro index d ";s+[Gmail]/Trash<enter><enter>" "Move to Gmail's Trash"
+macro index d ";s+[Gmail]/Bin<enter><enter>" "Move to Gmail's Trash"
 # delete message, but from pager (opened email)
-macro pager d "s+[Gmail]/Trash<enter><enter>"  "Move to Gmail's Trash"
+macro pager d "s+[Gmail]/Bin<enter><enter>"  "Move to Gmail's Trash"
 # undelete messages
 macro index u ";s+INBOX<enter><enter>"         "Move to Gmail's INBOX"
 macro pager u "s+INBOX<enter><enter>"          "Move to Gmail's INBOX"
