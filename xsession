@@ -6,12 +6,13 @@ xrdb -merge .Xresources
 # Set up an icon tray
 trayer --edge top --align right --SetDockType true --expand true \
 --widthtype percent --width 10 --transparent true --alpha 0 --tint 0x000000 \
---heighttype pixel --height 16 &
+--heighttype pixel --height 18 &
 
 # Set the background color
 #xsetroot -solid midnightblue
 
 ~/bin/set_keyboard.sh
+~/bin/dbt-init.sh
 
 # Fire up apps
 pidgin &
