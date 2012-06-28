@@ -25,120 +25,22 @@ import qualified Data.Map as M
 -- --
 -- -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 -- --
-myWorkspaces = ["1:main", "2:www", "3:mail", "4:dev", "5:doc", "6:log",
-    "7", "8", "9:vm"]
+myWorkspaces =
+    ["1:term", "2:web", "3:mail", "4:dev"] ++ map show [5..8] ++ ["9:vm"]
 
 ------------------------------------------------------------------------
--- Key bindings. Add, modify or remove key bindings here.
+-- Custom key bindings
 --
-myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
-
-    -------------------------------------------------------------------
-    -- Default key bindings
-    --
-
-    -- launch a terminal
-    [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
-
-    -- launch dmenu
-    , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu` && eval \"exec $exe\"")
-
-    -- launch gmrun
-    , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
-
-    -- close focused window
-    , ((modm .|. shiftMask, xK_c     ), kill)
-
-     -- Rotate through the available layout algorithms
-    , ((modm,               xK_space ), sendMessage NextLayout)
-
-    --  Reset the layouts on the current workspace to default
-    , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
-
-    -- Resize viewed windows to the correct size
-    , ((modm,               xK_n     ), refresh)
-
-    -- Move focus to the next window
-    , ((modm,               xK_Tab   ), windows W.focusDown)
-
-    -- Move focus to the next window
-    , ((modm,               xK_j     ), windows W.focusDown)
-
-    -- Move focus to the previous window
-    , ((modm,               xK_k     ), windows W.focusUp  )
-
-    -- Move focus to the master window
-    , ((modm,               xK_m     ), windows W.focusMaster  )
-
-    -- Swap the focused window and the master window
-    , ((modm,               xK_Return), windows W.swapMaster)
-
-    -- Swap the focused window with the next window
-    , ((modm .|. shiftMask, xK_j     ), windows W.swapDown  )
-
-    -- Swap the focused window with the previous window
-    , ((modm .|. shiftMask, xK_k     ), windows W.swapUp    )
-
-    -- Shrink the master area
-    , ((modm,               xK_h     ), sendMessage Shrink)
-
-    -- Expand the master area
-    , ((modm,               xK_l     ), sendMessage Expand)
-
-    -- Push window back into tiling
-    , ((modm,               xK_t     ), withFocused $ windows . W.sink)
-
-    -- Increment the number of windows in the master area
-    , ((modm              , xK_comma ), sendMessage (IncMasterN 1))
-
-    -- Deincrement the number of windows in the master area
-    , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
-
-    -- Toggle the status bar gap
-    -- Use this binding with avoidStruts from Hooks.ManageDocks.
-    -- See also the statusBar function from Hooks.DynamicLog.
-    --
-    -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
-
-    -- Quit xmonad
-    , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
-
-    -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
-
-    -------------------------------------------------------------------
-    -- Custom key bindings
-    --
-
+myKeys =
     -- Go to the window
-    , ((modm .|. shiftMask, xK_g     ), gotoMenu)
-
+    [ ((mod4Mask .|. shiftMask, xK_g     ), gotoMenu)
     -- Bring the window
-    , ((modm .|. shiftMask, xK_b     ), bringMenu)
-
+    , ((mod4Mask .|. shiftMask, xK_b     ), bringMenu)
     -- Lock the screen
-    , ((modm .|. shiftMask, xK_l     ), spawn "xscreensaver-command -lock")
+    , ((mod4Mask .|. shiftMask, xK_l     ), spawn "xscreensaver-command -lock")
+    -- Print screen
+    , ((0, xK_Print), spawn "scrot")
     ]
-    ++
-
-    --
-    -- mod-[1..9], Switch to workspace N
-    --
-    -- mod-[1..9], Switch to workspace N
-    -- mod-shift-[1..9], Move client to workspace N
-    --
-    [((m .|. modm, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-    ++
-
-    --
-    -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
-    -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-    --
-    [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
-        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 ------------------------------------------------------------------------
 ---- Layouts:
@@ -193,7 +95,7 @@ tabConfig = defaultTheme {
 myManageHook = composeAll
     [ className =? "Gimp"          --> doFloat
     , className =? "Vncviewer"     --> doFloat
-    , className =? "Firefox"       --> doShift "2:www"
+    , className =? "Firefox"       --> doShift "2:web"
     , className =? "Thunderbird"   --> doShift "3:mail"
     , className =? "Pidgin"        --> doShift "3:mail"
     , className =? "VirtualBox"    --> doShift "9:vm"
@@ -211,5 +113,4 @@ main = do
         , modMask = mod4Mask -- Use Super instead of Alt
         , workspaces = myWorkspaces
         , layoutHook = smartBorders $ myLayout
-        , keys = myKeys
-        }
+        } `additionalKeys` myKeys
