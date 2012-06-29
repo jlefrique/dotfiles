@@ -23,8 +23,8 @@ if [ -x /usr/bin/nm-applet ] ; then
    nm-applet --sm-disable &
 fi
 
-if [ -x /usr/bin/gnome-power-manager ] ; then
+if [ -x /usr/bin/xfce4-power-manager ] ; then
    sleep 3
-   gnome-power-manager &
+   xfce4-power-manager &
 fi
 
