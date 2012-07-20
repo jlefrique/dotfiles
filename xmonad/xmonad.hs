@@ -38,6 +38,8 @@ myKeys =
     , ((mod4Mask .|. shiftMask, xK_b     ), bringMenu)
     -- Lock the screen
     , ((mod4Mask .|. shiftMask, xK_l     ), spawn "xscreensaver-command -lock")
+    -- Close focused window with one hand in Dvorak
+    , ((mod4Mask .|. shiftMask, xK_o     ), kill)
     -- Print screen
     , ((0, xK_Print), spawn "scrot")
     ]
