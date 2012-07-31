@@ -20,7 +20,6 @@ set number                         " Display line number
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.out,.toc
 
 " Visual aspect
-" colorscheme desert
 colorscheme xoria256
 
 set ruler                          " Show cursor position at all times
@@ -45,8 +44,6 @@ set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
 
 " GUI Settings
 if has("gui_running")
-  "set columns=555   " Maximize window
-  "set lines=555     " Maximize window
   set guioptions-=m " Remove menu bar
   set guioptions-=T " Remove toolbar
   set guioptions-=r " Remove right-hand scroll bar
@@ -139,14 +136,14 @@ endif
 function! s:MyJPSettings()
   syn keyword cType uint8 uint16 uint32 int8 int16 int32 boolean
   compiler iar
-if has("win32")
-  set makeprg=paver\ build
-else
-  if has("unix")
+  set wildignore+=*.r43,*.d43
+  " Paver is used instead of Make.
+  if has("win32")
+    set makeprg=paver\ build
+  elseif has("unix")
     " Converts Windows paths to Unix paths.
     set makeprg=paver\ build\ $*\ \\\|&\ iar_unix_path
   endif
-endif
 endfunction
 
 " For kernel code
