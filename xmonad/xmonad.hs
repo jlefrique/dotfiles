@@ -101,6 +101,7 @@ myManageHook = composeAll
     , className =? "Thunderbird"   --> doShift "3:mail"
     , className =? "Pidgin"        --> doShift "3:mail"
     , className =? "VirtualBox"    --> doShift "9:vm"
+    , className =? "Xfce4-notifyd" --> doIgnore -- Prevent to steal the focus.
     ]
 
 main = do
