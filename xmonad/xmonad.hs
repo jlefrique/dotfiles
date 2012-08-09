@@ -42,6 +42,21 @@ myKeys =
     , ((mod4Mask .|. shiftMask, xK_o     ), kill)
     -- Print screen
     , ((0, xK_Print), spawn "scrot")
+    -- XF86AudioMute
+    , ((0, 0x1008ff12), spawn "amixer -c 0 set Master toggle")
+    -- XF86AudioLowerVolume
+    , ((0, 0x1008ff11), spawn "amixer -c 0 set Master 2dB-")
+    -- XF86AudioRaiseVolume
+    , ((0, 0x1008ff13), spawn "amixer -c 0 set Master 2dB+")
+    --
+    -- TypeMatrix special keys
+    --
+    -- Web browser
+    , ((0, 0x1008ff18), spawn "firefox")
+    -- Email
+    , ((0, 0x1008ff19), spawn "thunderbird")
+    -- Calculator
+    , ((0, 0x1008ff1d), spawn "gcalctool")
     ]
 
 ------------------------------------------------------------------------
