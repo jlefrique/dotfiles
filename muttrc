@@ -1,11 +1,18 @@
+# Passwords are stored in an encrypted file:
+#   set my_gpass1="my super secret password"
+#   set my_gpass2="my other super secret password"
+source "gpg --textmode -d ~/.hide/mutt-pass.gpg |"
+
 #---------------#
 # Account Hooks #
 #---------------#
 account-hook . "unset imap_user; unset imap_pass; unset tunnel" # unset first!
 account-hook        "imaps://julien.lefrique@imap.gmail.com/" "\
-    set imap_user   = julien.lefrique@gmail.com"
+    set imap_user   = julien.lefrique@gmail.com \
+        imap_pass   = $my_gpass1"
 account-hook        "imaps://julien311085@imap.gmail.com/" "\
-    set imap_user   = julien311085@gmail.com"
+    set imap_user   = julien311085@gmail.com \
+        imap_pass   = $my_gpass2"
 
 #-------------------------------------#
 # Folders, mailboxes and folder hooks #
@@ -21,7 +28,8 @@ folder-hook         imaps://julien.lefrique@imap.gmail.com/ "\
         record      = +[Gmail]/'Sent Mail' \
         from        = 'Julien Lefrique <julien.lefrique@gmail.com> ' \
         realname    = 'Julien Lefrique' \
-        smtp_url    = smtps://julien.lefrique@smtp.gmail.com"
+        smtp_url    = smtps://julien.lefrique@smtp.gmail.com \
+        smtp_pass   = $my_gpass1"
 
 # Setup for julien311085:
 set folder          = imaps://julien311085@imap.gmail.com/
@@ -34,7 +42,8 @@ folder-hook         imaps://julien311085@imap.gmail.com/ "\
         record      = +[Gmail]/'Sent Mail' \
         from        = 'Julien Lefrique <julien311085@gmail.com> ' \
         realname    = 'Julien Lefrique' \
-        smtp_url    = smtps://julien311085@smtp.gmail.com"
+        smtp_url    = smtps://julien311085@smtp.gmail.com \
+        smtp_pass   = $my_gpass2"
 
 #--------#
 # Macros #
