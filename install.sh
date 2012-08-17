@@ -10,12 +10,14 @@ BASE_PATH="$HOME"
 DOTFILES="$BASE_PATH/dotfiles"
 BIN="$BASE_PATH/bin"
 
-SYMLINKS="vim
+SYMLINKS="\
+vim
 vimrc
 tmux.conf
 xmonad
 muttrc
-xsession"
+xsession
+mailcap"
 
 [ -f "$GIT" ] || $(echo "Please install git." && exit 1)
 
