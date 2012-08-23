@@ -16,6 +16,7 @@ vimrc
 tmux.conf
 xmonad
 muttrc
+gitconfig
 xsession
 mailcap"
 
