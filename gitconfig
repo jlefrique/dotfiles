@@ -1,3 +1,10 @@
 [user]
-	name = Julien Lefrique
-	email = julien.lefrique@gmail.com
+  name = Julien Lefrique
+  email = julien.lefrique@gmail.com
+
+[alias]
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+[color]
+  # Turn on color
+  ui = auto
