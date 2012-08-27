@@ -1,0 +1,51 @@
+# Colors definitions
+
+# color <where> <foreground> <background> [regexp]
+
+# normal : default color - white on black
+color normal white black
+color attachment brightyellow black
+color tilde blue black
+color markers brightred black
+color tree red black
+
+# some in-mail colors : quotes, signature
+color quoted cyan black
+color quoted1 green black
+color quoted2 red black
+color quoted3 yellow black
+color quoted4 green black
+
+color signature cyan black
+
+# various smilies and text formatting
+color body brightgreen black " [;:,][-=][\])>(<|]"
+color body brightblue black "(^|[[:space:]])\\*[^[:space:]]+\\*([[:space:]]|$)" # *Bold* text.
+color body brightblue black "(^|[[:space:]])_[^[:space:]]+_([[:space:]]|$)" # _Underlined_ text.
+color body brightblue black "(^|[[:space:]])/[^[:space:]]+/([[:space:]]|$)" # /Italic/ text.
+color body brightred black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
+color body brightblue black (https?|ftp|news|telnet|finger|e2dk)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+
+
+# status bar
+color status brightyellow blue
+
+# headers colors
+color hdrdefault cyan black
+color header brightblue black ^From:
+color header brightcyan black ^To:
+color header cyan black ^Reply-To:
+color header magenta black ^Date:
+color header brightcyan black ^Cc:
+color header brightgreen black ^Subject:
+color header brightblack black ^X-Mailer:
+color header brightblack black ^User-Agent:
+
+# indicator colors
+color indicator brightyellow blue
+color index brightwhite black "~N !~T !~F" # regular new
+color index red black "~t debian-security-announce" # security
+color index brightred black "~F" # flagged
+color index brightcyan black "~T" # tagged
+color index brightblack black "~D" # deleted
+color index cyan black "~P" # from me
+

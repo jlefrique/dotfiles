@@ -15,6 +15,7 @@ vim
 vimrc
 tmux.conf
 xmonad
+mutt
 muttrc
 gitconfig
 xsession
