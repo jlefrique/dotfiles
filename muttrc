@@ -3,7 +3,7 @@
 #   set my_gpass2="my other super secret password"
 source "gpg --textmode -d ~/.hide/mutt-pass.gpg |"
 
-# Extertal files
+# External files
 source ~/.mutt/colors
 
 #---------------#
