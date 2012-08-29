@@ -28,4 +28,5 @@ Switch to the `~/dotfiles` directory, and fetch submodules:
     git submodule update
 
 Set zsh as your default shell, and restart your session:
+
     chsh -s /bin/zsh
