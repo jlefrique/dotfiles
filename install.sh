@@ -17,6 +17,7 @@ tmux.conf
 xmonad
 mutt
 muttrc
+zshrc
 gitconfig
 xsession
 mailcap"
@@ -44,6 +45,9 @@ for file in `ls "$DOTFILES/bin"`; do
   [ -h "$BIN/$file" ] && rm "$BIN/$file"
   ln -s "$DOTFILES/bin/$file" "$BIN/$file"
 done
+
+# Set zsh as default shell
+chsh -s /bin/zsh
 
 exit 0
 
