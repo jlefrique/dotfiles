@@ -121,6 +121,7 @@ if has("autocmd")
 
   au FileType c,cpp call s:MyCSettings()
   au FileType python call s:MyPythonSettings()
+  au FileType java call s:MyJavaSettings()
   au FileType gitconfig call s:MyGitConfigSettings()
   au FileType gitcommit setlocal tw=72
 
@@ -185,6 +186,15 @@ function! s:MyPythonSettings()
   setlocal expandtab
   setlocal autoindent
   "setlocal textwidth=80
+endfunction
+
+" For Java
+function! s:MyJavaSettings()
+  setlocal tabstop=4
+  setlocal softtabstop=4
+  setlocal shiftwidth=4
+  setlocal expandtab
+  setlocal autoindent
 endfunction
 
 " For email writing
