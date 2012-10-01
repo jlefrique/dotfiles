@@ -13,9 +13,9 @@ trayer --edge top --align right --SetDockType true --expand true \
 
 ~/bin/set_keyboard.sh
 
-# Per-machin config, if any
+# Per-machine config, if any
 if [ -f ~/bin/init-machine.sh ] ; then
-  source ~/bin/init-machine.sh
+    ~/bin/init-machine.sh
 fi
 
 # Fire up apps
