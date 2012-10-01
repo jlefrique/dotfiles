@@ -12,6 +12,7 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
 import XMonad.Actions.WindowBringer
+import XMonad.Actions.GridSelect
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
@@ -36,6 +37,8 @@ myKeys =
     [ ((mod4Mask .|. shiftMask, xK_g     ), gotoMenu)
     -- Bring the window
     , ((mod4Mask .|. shiftMask, xK_b     ), bringMenu)
+    -- Display opened windows in a grid
+    , ((mod4Mask, xK_g     ), goToSelected defaultGSConfig)
     -- Lock the screen
     , ((mod4Mask .|. shiftMask, xK_l     ), spawn "xscreensaver-command -lock")
     -- Close focused window with one hand in Dvorak
