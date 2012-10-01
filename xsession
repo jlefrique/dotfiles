@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Load resources
-xrdb -merge .Xresources
+xrdb -merge .Xdefaults
 
 # Set up an icon tray
 trayer --edge top --align right --SetDockType true --expand true \
@@ -12,7 +12,11 @@ trayer --edge top --align right --SetDockType true --expand true \
 #xsetroot -solid midnightblue
 
 ~/bin/set_keyboard.sh
-~/bin/dbt-init.sh
+
+# Per-machin config, if any
+if [ -f ~/bin/init-machine.sh ] ; then
+  source ~/bin/init-machine.sh
+fi
 
 # Fire up apps
 pidgin &
