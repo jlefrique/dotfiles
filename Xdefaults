@@ -1,0 +1,69 @@
+! xscreensaver ---------------------------------------------------------------
+
+!font settings
+xscreensaver.Dialog.headingFont:        -*-dina-bold-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.Dialog.bodyFont:           -*-dina-medium-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.Dialog.labelFont:          -*-dina-medium-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.Dialog.unameFont:          -*-dina-medium-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.Dialog.buttonFont:         -*-dina-bold-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.Dialog.dateFont:           -*-dina-medium-r-*-*-10-*-*-*-*-*-*-*
+xscreensaver.passwd.passwdFont:         -*-dina-bold-r-*-*-10-*-*-*-*-*-*-*
+!general dialog box (affects main hostname, username, password text)
+xscreensaver.Dialog.foreground:         #EDEDED
+xscreensaver.Dialog.background:         #202020
+xscreensaver.Dialog.topShadowColor:     #202024
+xscreensaver.Dialog.bottomShadowColor:  #202024
+xscreensaver.Dialog.Button.foreground:  #EDEDFF
+xscreensaver.Dialog.Button.background:  #444
+!username/password input box and date text colour
+xscreensaver.Dialog.text.foreground:    #EDEDFF
+xscreensaver.Dialog.text.background:    #444
+xscreensaver.Dialog.internalBorderWidth:24
+xscreensaver.Dialog.borderWidth:        20
+xscreensaver.Dialog.shadowThickness:    2
+!timeout bar (background is actually determined by Dialog.text.background)
+xscreensaver.passwd.thermometer.foreground:  #A9B7C4
+xscreensaver.passwd.thermometer.background:  #202020
+xscreensaver.passwd.thermometer.width:       8
+!datestamp format--see the strftime(3) manual page for details
+xscreensaver.dateFormat:    %I:%M%P %a %b %d, %Y
+
+! urxvt terminal ------------------------------------------------------------
+
+URxvt.font: xft:Mono:pixelsize=12.5
+URxvt.transparent: true
+URxvt.shading: 10
+URxvt.fading: 10
+
+URxvt.scrollBar: false
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: true
+URxvt.scrollTtyKeypress: true
+
+URxvt.foreground: #C8C8C8
+URxvt.background: #222222
+
+! Black
+URxvt.color0: #222222
+URxvt.color8: #555753
+! Red
+URxvt.color1: #CC0000
+URxvt.color9: #EF2929
+! Green
+URxvt.color2: #4E9A06
+URxvt.color10: #8AE234
+! Yellow
+URxvt.color3: #C4A000
+URxvt.color11: #FCE94F
+! Blue
+URxvt.color4: #3465A4
+URxvt.color12: #729FCF
+! Purple
+URxvt.color5: #75507B
+URxvt.color13: #AD7FA8
+! Cyan
+URxvt.color6: #06989A
+URxvt.color14: #34E2E2
+! White
+URxvt.color7: #D3D7CF
+URxvt.color15: #EEEEEC

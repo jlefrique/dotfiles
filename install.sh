@@ -20,6 +20,7 @@ muttrc
 zshrc
 gitconfig
 xsession
+Xdefaults
 mailcap"
 
 [ -f "$GIT" ] || $(echo "Please install git." && exit 1)
