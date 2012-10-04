@@ -21,6 +21,7 @@ zshrc
 gitconfig
 xsession
 Xdefaults
+xrdb
 mailcap"
 
 [ -f "$GIT" ] || $(echo "Please install git." && exit 1)

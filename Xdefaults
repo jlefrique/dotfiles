@@ -1,3 +1,5 @@
+#include ".xrdb/tango.xrdb"
+
 ! xscreensaver ---------------------------------------------------------------
 
 !font settings
@@ -40,30 +42,32 @@ URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: true
 URxvt.scrollTtyKeypress: true
 
-URxvt.foreground: #C8C8C8
-URxvt.background: #222222
+! terminal colors -----------------------------------------------------------
+
+*foreground: COLOR_FG
+*background: COLOR_BG
 
 ! Black
-URxvt.color0: #222222
-URxvt.color8: #555753
+*color0: COLOR_TERM_BLACK
+*color8: COLOR_TERM_DARK_GRAY
 ! Red
-URxvt.color1: #CC0000
-URxvt.color9: #EF2929
+*color1: COLOR_TERM_DARK_RED
+*color9: COLOR_TERM_LIGHT_RED
 ! Green
-URxvt.color2: #4E9A06
-URxvt.color10: #8AE234
+*color2: COLOR_TERM_DARK_GREEN
+*color10: COLOR_TERM_LIGHT_GREEN
 ! Yellow
-URxvt.color3: #C4A000
-URxvt.color11: #FCE94F
+*color3: COLOR_TERM_DARK_YELLOW
+*color11: COLOR_TERM_LIGHT_YELLOW
 ! Blue
-URxvt.color4: #3465A4
-URxvt.color12: #729FCF
-! Purple
-URxvt.color5: #75507B
-URxvt.color13: #AD7FA8
+*color4: COLOR_TERM_DARK_BLUE
+*color12: COLOR_TERM_LIGHT_BLUE
+! Magenta
+*color5: COLOR_TERM_DARK_MAGENTA
+*color13: COLOR_TERM_LIGHT_MAGENTA
 ! Cyan
-URxvt.color6: #06989A
-URxvt.color14: #34E2E2
+*color6: COLOR_TERM_DARK_CYAN
+*color14: COLOR_TERM_LIGHT_CYAN
 ! White
-URxvt.color7: #D3D7CF
-URxvt.color15: #EEEEEC
+*color7: COLOR_TERM_LIGHT_GRAY
+*color15: COLOR_TERM_WHITE
