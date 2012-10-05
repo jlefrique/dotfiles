@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Load resources
-xrdb -merge .Xdefaults
+xrdb -merge .Xresources
 
 # Set up an icon tray
 trayer --edge top --align right --SetDockType true --expand true \

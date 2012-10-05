@@ -20,7 +20,7 @@ muttrc
 zshrc
 gitconfig
 xsession
-Xdefaults
+Xresources
 xrdb
 mailcap"
 
