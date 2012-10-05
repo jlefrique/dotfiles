@@ -227,6 +227,20 @@ function! s:Underline(chars)
 endfunction
 command! -nargs=? Underline call s:Underline(<q-args>)
 
+" Strip the newline from the end of a string
+function! Chomp(str)
+  return substitute(a:str, '\n$', '', '')
+endfunction
+
+" List all versionned files and pass them to dmenu
+function! DmenuOpen(cmd)
+  let fname = Chomp(system("{ git ls-files; svn list -R | grep -v \".*\/$\"; } 2>/dev/null | dmenu -i -l 20 -p " . a:cmd))
+  if empty(fname)
+    return
+  endif
+  execute a:cmd . " " . fname
+endfunction
+
 " NEERDTree plugin
 nnoremap <F3> :NERDTreeToggle<CR>
 
@@ -241,3 +255,5 @@ let g:pymode_folding = 0
 map <M-Left> <C-T>
 map <M-Right> <C-]>
 
+" Open files quickly with dmenu
+map <Leader>t :call DmenuOpen("e")<cr>
