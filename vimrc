@@ -232,9 +232,10 @@ function! Chomp(str)
   return substitute(a:str, '\n$', '', '')
 endfunction
 
-" List all versionned files and pass them to dmenu
+" List all versioned files and list them with dmenu. If files are not
+" versioned (with git or svn) list all files.
 function! DmenuOpen(cmd)
-  let fname = Chomp(system("{ git ls-files; svn list -R | grep -v \".*\/$\"; } 2>/dev/null | dmenu -i -l 20 -p " . a:cmd))
+  let fname = Chomp(system("{ git ls-files && exit 0 ; svn list -R && exit 0; find . && exit 0; } 2>/dev/null | grep -v \".*\/$\" | dmenu -i -l 20 -p " . a:cmd))
   if empty(fname)
     return
   endif
