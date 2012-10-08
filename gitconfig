@@ -8,3 +8,6 @@
 [color]
   # Turn on color
   ui = auto
+
+[core]
+  autocrlf = input
