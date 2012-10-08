@@ -44,8 +44,11 @@ URxvt.scrollTtyKeypress: true
 
 ! terminal colors -----------------------------------------------------------
 
-*foreground: COLOR_FG
-*background: COLOR_BG
+URxvt*foreground: COLOR_FG
+URxvt*background: COLOR_BG
+
+XTerm*foreground: COLOR_FG
+XTerm*background: COLOR_BG
 
 ! Black
 *color0: COLOR_TERM_BLACK
