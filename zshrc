@@ -40,7 +40,7 @@ source $ZSH/oh-my-zsh.sh
 # Detect if the $TERM environment variable starts with xterm, and change it
 # to xterm-256color.
 case "$TERM" in
-      xterm*) TERM=xterm-256color
+    xterm*) TERM=xterm-256color
 esac
 
 export EDITOR="vim"
