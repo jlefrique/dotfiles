@@ -7,12 +7,14 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
+import Control.Monad
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
 import XMonad.Actions.WindowBringer
 import XMonad.Actions.GridSelect
+import XMonad.Util.Dmenu
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
@@ -33,16 +35,19 @@ myWorkspaces =
 -- Custom key bindings
 --
 myKeys =
+    --
+    -- New key bindings
+    --
     -- Go to the window
-    [ ((mod4Mask .|. shiftMask, xK_g     ), gotoMenu)
+    [ ((mod4Mask .|. shiftMask, xK_g), gotoMenu)
     -- Bring the window
-    , ((mod4Mask .|. shiftMask, xK_b     ), bringMenu)
+    , ((mod4Mask .|. shiftMask, xK_b), bringMenu)
     -- Display opened windows in a grid
-    , ((mod4Mask, xK_g     ), goToSelected defaultGSConfig)
+    , ((mod4Mask, xK_g), goToSelected defaultGSConfig)
     -- Lock the screen
-    , ((mod4Mask .|. shiftMask, xK_l     ), spawn "xscreensaver-command -lock")
+    , ((mod4Mask .|. shiftMask, xK_l), spawn "xscreensaver-command -lock")
     -- Close focused window with one hand in Dvorak
-    , ((mod4Mask .|. shiftMask, xK_o     ), kill)
+    , ((mod4Mask .|. shiftMask, xK_o), kill)
     -- Print screen
     , ((0, xK_Print), spawn "scrot")
     -- XF86AudioMute
@@ -60,7 +65,19 @@ myKeys =
     , ((0, 0x1008ff19), spawn "thunderbird")
     -- Calculator
     , ((0, 0x1008ff1d), spawn "gcalctool")
+    --
+    -- Override default behavior
+    --
+    -- Quit xmonad
+    , ((mod4Mask .|. shiftMask, xK_q), confirm "Exit?" $ io (exitWith ExitSuccess))
+    -- Restart xmonad
+    , ((mod4Mask, xK_q), confirm "Restart?" $ spawn "xmonad --recompile; xmonad --restart")
     ]
+
+confirm :: String -> X () -> X ()
+confirm msg f = do
+    result <- menuArgs "dmenu" ["-p", msg] ["no", "yes"]
+    when (result == "yes") f
 
 ------------------------------------------------------------------------
 ---- Layouts:
