@@ -35,6 +35,8 @@ else
   $GIT clone --recursive "$REPOSITORY"  "$DOTFILES"
 fi
 
+$DOTFILES/bin/check_bin.sh
+
 # Create symlinks for dotfiles
 for file in $SYMLINKS; do
   [ -h "$BASE_PATH/.$file" ] && rm "$BASE_PATH/.$file"

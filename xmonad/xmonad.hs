@@ -149,6 +149,7 @@ main = do
                         , ppTitle = xmobarColor "green" "" . shorten 50
                         }
         , modMask = mod4Mask -- Use Super instead of Alt
+        , terminal = "urxvt"
         , workspaces = myWorkspaces
         , layoutHook = smartBorders $ myLayout
         } `additionalKeys` myKeys

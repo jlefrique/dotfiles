@@ -27,7 +27,7 @@ function red() {
     echo -e "\033[0m"
 }
 
-checkbins git zsh vim tmux svn mutt python tree
+checkbins git zsh vim urxvt tmux svn mutt python tree
 
 if [ ! -z "$DISPLAY" ]; then
     checkbins xmonad xmobar dmenu
@@ -39,6 +39,8 @@ fi
 echo
 if [[ $OK == 1 ]]; then
     echo "No problems found."
+    exit 0
 else
     red "Diagnostic revealed errors"
+    exit 1
 fi
