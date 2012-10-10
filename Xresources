@@ -23,6 +23,12 @@ URxvt*scrollTtyKeypress: true
 URxvt*foreground: COLOR_FG
 URxvt*background: COLOR_BG
 
+! Make URLs clickable
+URxvt*perl-ext-common: default,matcher
+URxvt*urlLauncher: /usr/bin/firefox
+URxvt*matcher.button: 1
+URxvt*colorUL: COLOR_TERM_LIGHT_BLUE
+
 ! xterm terminal ------------------------------------------------------------
 XTerm*faceName: Terminus
 XTerm*faceSize: 10
