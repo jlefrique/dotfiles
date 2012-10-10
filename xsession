@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Load resources
-xrdb -merge .Xresources
+xrdb -merge ~/.Xresources
 
 # Set up an icon tray
 trayer --edge top --align right --SetDockType true --expand true \
@@ -11,24 +11,30 @@ trayer --edge top --align right --SetDockType true --expand true \
 # Set the background color
 #xsetroot -solid midnightblue
 
-~/bin/set_keyboard.sh
+# Configure keyboard
+[ -x "`which set_keyboard.sh 2>/dev/null`" ] && set_keyboard.sh
 
 # Per-machine config, if any
-if [ -f ~/bin/init-machine.sh ] ; then
-    ~/bin/init-machine.sh
+[ -f ~/bin/init-machine.sh ] && init-machine.sh
+
+if [ -x "`which unclutter 2>/dev/null`" ] ; then
+    unclutter -idle 10 -noevents &
+fi
+
+if [ -x "`which xscreensaver 2>/dev/null`" ] ; then
+    xscreensaver -no-splash &
+fi
+
+if [ -x "`which nm-applet 2>/dev/null`" ] ; then
+    nm-applet --sm-disable &
+fi
+
+if [ -x "`which xfce4-power-manager 2>/dev/null`" ] ; then
+    sleep 3
+    xfce4-power-manager &
 fi
 
 # Fire up apps
-pidgin &
-
-xscreensaver -no-splash &
-
-if [ -x /usr/bin/nm-applet ] ; then
-   nm-applet --sm-disable &
-fi
-
-if [ -x /usr/bin/xfce4-power-manager ] ; then
-   sleep 3
-   xfce4-power-manager &
-fi
-
+for application in pidgin ; do
+    [ -x "`which  $application 2>/dev/null`" ] && $application &
+done
