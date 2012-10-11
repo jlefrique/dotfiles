@@ -10,11 +10,14 @@ if [ ! -d $ZSH ]; then
     fi
 fi
 
+# Location of custom plugins and themes.
+export ZSH_CUSTOM="$HOME/.zsh"
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-export ZSH_THEME="jreese"
+export ZSH_THEME="jlefrique"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -33,7 +36,7 @@ export ZSH_THEME="jreese"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
+plugins=(git vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -45,6 +48,7 @@ esac
 
 export EDITOR="vim"
 export VISUAL="vim"
+
 export PATH=${PATH}:~/android-sdk-linux/tools:~/android-sdk-linux/platform-tools
 export PATH=${PATH}:~/JP/tools:~/JP/tools/debpath:~/JP/tools/visualization:~/JP/tools/PaverXmlRpc
 export PYTHONPATH=$PYTHONPATH:~/JP/tools/PaverXmlRpc

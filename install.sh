@@ -17,6 +17,7 @@ tmux.conf
 xmonad
 mutt
 muttrc
+zsh
 zshrc
 gitconfig
 xsession
