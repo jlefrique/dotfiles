@@ -12,10 +12,10 @@ trayer --edge top --align right --SetDockType true --expand true \
 #xsetroot -solid midnightblue
 
 # Configure keyboard
-[ -x "`which set_keyboard.sh 2>/dev/null`" ] && set_keyboard.sh
+[ -f ~/bin/set_keyboard.sh ] && ~/bin/set_keyboard.sh
 
 # Per-machine config, if any
-[ -f ~/bin/init-machine.sh ] && init-machine.sh
+[ -f ~/bin/init-machine.sh ] && ~/bin/init-machine.sh
 
 if [ -x "`which unclutter 2>/dev/null`" ] ; then
     unclutter -idle 10 -noevents &
