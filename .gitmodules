@@ -1,32 +1,32 @@
 [submodule "vim/bundle/drawit"]
 	path = vim/bundle/drawit
-	url = https://github.com/vim-scripts/DrawIt.git
+	url = git://github.com/vim-scripts/DrawIt.git
 	ignore = dirty
 [submodule "vim/bundle/xoria256"]
 	path = vim/bundle/xoria256
-	url = https://github.com/vim-scripts/xoria256.vim.git
+	url = git://github.com/vim-scripts/xoria256.vim.git
 	ignore = dirty
 [submodule "vim/bundle/nerdtree"]
 	path = vim/bundle/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
+	url = git://github.com/scrooloose/nerdtree.git
 	ignore = dirty
 [submodule "vim/bundle/snipmate"]
 	path = vim/bundle/snipmate
-	url = https://github.com/msanders/snipmate.vim.git
+	url = git://github.com/msanders/snipmate.vim.git
 	ignore = dirty
 [submodule "vim/bundle/taglist"]
 	path = vim/bundle/taglist
-	url = https://github.com/vim-scripts/taglist.vim.git
+	url = git://github.com/vim-scripts/taglist.vim.git
 	ignore = dirty
 [submodule "vim/bundle/a"]
 	path = vim/bundle/a
-	url = https://github.com/vim-scripts/a.vim.git
+	url = git://github.com/vim-scripts/a.vim.git
 	ignore = dirty
 [submodule "vim/bundle/python-mode"]
 	path = vim/bundle/python-mode
-	url = https://github.com/klen/python-mode.git
+	url = git://github.com/klen/python-mode.git
 	ignore = dirty
 [submodule "vim/bundle/nerdcommenter"]
 	path = vim/bundle/nerdcommenter
-	url = https://github.com/scrooloose/nerdcommenter.git
+	url = git://github.com/scrooloose/nerdcommenter.git
 	ignore = dirty
