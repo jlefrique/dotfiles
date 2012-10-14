@@ -11,6 +11,9 @@ trayer --edge top --align right --SetDockType true --expand true \
 # Set the background color
 #xsetroot -solid midnightblue
 
+# Remove beeps
+xset b off
+
 # Configure keyboard
 [ -f ~/bin/set_keyboard.sh ] && ~/bin/set_keyboard.sh
 
@@ -38,3 +41,5 @@ fi
 for application in pidgin ; do
     [ -x "`which  $application 2>/dev/null`" ] && $application &
 done
+
+xmonad
