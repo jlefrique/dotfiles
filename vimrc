@@ -8,7 +8,6 @@ call pathogen#helptags()
 set incsearch
 set modelines=0
 set nocompatible
-"set shell=sh
 set hidden
 " set foldmethod=indent
 set autoread                       " Update buffer when file changes elsewhere
@@ -74,10 +73,6 @@ if exists('+colorcolumn')
   set colorcolumn=80
 endif
 
-" Highlight overlength
-"highlight OverLength ctermbg=darkred guibg=darkgreen
-"match OverLength /\%81v.\+/
-
 " Search settings
 set incsearch
 set smartcase
@@ -92,7 +87,7 @@ set sidescrolloff=2
 " Tab complete menu
 set wildmode=longest:full
 set wildmenu
-set wildignore=*.o,*~,*.swp
+set wildignore=*.o,*~,*.swp,*.pyc
 
 " Comment/uncomment
 map ,q 0i/* <ESC>A */<ESC>j
@@ -241,6 +236,10 @@ function! DmenuOpen(cmd)
   endif
   execute a:cmd . " " . fname
 endfunction
+nnoremap <Leader>t :call DmenuOpen("e")<CR>
+
+" Change paste mode
+nnoremap <F10> :set paste! <Bar> :set paste?<CR>
 
 " NEERDTree plugin
 nnoremap <F3> :NERDTreeToggle<CR>
@@ -251,10 +250,3 @@ let Tlist_Use_Right_Window = 1       " Display the taglist on the right
 
 " Python-mode plugin
 let g:pymode_folding = 0
-
-" Alt-right/left to navigate forward/backward in the tags stack
-map <M-Left> <C-T>
-map <M-Right> <C-]>
-
-" Open files quickly with dmenu
-map <Leader>t :call DmenuOpen("e")<cr>
