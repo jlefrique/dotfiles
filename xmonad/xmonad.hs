@@ -68,6 +68,8 @@ myKeys =
     --
     -- Override default behavior
     --
+    -- Launch dmenu with custom appearance
+    , ((mod4Mask, xK_p), spawn "dmenu_run.sh")
     -- Quit xmonad
     , ((mod4Mask .|. shiftMask, xK_q), confirm "Exit?" $ io (exitWith ExitSuccess))
     -- Restart xmonad

@@ -222,15 +222,9 @@ function! s:Underline(chars)
 endfunction
 command! -nargs=? Underline call s:Underline(<q-args>)
 
-" Strip the newline from the end of a string
-function! Chomp(str)
-  return substitute(a:str, '\n$', '', '')
-endfunction
-
-" List all versioned files and list them with dmenu. If files are not
-" versioned (with git or svn) list all files.
+" Quickly open files with dmenu.
 function! DmenuOpen(cmd)
-  let fname = Chomp(system("{ git ls-files && exit 0 ; svn list -R && exit 0; find . && exit 0; } 2>/dev/null | grep -v \".*\/$\" | dmenu -i -l 20 -p " . a:cmd))
+  let fname = system("dmenu_edit.sh")
   if empty(fname)
     return
   endif

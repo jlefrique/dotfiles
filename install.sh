@@ -15,6 +15,7 @@ vim
 vimrc
 tmux.conf
 xmonad
+dmenurc
 mutt
 muttrc
 zsh

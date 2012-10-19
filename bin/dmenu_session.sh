@@ -14,15 +14,20 @@
 #    %shutdown ALL=(root) NOPASSWD: /usr/sbin/pm-suspend 
 #    %shutdown ALL=(root) NOPASSWD: /usr/sbin/pm-hibernate 
 
-DMENU='dmenu -i'
+if [ -f "${HOME}/.dmenurc" ]; then
+    . "${HOME}/.dmenurc"
+else
+    DMENU='dmenu -i'
+fi
+
 LOCK='xscreensaver-command -lock'
 
 choice=$(echo -e "lock\nshutdown\nreboot\nsuspend\nhibernate" | $DMENU)
 
 case "$choice" in
-  lock) $LOCK & ;;
-  shutdown) sudo shutdown -h now & ;;
-  reboot) sudo shutdown -r now & ;;
-  suspend) $LOCK && sudo pm-suspend & ;;
-  hibernate) $LOCK && sudo pm-hibernate & ;;
+    lock) $LOCK & ;;
+    shutdown) sudo shutdown -h now & ;;
+    reboot) sudo shutdown -r now & ;;
+    suspend) $LOCK && sudo pm-suspend & ;;
+    hibernate) $LOCK && sudo pm-hibernate & ;;
 esac

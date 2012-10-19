@@ -1,0 +1,4 @@
+DMENU='dmenu -i '
+DMENU=$DMENU'-nb #333333 -nf #999999 '
+DMENU=$DMENU'-sb #1279bf -sf #ffffff '
+DMENU=$DMENU'-fn -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*'
