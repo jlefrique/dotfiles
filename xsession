@@ -20,6 +20,9 @@ xset b off
 # Per-machine config, if any
 [ -f ~/bin/init-machine.sh ] && ~/bin/init-machine.sh
 
+# Window manager
+xmonad & wmpid=$!
+
 if [ -x "`which unclutter 2>/dev/null`" ] ; then
     unclutter -idle 10 -noevents &
 fi
@@ -42,4 +45,5 @@ for application in pidgin ; do
     [ -x "`which  $application 2>/dev/null`" ] && $application &
 done
 
-xmonad
+# Wait for window manager to exit
+wait $wmpid
