@@ -7,11 +7,7 @@
 #
 # TODO: exclude files in wildignore.
 
-if [ -f "${HOME}/.dmenurc" ]; then
-    . "${HOME}/.dmenurc"
-else
-    DMENU='dmenu -i'
-fi
+DMENU='dmenu.sh'
 
 get_files() {
     FILES=`git ls-files 2>/dev/null` && SOURCE="git" && return

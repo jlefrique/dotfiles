@@ -1,9 +1,5 @@
 #!/bin/sh
 
-if [ -f "${HOME}/.dmenurc" ]; then
-    . "${HOME}/.dmenurc"
-else
-    DMENU='dmenu -i'
-fi
+DMENU='dmenu.sh'
 
 exe=`dmenu_path | $DMENU ${1+"$@"}` && exec $exe

@@ -39,9 +39,9 @@ myKeys =
     -- New key bindings
     --
     -- Go to the window
-    [ ((mod4Mask .|. shiftMask, xK_g), gotoMenu)
+    [ ((mod4Mask .|. shiftMask, xK_g), gotoMenuArgs' "dmenu.sh" ["-p", "goto"])
     -- Bring the window
-    , ((mod4Mask .|. shiftMask, xK_b), bringMenu)
+    , ((mod4Mask .|. shiftMask, xK_b), bringMenuArgs' "dmenu.sh" ["-p", "bring"])
     -- Display opened windows in a grid
     , ((mod4Mask, xK_g), goToSelected defaultGSConfig)
     -- Lock the screen
@@ -78,7 +78,7 @@ myKeys =
 
 confirm :: String -> X () -> X ()
 confirm msg f = do
-    result <- menuArgs "dmenu" ["-p", msg] ["no", "yes"]
+    result <- menuArgs "dmenu.sh" ["-p", msg] ["no", "yes"]
     when (result == "yes") f
 
 ------------------------------------------------------------------------

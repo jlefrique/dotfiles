@@ -14,11 +14,7 @@
 #    %shutdown ALL=(root) NOPASSWD: /usr/sbin/pm-suspend 
 #    %shutdown ALL=(root) NOPASSWD: /usr/sbin/pm-hibernate 
 
-if [ -f "${HOME}/.dmenurc" ]; then
-    . "${HOME}/.dmenurc"
-else
-    DMENU='dmenu -i'
-fi
+DMENU='dmenu.sh'
 
 LOCK='xscreensaver-command -lock'
 
