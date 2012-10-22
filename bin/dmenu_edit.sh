@@ -11,7 +11,7 @@ DMENU='dmenu.sh'
 
 get_files() {
     FILES=`git ls-files 2>/dev/null` && SOURCE="git" && return
-    FILES=`svn list -R 2>/dev/null | grep -v ".*\/$"` && SOURCE="svn" && return
+    FILES=`timeout 5 svn list -R 2>/dev/null | grep -v ".*\/$"` && SOURCE="svn" && return
     FILES=`find -type f | sed 's|^./*||'` && SOURCE="find" && return
 }
 
