@@ -45,6 +45,20 @@ Switch to the `~/dotfiles` directory, and fetch submodules:
     git submodule init
     git submodule update
 
+
+Finish up
+=========
+
 Set zsh as your default shell, and restart your session:
 
     chsh -s /bin/zsh
+
+Fix screen's terminfo to display italic and standout correctly when tmux is
+started in urxvt, and verify.
+
+    tmux_terminfo.sh
+    tmux
+    font_test.sh
+
+Note that there is no italic version of the Terminus font, therefore the font
+is replaced for italic characters.

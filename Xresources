@@ -14,6 +14,8 @@ Xft.hintstyle:  hintslight
 ! urxvt terminal ------------------------------------------------------------
 URxvt*font: xft:terminus:size=10
 URxvt*boldFont: xft:terminus:bold:size=10
+URxvt*italicFont: xft:terminus:italic:pixelsize=10
+URxvt*boldItalicFont: xft:terminus:bold:italic:pixelsize=10
 
 URxvt*scrollBar: false
 URxvt*scrollTtyOutput: false

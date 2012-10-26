@@ -52,8 +52,4 @@ for file in `ls "$DOTFILES/bin"`; do
   ln -s "$DOTFILES/bin/$file" "$BIN/$file"
 done
 
-# Set zsh as default shell
-chsh -s /bin/zsh
-
 exit 0
-
