@@ -62,3 +62,7 @@ started in urxvt, and verify.
 
 Note that there is no italic version of the Terminus font, therefore the font
 is replaced for italic characters.
+
+Set a wallpaper using feh:
+
+    feh --bg-fill ~/wallpaper/my_wallpaper.png
