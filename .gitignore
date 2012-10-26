@@ -6,3 +6,4 @@ xmonad.hi
 xmonad.o
 xmonad.errors
 vim/spell
+mutt/hcache
