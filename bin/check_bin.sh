@@ -33,6 +33,14 @@ if [ ! -z "$DISPLAY" ]; then
     checkbins xmonad xmobar dmenu feh unclutter xscreensaver
 fi
 
+# Check for font
+FONT='teminus'
+if [ `dpkg -S $FONT | wc -l` -ne 0 ]; then
+    echo "Font $FONT found"
+else
+    red "Font $FONT missing"
+fi
+
 ##
 ## Finished!
 ##
