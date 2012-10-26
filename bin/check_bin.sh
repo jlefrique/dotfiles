@@ -34,7 +34,7 @@ if [ ! -z "$DISPLAY" ]; then
 fi
 
 # Check for font
-FONT='teminus'
+FONT='terminus'
 if [ `dpkg -S $FONT | wc -l` -ne 0 ]; then
     echo "Font $FONT found"
 else
