@@ -16,7 +16,7 @@ function make_prompt() {
 
     local prompt
     if `type vi_mode_prompt_info > /dev/null 2>&1` ; then
-        prompt='%F{grey}$(vi_mode_prompt_info)»%f'
+        prompt='$(vi_mode_prompt_info)»%f'
     else
         prompt='»'
     fi
