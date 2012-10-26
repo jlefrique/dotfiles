@@ -3,6 +3,11 @@
 # Load resources
 xrdb -merge ~/.Xresources
 
+# Set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
 # Set up an icon tray
 trayer --edge top --align right --SetDockType true --expand true \
 --widthtype percent --width 10 --transparent true --alpha 0 --tint 0x000000 \
