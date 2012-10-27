@@ -18,9 +18,10 @@ DMENU='dmenu.sh'
 
 LOCK='xscreensaver-command -lock'
 
-choice=$(echo -e "lock\nshutdown\nreboot\nsuspend\nhibernate" | $DMENU)
+choice=$(echo -e "display off\nlock\nshutdown\nreboot\nsuspend\nhibernate" | $DMENU)
 
 case "$choice" in
+    display\ off) sleep 1 && xset dpms force off && $LOCK & ;;
     lock) $LOCK & ;;
     shutdown) sudo shutdown -h now & ;;
     reboot) sudo shutdown -r now & ;;
