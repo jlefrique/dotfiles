@@ -27,7 +27,7 @@ function red() {
     echo -e "\033[0m"
 }
 
-checkbins git zsh vim urxvt tmux svn mutt python
+checkbins git zsh vim urxvt tmux svn mutt python ranger
 
 if [ ! -z "$DISPLAY" ]; then
     checkbins xmonad xmobar dmenu feh unclutter xscreensaver
