@@ -213,25 +213,6 @@ function! ToggleSpell()
 endfunction
 nmap <silent> <F7> :call ToggleSpell()<CR>
 
-" Underline function (yypVr- also works well).
-function! s:Underline(chars)
-  let chars = empty(a:chars) ? '-' : a:chars
-  let nr_columns = virtcol('$') - 1
-  let uline = repeat(chars, (nr_columns / len(chars)) + 1)
-  put =strpart(uline, 0, nr_columns)
-endfunction
-command! -nargs=? Underline call s:Underline(<q-args>)
-
-" Quickly open files with dmenu.
-function! DmenuOpen(cmd)
-  let fname = system("dmenu_edit.sh")
-  if empty(fname)
-    return
-  endif
-  execute a:cmd . " " . fnameescape(fname)
-endfunction
-nnoremap <Leader>t :call DmenuOpen("e")<CR>
-
 " Change paste mode
 nnoremap <F10> :set paste! <Bar> :set paste?<CR>
 
