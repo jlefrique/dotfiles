@@ -56,6 +56,8 @@ myKeys =
     , ((0, 0x1008ff11), spawn "amixer -c 0 set Master 2dB-")
     -- XF86AudioRaiseVolume
     , ((0, 0x1008ff13), spawn "amixer -c 0 set Master 2dB+")
+    -- Dmenu finder
+    , ((mod4Mask, xK_f), spawn "dmenu_find.sh")
     --
     -- TypeMatrix special keys
     --
