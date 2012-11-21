@@ -8,4 +8,3 @@ function! DmenuOpen(cmd)
   execute a:cmd . " " . fnameescape(fname)
 endfunction
 nnoremap <Leader>t :call DmenuOpen("e")<CR>
-
