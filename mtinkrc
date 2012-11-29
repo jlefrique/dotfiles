@@ -1,0 +1,5 @@
+BROWSER: 
+AUTODETECT: no
+MINIHELP: yes
+PRINTER: Stylus Photo R200
+PORT: /dev/usb/lp0
