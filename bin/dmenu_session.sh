@@ -1,30 +1,30 @@
 #!/bin/bash
 #
 # A simple dmenu session script.
-#
-#
-# The user has to be allowed to run some commands without password.
-#
-# $ sudo groupadd shutdown
-# $ sudo useradd <username> shutdown
-# $ sudo visudo
-#
-# Add the following lines:
-#    %shutdown ALL=(root) NOPASSWD: /sbin/shutdown
-#    %shutdown ALL=(root) NOPASSWD: /usr/sbin/pm-suspend 
-#    %shutdown ALL=(root) NOPASSWD: /usr/sbin/pm-hibernate 
 
 DMENU='dmenu.sh'
-
 LOCK='xscreensaver-command -lock'
 
-choice=$(echo -e "display off\nlock\nshutdown\nreboot\nsuspend\nhibernate" | $DMENU)
+choice=$(echo -e "lock\nsuspend\nhibernate\nshutdown\nreboot\ndisplay off" | $DMENU -p "session:")
 
 case "$choice" in
-    display\ off) sleep 1 && xset dpms force off && $LOCK & ;;
     lock) $LOCK & ;;
-    shutdown) sudo shutdown -h now & ;;
-    reboot) sudo shutdown -r now & ;;
-    suspend) $LOCK && sudo pm-suspend & ;;
-    hibernate) $LOCK && sudo pm-hibernate & ;;
+
+    suspend) $LOCK && dbus-send --system --print-reply \
+        --dest="org.freedesktop.UPower" /org/freedesktop/UPower \
+        org.freedesktop.UPower.Suspend & ;;
+
+    hibernate) $LOCK && dbus-send --system --print-reply \
+        --dest="org.freedesktop.UPower" /org/freedesktop/UPower \
+        org.freedesktop.UPower.Hibernate & ;;
+
+    shutdown) dbus-send --system --print-reply \
+        --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager \
+        org.freedesktop.ConsoleKit.Manager.Stop & ;;
+
+    reboot) dbus-send --system --print-reply \
+        --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager \
+        org.freedesktop.ConsoleKit.Manager.Restart & ;;
+
+    display\ off) sleep 1 && xset dpms force off && $LOCK & ;;
 esac
