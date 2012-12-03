@@ -62,8 +62,8 @@ done
 # Create symlinks for binaries
 [ -d "$BIN" ] || mkdir "$BIN"
 for file in `ls "$DOTFILES/bin"`; do
-  [ -h "$BIN/$file" ] && rm "$BIN/$file"
-  ln -s "$DOTFILES/bin/$file" "$BIN/$file"
+    [ -h "$BIN/$file" ] && rm "$BIN/$file"
+    ln -s "$DOTFILES/bin/$file" "$BIN/$file"
 done
 
 exit 0
