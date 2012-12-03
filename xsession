@@ -50,7 +50,7 @@ if [ -x "`which xfce4-power-manager 2>/dev/null`" ] ; then
 fi
 
 # Fire up apps
-for application in pidgin ; do
+for application in pidgin redshift ; do
     [ -x "`which  $application 2>/dev/null`" ] && $application &
 done
 
