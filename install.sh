@@ -16,6 +16,7 @@ dmenurc
 gitconfig
 mailcap
 muttrc
+signature
 tmux.conf
 vimrc
 xscreensaver
