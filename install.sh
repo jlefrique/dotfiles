@@ -18,6 +18,7 @@ mailcap
 muttrc
 tmux.conf
 vimrc
+xscreensaver
 xsession
 zshrc"
 
