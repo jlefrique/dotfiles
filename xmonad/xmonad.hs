@@ -46,6 +46,10 @@ myKeys =
     , ((mod4Mask, xK_g), goToSelected defaultGSConfig)
     -- Lock the screen
     , ((mod4Mask .|. shiftMask, xK_l), spawn "xscreensaver-command -lock")
+    -- Launch dmenu-based session manager
+    , ((mod4Mask .|. shiftMask, xK_s), spawn "dmenu_session.sh")
+    -- Launch dmenu-based finder
+    , ((mod4Mask, xK_f), spawn "dmenu_find.sh")
     -- Close focused window with one hand in Dvorak
     , ((mod4Mask .|. shiftMask, xK_o), kill)
     -- Print screen
@@ -56,8 +60,6 @@ myKeys =
     , ((0, 0x1008ff11), spawn "amixer -c 0 set Master 2dB-")
     -- XF86AudioRaiseVolume
     , ((0, 0x1008ff13), spawn "amixer -c 0 set Master 2dB+")
-    -- Dmenu finder
-    , ((mod4Mask, xK_f), spawn "dmenu_find.sh")
     --
     -- TypeMatrix special keys
     --
