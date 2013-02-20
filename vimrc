@@ -93,13 +93,14 @@ set wildignore=*.o,*~,*.swp,*.pyc
 " Key mappings
 nmap :W :w
 nmap :Q :q
-nmap q: :q
-nmap <tab> :bn<CR>
-nmap <s-tab> :bp<CR>
 nmap <Leader>q :nohlsearch<CR>
 " Move up/down a single row on the screen instead of on a linewise basis.
-nmap j gj
-nmap k gk
+nnoremap j gj
+nnoremap k gk
+" Cycle and fly through buffers
+nmap <tab> :bn<CR>
+nmap <s-tab> :bp<CR>
+nnoremap <Leader>l :ls<CR>:b<Space>
 
 " Search in multiple files
 map <F2> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
