@@ -90,20 +90,20 @@ set wildmode=longest:full
 set wildmenu
 set wildignore=*.o,*~,*.swp,*.pyc
 
-" Comment/uncomment
-map ,q 0i/* <ESC>A */<ESC>j
-map ,Q 0xxx$xxxj
-
 " Key mappings
 nmap :W :w
 nmap :Q :q
 nmap q: :q
 nmap <tab> :bn<CR>
 nmap <s-tab> :bp<CR>
+nmap <Leader>q :nohlsearch<CR>
+" Move up/down a single row on the screen instead of on a linewise basis.
+nmap j gj
+nmap k gk
 
 " Search in multiple files
 map <F2> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
-map ,x vawy:! grep <C-R>" .* *<CR>
+map <Leader>x vawy:! grep <C-R>" .* *<CR>
 
 " Filetype specific configuration
 if has("autocmd")
