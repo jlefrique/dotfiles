@@ -140,7 +140,7 @@ function! s:MyJPSettings()
     set makeprg=paver\ build
   elseif has("unix")
     " Converts Windows paths to Unix paths.
-    set makeprg=paver\ build\ $*\ \\\|&\ iar_unix_path
+    set makeprg=echo\ '\\n***\ Building...';\ paver\ build\ $*\ \\\|&\ iar_unix_path
   endif
 endfunction
 
