@@ -13,6 +13,7 @@ function make_prompt() {
     local host="$host_color%m%f"
     local dir='%4~'
     local git='$(git_prompt_info)'
+    local jobs='%(1j.[%j].)'
 
     local prompt
     if `type vi_mode_prompt_info > /dev/null 2>&1` ; then
@@ -21,7 +22,7 @@ function make_prompt() {
         prompt='»'
     fi
 
-    echo "${user}${at}${host} ${dir} ${git}${prompt} "
+    echo "${user}${at}${host}${jobs} ${dir} ${git}${prompt} "
 }
 
 # vi-mode indicator
