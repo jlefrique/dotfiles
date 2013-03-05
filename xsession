@@ -33,7 +33,7 @@ xset b off
 xmonad & wmpid=$!
 
 if [ -x "`which unclutter 2>/dev/null`" ] ; then
-    unclutter -idle 10 -noevents &
+    unclutter -idle 10 -grab &
 fi
 
 if [ -x "`which xscreensaver 2>/dev/null`" ] ; then
