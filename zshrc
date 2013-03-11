@@ -62,8 +62,11 @@ bindkey -M viins '^R' history-incremental-search-backward
 bindkey -M viins '^S' history-incremental-search-forward
 bindkey -M viins '^T' transpose-chars
 bindkey -M viins '^Y' yank
-bindkey -M viins ' ' magic-space
-bindkey -M vicmd 'v' edit-command-line
+bindkey -M viins ' '  magic-space
+bindkey -M vicmd 'v'  edit-command-line
+
+# Fix backspace in insert mode.
+bindkey -M viins '^?' backward-delete-char
 
 # The global debian zshrc (/etc/zsh/zshrc) binds up and down to vi-*
 # wigdets in vi mode, so the cursor moves to the first non-blank character on
