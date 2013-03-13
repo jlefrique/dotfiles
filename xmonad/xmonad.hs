@@ -1,23 +1,30 @@
 -- Xmonad config
 
 import XMonad
+import System.IO
 import System.Exit
+import Control.Monad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
-import XMonad.Util.Run(spawnPipe)
-import XMonad.Util.EZConfig(additionalKeys)
-import System.IO
-import Control.Monad
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
 import XMonad.Actions.WindowBringer
 import XMonad.Actions.GridSelect
+import XMonad.Util.Run(spawnPipe)
+import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Dmenu
+import XMonad.Util.Scratchpad
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
+
+-- Default terminal emulator
+myTerminal = "urxvt"
+
+-- Use Super instead of Alt for the modifier key
+myModKey = mod4Mask
 
 -- -- The default number of workspaces (virtual screens) and their names.
 -- -- By default we use numeric strings, but any string may be used as a
@@ -39,19 +46,21 @@ myKeys =
     -- New key bindings
     --
     -- Go to the window
-    [ ((mod4Mask .|. shiftMask, xK_g), gotoMenuArgs' "dmenu.sh" ["-p", "goto"])
+    [ ((myModKey .|. shiftMask, xK_g), gotoMenuArgs' "dmenu.sh" ["-p", "goto"])
     -- Bring the window
-    , ((mod4Mask .|. shiftMask, xK_b), bringMenuArgs' "dmenu.sh" ["-p", "bring"])
+    , ((myModKey .|. shiftMask, xK_b), bringMenuArgs' "dmenu.sh" ["-p", "bring"])
     -- Display opened windows in a grid
-    , ((mod4Mask, xK_g), goToSelected defaultGSConfig)
+    , ((myModKey, xK_g), goToSelected defaultGSConfig)
     -- Lock the screen
-    , ((mod4Mask .|. shiftMask, xK_l), spawn "xscreensaver-command -lock")
+    , ((myModKey .|. shiftMask, xK_l), spawn "xscreensaver-command -lock")
     -- Launch dmenu-based session manager
-    , ((mod4Mask .|. shiftMask, xK_s), spawn "dmenu_session.sh")
+    , ((myModKey .|. shiftMask, xK_s), spawn "dmenu_session.sh")
     -- Launch dmenu-based finder
-    , ((mod4Mask, xK_f), spawn "dmenu_find.sh")
+    , ((myModKey, xK_f), spawn "dmenu_find.sh")
+    -- Show/hide scratchpad terminal
+    , ((myModKey, xK_s), scratchpadSpawnActionTerminal myTerminal)
     -- Close focused window with one hand in Dvorak
-    , ((mod4Mask .|. shiftMask, xK_o), kill)
+    , ((myModKey .|. shiftMask, xK_o), kill)
     -- Print screen
     , ((0, xK_Print), spawn "scrot")
     -- XF86AudioMute
@@ -73,13 +82,14 @@ myKeys =
     -- Override default behavior
     --
     -- Launch dmenu with custom appearance
-    , ((mod4Mask, xK_p), spawn "dmenu_run.sh")
+    , ((myModKey, xK_p), spawn "dmenu_run.sh")
     -- Quit xmonad
-    , ((mod4Mask .|. shiftMask, xK_q), confirm "Exit?" $ io (exitWith ExitSuccess))
+    , ((myModKey .|. shiftMask, xK_q), confirm "Exit?" $ io (exitWith ExitSuccess))
     -- Restart xmonad
-    , ((mod4Mask, xK_q), confirm "Restart?" $ spawn "xmonad --recompile; xmonad --restart")
+    , ((myModKey, xK_q), confirm "Restart?" $ spawn "xmonad --recompile; xmonad --restart")
     ]
 
+-- Confirm action with dmenu
 confirm :: String -> X () -> X ()
 confirm msg f = do
     result <- menuArgs "dmenu.sh" ["-p", msg] ["no", "yes"]
@@ -111,14 +121,15 @@ myLayout = avoidStruts (
     noBorders (fullscreenFull Full)
          where tiled = Tall 1 (3/100) (1/2)
 
-tabConfig = defaultTheme {
-    activeBorderColor = "grey",
-    activeTextColor = "green",
-    activeColor = "black",
-    inactiveBorderColor = "grey",
-    inactiveTextColor = "grey",
-    inactiveColor = "black"
-}
+-- Tab layout configuration
+tabConfig = defaultTheme
+    { activeBorderColor   = "grey"
+    , activeTextColor     = "green"
+    , activeColor         = "black"
+    , inactiveBorderColor = "grey"
+    , inactiveTextColor   = "grey"
+    , inactiveColor       = "black"
+    }
 
 ------------------------------------------------------------------------
 ---- Window rules:
@@ -143,19 +154,36 @@ myManageHook = composeAll
     , className =? "Pidgin"        --> doShift "3:mail"
     , className =? "VirtualBox"    --> doShift "9:vm"
     , className =? "Xfce4-notifyd" --> doIgnore -- Prevent to steal the focus.
-    ]
+    ] <+> manageScratchPad
+
+-- Scratchpad will spawn the terminal, or bring it to the current workspace if
+-- it already exists. Pressing the key with the terminal on the current
+-- workspace will send it to a hidden workspace called NSP.
+manageScratchPad :: ManageHook
+manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
+    where
+        h = 0.1     -- Terminal height, 10%
+        w = 1       -- Terminal width, 100%
+        t = 1 - h   -- Distance from top edge, 90%
+        l = 1 - w   -- Distance from left edge, 0%
 
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
     xmonad $ defaultConfig
         { manageHook = manageDocks <+> myManageHook
                         <+> manageHook defaultConfig
-        , logHook = dynamicLogWithPP $ xmobarPP
-                        { ppOutput = hPutStrLn xmproc
-                        , ppTitle = xmobarColor "green" "" . shorten 50
-                        }
-        , modMask = mod4Mask -- Use Super instead of Alt
-        , terminal = "urxvt"
+        , logHook    = dynamicLogWithPP $ xmobarPP
+            { ppOutput          = hPutStrLn xmproc
+            , ppTitle           = xmobarColor "green" "" . shorten 50
+            , ppHidden          = noScratchPad
+            , ppHiddenNoWindows = noScratchPad
+            }
+        , modMask    = myModKey
+        , terminal   = myTerminal
         , workspaces = myWorkspaces
         , layoutHook = smartBorders $ myLayout
         } `additionalKeys` myKeys
+
+        -- Hide the "NSP" workspace created by scratchpad
+        where
+            noScratchPad ws = if ws == "NSP" then "" else ws
