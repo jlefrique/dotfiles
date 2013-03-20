@@ -1,0 +1,8 @@
+# .less is a binary files and can be generated with lesskey:
+#   lesskey -o ~/.less ~/.lesskey
+
+#command
+
+# Jump through git commit.
+\en forw-search \^commit \n
+\ep back-search \^commit \n
