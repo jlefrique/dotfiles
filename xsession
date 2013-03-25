@@ -10,8 +10,8 @@ fi
 
 # Set up an icon tray
 trayer --edge top --align right --SetDockType true --expand true \
-  --widthtype percent --width 10 --transparent true --alpha 0 --tint 0x000000 \
-  --heighttype pixel --height 18 &
+    --widthtype percent --width 10 --transparent true \
+    --alpha 0 --tint 0x000000 --heighttype pixel --height 18 &
 
 # Set the background
 if [ -f ~/.fehbg ] ; then
@@ -31,10 +31,6 @@ xset b off
 
 # Window manager
 xmonad & wmpid=$!
-
-if [ -x "`which unclutter 2>/dev/null`" ] ; then
-    unclutter -idle 10 -grab &
-fi
 
 if [ -x "`which xscreensaver 2>/dev/null`" ] ; then
     xscreensaver -no-splash &

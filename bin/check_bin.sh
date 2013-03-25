@@ -30,7 +30,7 @@ function red() {
 checkbins git zsh vim urxvt tmux svn mutt python ranger
 
 if [ ! -z "$DISPLAY" ]; then
-    checkbins xmonad xmobar dmenu feh unclutter xscreensaver
+    checkbins xmonad xmobar dmenu feh xscreensaver
 fi
 
 # Check for font
