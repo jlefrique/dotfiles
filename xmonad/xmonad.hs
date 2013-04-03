@@ -16,6 +16,7 @@ import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Dmenu
 import XMonad.Util.Scratchpad
+import XMonad.Util.WorkspaceCompare
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
@@ -173,17 +174,12 @@ main = do
         { manageHook = manageDocks <+> myManageHook
                         <+> manageHook defaultConfig
         , logHook    = dynamicLogWithPP $ xmobarPP
-            { ppOutput          = hPutStrLn xmproc
-            , ppTitle           = xmobarColor "green" "" . shorten 50
-            , ppHidden          = noScratchPad
-            , ppHiddenNoWindows = noScratchPad
+            { ppOutput = hPutStrLn xmproc
+            , ppTitle  = xmobarColor "green" "" . shorten 50
+            , ppSort   = fmap (.scratchpadFilterOutWorkspace) getSortByTag
             }
         , modMask    = myModKey
         , terminal   = myTerminal
         , workspaces = myWorkspaces
         , layoutHook = smartBorders $ myLayout
         } `additionalKeys` myKeys
-
-        -- Hide the "NSP" workspace created by scratchpad
-        where
-            noScratchPad ws = if ws == "NSP" then "" else ws
