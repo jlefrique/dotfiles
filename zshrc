@@ -48,3 +48,6 @@ esac
 
 export EDITOR="vim"
 export VISUAL="vim"
+
+# Report time and CPU usage for long commands.
+export REPORTTIME=5
