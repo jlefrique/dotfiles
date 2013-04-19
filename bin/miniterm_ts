@@ -1,0 +1,62 @@
+#!/bin/bash
+
+usage() {
+cat << EOF
+usage: $0 options
+
+Simple wrapper for miniterm.py that can add timestamps and log into a file.
+
+OPTIONS:
+   -h      Show this help
+   -p      Port
+   -t      Add timestamp
+   -o      Output file where to log
+EOF
+}
+
+
+PORT=
+TIMESTAMP=
+OUTPUT_FILE=
+
+function die() {
+    echo $1
+    exit 1
+}
+
+function findbin() {
+    which $1 >/dev/null 2>&1
+}
+
+findbin ts || die "ts is missing, please install the moreutils package."
+findbin miniterm.py || die "miniterm.py is missing."
+
+while getopts “hp:to:” OPTION
+do
+    case $OPTION in
+        h)
+            usage
+            exit 0
+            ;;
+        p)
+            PORT="-p $OPTARG"
+            ;;
+        t)
+            TIMESTAMP="| ts '[%Y-%m-%d %H:%M:%S]'"
+            ;;
+        o)
+            OUTPUT_FILE="| tee $OPTARG"
+            ;;
+        ?)
+            usage
+            exit 1
+            ;;
+        esac
+done
+
+COMMAND="miniterm.py $PORT $TIMESTAMP $OUTPUT_FILE"
+
+echo "Executing: $COMMAND"
+eval $COMMAND
+
+exit 0
