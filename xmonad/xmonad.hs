@@ -1,4 +1,11 @@
--- Xmonad config
+--
+-- xmonad configuration
+--
+-- My xmonad configuration with some custom key bindings to make the life
+-- easier in Dvorak with a TypeMatrix keyboard.
+--
+-- Julien Lefrique (julien.lefrique@gmail.com)
+--
 
 import XMonad
 import System.IO
@@ -37,7 +44,7 @@ myModKey = mod4Mask
 -- -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 -- --
 myWorkspaces =
-    ["1:term", "2:web", "3:mail", "4:dev"] ++ map show [5..8] ++ ["9:vm"]
+    ["1:term", "2:web", "3:mail", "4:dev"] ++ map show [5..8] ++ ["9:vm", "0"]
 
 ------------------------------------------------------------------------
 -- Custom key bindings
@@ -89,6 +96,17 @@ myKeys =
     -- Restart xmonad
     , ((myModKey, xK_q), confirm "Restart?" $ spawn "xmonad --recompile; xmonad --restart")
     ]
+    ++
+    -- Add workspace 0
+    [((m .|. myModKey, k), windows $ f i)
+        | (i, k) <- zip myWorkspaces ([xK_1..xK_9] ++ [xK_0])
+        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+    ++
+    -- Bind mod-{w,e,r} to screen 1 0 2 because it's much more logical in Dvorak.
+    [((m .|. myModKey, key), screenWorkspace sc >>= flip whenJust (windows . f))
+        | (key, sc) <- zip [xK_w, xK_e, xK_r] [1, 0, 2] -- was [0..]
+        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+
 
 -- Confirm action with dmenu
 confirm :: String -> X () -> X ()
@@ -171,15 +189,14 @@ manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
     xmonad $ defaultConfig
-        { manageHook = manageDocks <+> myManageHook
-                        <+> manageHook defaultConfig
-        , logHook    = dynamicLogWithPP $ xmobarPP
+        { manageHook   = manageDocks <+> myManageHook <+> manageHook defaultConfig
+        , logHook      = dynamicLogWithPP $ xmobarPP
             { ppOutput = hPutStrLn xmproc
             , ppTitle  = xmobarColor "green" "" . shorten 50
-            , ppSort   = fmap (.scratchpadFilterOutWorkspace) getSortByTag
+            , ppSort   = fmap (.scratchpadFilterOutWorkspace) getSortByIndex
             }
-        , modMask    = myModKey
-        , terminal   = myTerminal
-        , workspaces = myWorkspaces
-        , layoutHook = smartBorders $ myLayout
+        , modMask      = myModKey
+        , terminal     = myTerminal
+        , workspaces   = myWorkspaces
+        , layoutHook   = smartBorders $ myLayout
         } `additionalKeys` myKeys
