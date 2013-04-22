@@ -1,0 +1,56 @@
+#!/bin/bash
+
+usage() {
+cat << EOF
+usage: $0 options
+
+Look continuously for a pattern in a file and notify when found.
+
+OPTIONS:
+   -f      FILE
+   -p      PATTERN
+EOF
+}
+
+function die() {
+    echo $1
+    exit 1
+}
+
+function findbin() {
+    which $1 >/dev/null 2>&1
+}
+
+findbin notify-send || die "notify-send is missing."
+
+while getopts “hf:p:” OPTION
+do
+    case $OPTION in
+        h)
+            usage
+            exit 0
+            ;;
+        f)
+            LOGFILE="$OPTARG"
+            ;;
+        p)
+            PATTERN="$OPTARG"
+            ;;
+        ?)
+            usage
+            exit 1
+            ;;
+        esac
+done
+
+[ -z "${LOGFILE}" -o -z "${PATTERN}" ] && usage && die "Error: missing argument."
+
+echo "Searching for \"${PATTERN}\" in ${LOGFILE}."
+
+tail -F "${LOGFILE}" |
+    grep --line-buffered "${PATTERN}" |
+        while read line; do
+            notify-send "$LOGFILE" "$line"
+        done
+
+exit 0
