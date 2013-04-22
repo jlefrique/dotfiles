@@ -47,10 +47,15 @@ done
 
 echo "Searching for \"${PATTERN}\" in ${LOGFILE}."
 
+COUNTER=1
+
 tail -F "${LOGFILE}" |
     grep --line-buffered "${PATTERN}" |
         while read line; do
-            notify-send "$LOGFILE" "$line"
+            LINE="#${COUNTER} -- ${line}"
+            notify-send "${LOGFILE}" "${LINE}"
+            echo "${LINE}"
+            let COUNTER=COUNTER+1
         done
 
 exit 0
