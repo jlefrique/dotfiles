@@ -13,13 +13,6 @@ trayer --edge top --align right --SetDockType true --expand true \
     --widthtype percent --width 10 --transparent true \
     --alpha 0 --tint 0x000000 --heighttype pixel --height 18 &
 
-# Set the background
-if [ -f ~/.fehbg ] ; then
-    eval $(cat ~/.fehbg)
-else
-    xsetroot -solid black
-fi
-
 # Remove beeps
 xset b off
 
@@ -31,6 +24,13 @@ xset b off
 
 # Window manager
 xmonad & wmpid=$!
+
+# Set the background
+if [ -f ~/.fehbg ] ; then
+    eval $(cat ~/.fehbg)
+else
+    xsetroot -solid black
+fi
 
 if [ -x "`which xscreensaver 2>/dev/null`" ] ; then
     xscreensaver -no-splash &
