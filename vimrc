@@ -10,7 +10,6 @@ set incsearch
 set modelines=0
 set nocompatible
 set hidden
-" set foldmethod=indent
 set autoread                       " Update buffer when file changes elsewhere
 set novisualbell
 set ttyfast
@@ -110,10 +109,7 @@ map <Leader>x vawy:! grep <C-R>" .* *<CR>
 if has("autocmd")
   augroup vimrc
   au!
-  au FileType make
-    \ setlocal noexpandtab
-  au BufNewFile,BufRead /*apache*
-    \ setfiletype apache
+  au FileType make setlocal noexpandtab
   au BufNewFile,BufRead */JP/* call s:MyJPSettings()
 
   au FileType c,cpp call s:MyCSettings()
@@ -122,11 +118,14 @@ if has("autocmd")
   au FileType gitconfig call s:MyGitConfigSettings()
   au FileType gitcommit setlocal tw=72
 
-  au BufRead .letter,/tmp/mutt*,*.txt,.signature*,signature* call s:MyMuttSettings()
+  au BufRead .letter,/tmp/mutt*,*.txt,.signature*,signature*
+    \ call s:MyMuttSettings()
   au BufRead *.tex call s:MyTexSettings()
   au BufRead *linux/*.c call s:MyKernelSettings()
-  au BufNewFile,BufRead *.viki
-    \ setfiletype viki
+  au BufNewFile,BufRead *.viki setfiletype viki
+
+  " Enable modeline with vimoutliner files.
+  au BufRead *.otl setlocal modeline modelines=1
   augroup END
 endif
 
