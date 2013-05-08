@@ -44,7 +44,7 @@ myModKey = mod4Mask
 -- -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 -- --
 myWorkspaces =
-    ["1:term", "2:web", "3:mail", "4:dev"] ++ map show [5..8] ++ ["9:vm", "0"]
+    ["1:term", "2:web", "3:mail", "4:dev", "5:log", "6", "7", "8", "9:vm", "0"]
 
 ------------------------------------------------------------------------
 -- Custom key bindings
