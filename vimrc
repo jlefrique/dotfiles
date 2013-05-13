@@ -2,8 +2,11 @@
 
 " Activate pathogen
 runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 call pathogen#helptags()
+
+syntax on
+filetype plugin indent on
 
 " Global settings
 set incsearch
@@ -60,8 +63,6 @@ set shiftwidth=2
 set tabstop=2
 set expandtab
 set softtabstop=2
-filetype plugin indent on
-syntax on
 
 " Highlight extra whitespaces
 highlight ExtraWhitespace ctermbg=darkred guibg=darkgreen
