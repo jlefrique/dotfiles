@@ -5,13 +5,14 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 call pathogen#helptags()
 
+set nocompatible
+
 syntax on
 filetype plugin indent on
 
 " Global settings
 set incsearch
 set modelines=0
-set nocompatible
 set hidden
 set autoread                       " Update buffer when file changes elsewhere
 set novisualbell
@@ -23,6 +24,12 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.out,.toc
 
 " Visual aspect
 colorscheme xoria256
+
+" After setting the xoria256 colorscheme, the background is incorrectly reset
+" to 'light', this is a workaround to set it to 'dark'.
+syntax off
+set background=dark
+syntax enable
 
 set ruler                          " Show cursor position at all times
 set textwidth=0                    " Don't wrap words by default
@@ -126,7 +133,7 @@ if has("autocmd")
   au BufNewFile,BufRead *.viki setfiletype viki
 
   " Enable modeline with vimoutliner files.
-  au BufRead *.otl setlocal modeline modelines=1
+  au BufRead *.otl,*.otl.gpg setlocal modeline modelines=1
   augroup END
 endif
 
