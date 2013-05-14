@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+# Takes the output of the IAR compiler and converts the Windows paths in
+# Unix format.
+#
+# See vimrc for the integration with :make.
+
+
+import sys
+import os
+
+WIN_ROOT = 'E:'
+
+
+def win_to_unix(path):
+    sep = '\\' if '\\' in path else '/'
+    path = filter(lambda v: len(v) > 0, path.split(sep))
+
+    prefix = []
+    if path[0].upper() in (WIN_ROOT):
+        prefix = ['home', 'jlefrique', 'JP']
+
+    return os.path.join(* ([os.path.sep] + prefix + path[1:]))
+
+for line in sys.stdin.readlines():
+    if line.startswith(WIN_ROOT):
+        sys.stdout.write(win_to_unix(line))
+    else:
+        sys.stdout.write(line)
