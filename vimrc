@@ -18,6 +18,7 @@ set autoread                       " Update buffer when file changes elsewhere
 set novisualbell
 set ttyfast
 set number                         " Display line number
+set history=1000
 
 " Suffixes : these are the files we are unlikely to edit
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.out,.toc
@@ -104,6 +105,8 @@ nmap <Leader>q :nohlsearch<CR>
 " Move up/down a single row on the screen instead of on a linewise basis.
 nnoremap j gj
 nnoremap k gk
+" Make Y consistent with C and D. See :help Y.
+nnoremap Y y$
 " Cycle and fly through buffers
 nmap <tab> :bn<CR>
 nmap <s-tab> :bp<CR>
