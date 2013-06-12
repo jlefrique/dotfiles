@@ -2,7 +2,7 @@
 #
 # A simple dmenu session script.
 
-DMENU='dmenu.sh'
+DMENU='dmenu'
 LOCK='xscreensaver-command -lock'
 
 choice=$(echo -e "lock\nsuspend\nhibernate\nshutdown\nreboot\ndisplay off" | $DMENU -p "session:")

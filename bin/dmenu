@@ -3,7 +3,7 @@
 if [ -f "${HOME}/.dmenurc" ]; then
     . "${HOME}/.dmenurc"
 else
-    DMENU='dmenu -i'
+    DMENU='/usr/bin/dmenu -i'
 fi
 
 $DMENU ${1+"$@"}

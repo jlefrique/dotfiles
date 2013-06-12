@@ -1,7 +1,7 @@
 " Add dmenu as a file chooser in vim
 
 function! DmenuOpen(cmd)
-  let fname = system("dmenu_edit.sh")
+  let fname = system("dmenu_edit")
   if empty(fname)
     return
   endif

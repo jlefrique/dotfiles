@@ -1,4 +1,7 @@
-DMENU='dmenu -i '
-DMENU=$DMENU'-nb #333333 -nf #999999 '
-DMENU=$DMENU'-sb #1279bf -sf #ffffff '
-DMENU=$DMENU'-fn -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*'
+# Customize dmenu appearance.
+
+BIN="/usr/bin/dmenu -i"
+COLOR="-nb #333333 -nf #999999 -sb #1279bf -sf #ffffff"
+FONT="-fn -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*"
+
+DMENU="$BIN $COLOR $FONT"

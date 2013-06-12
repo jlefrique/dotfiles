@@ -54,17 +54,17 @@ myKeys =
     -- New key bindings
     --
     -- Go to the window
-    [ ((myModKey .|. shiftMask, xK_g), gotoMenuArgs' "dmenu.sh" ["-p", "goto"])
+    [ ((myModKey .|. shiftMask, xK_g), gotoMenuArgs' "dmenu" ["-p", "goto"])
     -- Bring the window
-    , ((myModKey .|. shiftMask, xK_b), bringMenuArgs' "dmenu.sh" ["-p", "bring"])
+    , ((myModKey .|. shiftMask, xK_b), bringMenuArgs' "dmenu" ["-p", "bring"])
     -- Display opened windows in a grid
     , ((myModKey, xK_g), goToSelected defaultGSConfig)
     -- Lock the screen
     , ((myModKey .|. shiftMask, xK_l), spawn "xscreensaver-command -lock")
     -- Launch dmenu-based session manager
-    , ((myModKey .|. shiftMask, xK_s), spawn "dmenu_session.sh")
+    , ((myModKey .|. shiftMask, xK_s), spawn "dmenu_session")
     -- Launch dmenu-based finder
-    , ((myModKey, xK_f), spawn "dmenu_find.sh")
+    , ((myModKey, xK_f), spawn "dmenu_find")
     -- Show/hide scratchpad terminal
     , ((myModKey, xK_s), scratchpadSpawnActionTerminal myTerminal)
     -- Close focused window with one hand in Dvorak
@@ -89,8 +89,6 @@ myKeys =
     --
     -- Override default behavior
     --
-    -- Launch dmenu with custom appearance
-    , ((myModKey, xK_p), spawn "dmenu_run.sh")
     -- Quit xmonad
     , ((myModKey .|. shiftMask, xK_q), confirm "Exit?" $ io (exitWith ExitSuccess))
     -- Restart xmonad
@@ -111,7 +109,7 @@ myKeys =
 -- Confirm action with dmenu
 confirm :: String -> X () -> X ()
 confirm msg f = do
-    result <- menuArgs "dmenu.sh" ["-p", msg] ["no", "yes"]
+    result <- menuArgs "dmenu" ["-p", msg] ["no", "yes"]
     when (result == "yes") f
 
 ------------------------------------------------------------------------
