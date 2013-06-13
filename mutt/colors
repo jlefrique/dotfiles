@@ -23,11 +23,11 @@ color body brightgreen black " [;:,][-=][\])>(<|]"
 color body brightblue black "(^|[[:space:]])\\*[^[:space:]]+\\*([[:space:]]|$)" # *Bold* text.
 color body brightblue black "(^|[[:space:]])_[^[:space:]]+_([[:space:]]|$)" # _Underlined_ text.
 color body brightblue black "(^|[[:space:]])/[^[:space:]]+/([[:space:]]|$)" # /Italic/ text.
-color body brightred black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
-color body brightblue black (https?|ftp|news|telnet|finger|e2dk)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+
+color body red black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
+color body blue black (https?|ftp|news|telnet|finger|e2dk)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+
 
 # status bar
-color status brightyellow blue
+color status yellow black
 
 # headers colors
 color hdrdefault cyan black
@@ -41,11 +41,10 @@ color header brightblack black ^X-Mailer:
 color header brightblack black ^User-Agent:
 
 # indicator colors
-color indicator brightyellow blue
+color indicator brightwhite blue
 color index brightwhite black "~N !~T !~F" # regular new
 color index red black "~t debian-security-announce" # security
 color index brightred black "~F" # flagged
 color index brightcyan black "~T" # tagged
 color index brightblack black "~D" # deleted
 color index cyan black "~P" # from me
-
