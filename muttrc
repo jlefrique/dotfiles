@@ -1,57 +1,74 @@
+# ~/.muttrc
+
 # Passwords are stored in an encrypted file:
 #   set my_gpass1="my super secret password"
 #   set my_gpass2="my other super secret password"
 source "gpg --textmode -d ~/.hide/mutt-pass.gpg |"
 
-# External files
+# Colors
 source ~/.mutt/colors
 
-#---------------#
-# Account Hooks #
-#---------------#
-account-hook . "unset imap_user; unset imap_pass; unset tunnel" # unset first!
+set editor="vim"
+set realname="Julien Lefrique"
 
+set mail_check=60
+set timeout=5
+
+set header_cache=~/.mutt/hcache
+
+# Account hooks 
+account-hook . "unset imap_user; unset imap_pass; unset tunnel" # unset first!
 source ~/.mutt/gmail-imap-julien311085
 source ~/.mutt/gmail-imap-julien.lefrique
 
-#--------#
-# Macros #
-#--------#
-macro index <F2> "y12<return><return>" # jump to mailbox number 12 (user1 inbox)
-macro index <F3> "y6<return><return>"  # jump to mailbox number 6 (user2 inbox)
+set delete=ask-yes
+set reverse_alias
+set nomark_old # Don't mark unread messages as old
+set sort=threads
+set sort_aux=last-date-received
+set strict_threads
+set nopipe_decode
+set mailcap_sanitize
 
-#-----------------------#
-# Gmail-specific macros #
-#-----------------------#
-# to delete more than 1 message, just mark them with "t" key and then do "d" on them
-macro index d ";s+[Gmail]/Bin<enter><enter>" "Move to Gmail's Trash"
-# delete message, but from pager (opened email)
-macro pager d "s+[Gmail]/Bin<enter><enter>"  "Move to Gmail's Trash"
-# undelete messages
-macro index u ";s+INBOX<enter><enter>"         "Move to Gmail's INBOX"
-macro pager u "s+INBOX<enter><enter>"          "Move to Gmail's INBOX"
+# Edition
+set edit_headers
+set mime_forward
 
-#-------------------------#
-# Misc. optional settings #
-#-------------------------#
-set editor = "vim"
-# Check for mail every minute for current IMAP mailbox every 1 min
-set timeout = 60
-# Check for new mail in ALL mailboxes every 2 min
-set mail_check = 120
-# keep imap connection alive by polling intermittently (time in seconds)
-set imap_keepalive = 300
-# allow mutt to open new imap connection automatically
-unset imap_passive
-# store message headers locally to speed things up
-# (the ~/.mutt folder MUST exist! Arch does not create it by default)
-set header_cache = ~/.mutt/hcache
-# sort mail by threads
-set sort = threads
-# and sort threads by date
-set sort_aux = last-date-received
-
-hdr_order Date From To Cc
-alternative_order text/plain text/html *
-auto_view text/html
+# Macros
+macro index <F2> "y12<return><return>" # jump to mailbox number 12
+macro index <F3> "y6<return><return>"  # jump to mailbox number 6
 bind editor <Tab> complete-query
+
+# Gmail-specific macros
+macro index d ";s+[Gmail]/Bin<enter><enter>" "Move to Gmail's Trash"
+macro pager d "s+[Gmail]/Bin<enter><enter>" "Move to Gmail's Trash"
+macro index u ";s+INBOX<enter><enter>" "Move to Gmail's INBOX"
+macro pager u "s+INBOX<enter><enter>" "Move to Gmail's INBOX"
+
+# IMAP
+set imap_keepalive=200
+unset imap_passive
+
+# Index and pager
+set index_format="%5C %Z %{%b %d} %-15.15F %?M?#>> %02M&(%4c)? | %s"
+set pager_stop
+set pager_index_lines=9
+set pager_context=3
+
+# Visible headers
+ignore *
+unignore From From: To Cc Subject Date Reply-To X-Mailer User-Agent Bcc
+
+# Headers order
+unhdr_order *
+hdr_order From: To: Cc: Subject: Reply-To: Date:
+
+# Charsets and multipart
+alternative_order text/enriched text/plain text/html
+set send_charset="utf-8:iso-8859-15:iso-8859-1:us-ascii"
+set allow_8bit=yes
+
+# Autoview
+auto_view text/html
+
+push <show-version>
