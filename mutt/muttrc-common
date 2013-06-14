@@ -1,0 +1,43 @@
+# ~/.mutt/muttrc-common
+
+set editor="vim"
+set realname="Julien Lefrique"
+set signature=~/.signature
+
+set mail_check=60
+set timeout=5
+
+set delete=ask-yes
+set reverse_alias
+set nomark_old
+set sort=threads
+set sort_aux=last-date-received
+set strict_threads
+set nopipe_decode
+set mailcap_sanitize
+
+# Edition
+set edit_headers
+set mime_forward
+
+# Index and pager
+set index_format="%5C %Z %{%b %d} %-15.15F %?M?#>> %02M&(%4c)? | %s"
+set pager_stop
+set pager_index_lines=9
+set pager_context=3
+
+# Visible headers
+ignore *
+unignore From From: To Cc Subject Date Reply-To X-Mailer User-Agent Bcc
+
+# Headers order
+unhdr_order *
+hdr_order From: To: Cc: Subject: Reply-To: Date:
+
+# Charsets and multipart
+alternative_order text/enriched text/plain text/html
+set send_charset="utf-8:iso-8859-15:iso-8859-1:us-ascii"
+set allow_8bit=yes
+
+# Autoview
+auto_view text/html

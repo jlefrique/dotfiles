@@ -1,15 +1,15 @@
-# Colors definitions
+# ~/.mutt/muttrc-colors
 
 # color <where> <foreground> <background> [regexp]
 
-# normal : default color - white on black
+# Normal : default color - white on black
 color normal white black
 color attachment brightyellow black
 color tilde blue black
 color markers brightred black
 color tree red black
 
-# some in-mail colors : quotes, signature
+# Some in-mail colors : quotes, signature
 color quoted cyan black
 color quoted1 green black
 color quoted2 red black
@@ -18,7 +18,7 @@ color quoted4 green black
 
 color signature cyan black
 
-# various smilies and text formatting
+# Various smilies and text formatting
 color body brightgreen black " [;:,][-=][\])>(<|]"
 color body brightblue black "(^|[[:space:]])\\*[^[:space:]]+\\*([[:space:]]|$)" # *Bold* text.
 color body brightblue black "(^|[[:space:]])_[^[:space:]]+_([[:space:]]|$)" # _Underlined_ text.
@@ -26,10 +26,10 @@ color body brightblue black "(^|[[:space:]])/[^[:space:]]+/([[:space:]]|$)" # /I
 color body red black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
 color body blue black (https?|ftp|news|telnet|finger|e2dk)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+
 
-# status bar
+# Status bar
 color status yellow black
 
-# headers colors
+# Headers colors
 color hdrdefault cyan black
 color header brightblue black ^From:
 color header brightcyan black ^To:
@@ -40,7 +40,7 @@ color header brightgreen black ^Subject:
 color header brightblack black ^X-Mailer:
 color header brightblack black ^User-Agent:
 
-# indicator colors
+# Indicator colors
 color indicator brightwhite blue
 color index brightwhite black "~N !~T !~F" # regular new
 color index red black "~t debian-security-announce" # security

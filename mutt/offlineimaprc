@@ -1,0 +1,63 @@
+# Note: requires nametrans.py
+
+[general]
+ui = ttyui
+accounts = gmail-julien.lefrique, gmail-julien311085
+maxsyncaccounts = 2
+pythonfile = ~/.mutt/nametrans.py
+
+#
+# Automatic mutt mailbox generation
+#
+[mbnames]
+enabled = yes
+filename = ~/.mutt/mailboxes
+header = "mailboxes "
+peritem = "+%(accountname)s/%(foldername)s"
+sep = " "
+footer = "\n"
+
+#
+# Accounts
+#
+[Account gmail-julien.lefrique]
+localrepository = gmail-julien.lefrique-local
+remoterepository = gmail-julien.lefrique-remote
+
+[Account gmail-julien311085]
+localrepository = gmail-julien311085-local
+remoterepository = gmail-julien311085-remote
+
+#
+# Local repositories
+#
+[Repository gmail-julien.lefrique-local]
+type = Maildir
+localfolders = ~/Mail/gmail-julien.lefrique
+nametrans = nt_local
+
+[Repository gmail-julien311085-local]
+type = Maildir
+localfolders = ~/Mail/gmail-julien311085
+nametrans = nt_local
+
+#
+# Remote repositories
+#
+[Repository gmail-julien.lefrique-remote]
+type = Gmail
+remoteuser = julien.lefrique@gmail.com
+realdelete = no
+maxconnections = 3
+nametrans = nt_remote
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+folderfilter = exclude(['[Gmail]/Trash', '[Gmail]/Bin', '[Gmail]/Drafts'])
+
+[Repository gmail-julien311085-remote]
+type = Gmail
+remoteuser = julien311085@gmail.com
+realdelete = no
+maxconnections = 3
+nametrans = nt_remote
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+folderfilter = exclude(['[Gmail]/Trash', '[Gmail]/Bin', '[Gmail]/Drafts'])

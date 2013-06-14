@@ -1,0 +1,24 @@
+# ~/.mutt/muttrc-imap
+
+# Passwords are stored in an encrypted file:
+#   set my_gpass1="my super secret password"
+#   set my_gpass2="my other super secret password"
+source "gpg --textmode -d ~/.hide/mutt-pass.gpg |"
+
+set imap_keepalive=200
+unset imap_passive
+
+# Account hooks 
+account-hook . "unset imap_user; unset imap_pass; unset tunnel" # unset first!
+source ~/.mutt/accounts/gmail-imap-julien311085
+source ~/.mutt/accounts/gmail-imap-julien.lefrique
+
+# Macros
+macro index <F2> "y12<return><return>" # jump to mailbox number 12
+macro index <F3> "y6<return><return>"  # jump to mailbox number 6
+
+# Gmail-specific macros
+macro index d ";s+[Gmail]/Bin<enter><enter>" "Move to Gmail's Trash"
+macro pager d "s+[Gmail]/Bin<enter><enter>"  "Move to Gmail's Trash"
+macro index u ";s+INBOX<enter><enter>"       "Move to Gmail's INBOX"
+macro pager u "s+INBOX<enter><enter>"        "Move to Gmail's INBOX"
