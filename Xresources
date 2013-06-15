@@ -22,6 +22,9 @@ URxvt*scrollTtyOutput: false
 URxvt*scrollWithBuffer: true
 URxvt*scrollTtyKeypress: true
 
+URxvt*fading: 5%
+URxvt*fadeColor: grey
+
 URxvt*foreground: COLOR_FG
 URxvt*background: COLOR_BG
 
