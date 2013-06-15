@@ -1,0 +1,33 @@
+# ~/.mpdconf
+
+# Files and directories
+music_directory         "/net/willow/Multimedia/music"
+playlist_directory      "~/.mpd/playlists"
+db_file                 "~/.mpd/database"
+log_file                "~/.mpd/log"
+pid_file                "~/.mpd/pid"
+state_file              "~/.mpd/state"
+
+# Network
+#user                    "jlefrique"
+port                    "6600"
+bind_to_address         "localhost"
+
+# Symlinks
+follow_outside_symlinks	"no"
+follow_inside_symlinks  "yes"
+
+# Input
+input {
+    plugin              "curl"
+}
+
+# Audio output
+audio_output {
+    type		            "alsa"
+    name		            "My ALSA Device"
+}
+
+# Encoding
+filesystem_charset      "UTF-8"
+id3v1_encoding          "UTF-8"
