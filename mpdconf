@@ -27,6 +27,16 @@ audio_output {
     name                "My ALSA Device"
 }
 
+# HTTP streaming
+audio_output {
+    type            "httpd"
+    name            "My HTTP Stream"
+    encoder         "vorbis"
+    port            "8000"
+    bitrate         "128"
+    format          "44100:16:1"
+}
+
 # Encoding
 filesystem_charset      "UTF-8"
 id3v1_encoding          "UTF-8"
