@@ -4,30 +4,30 @@
 
 # Normal : default color - white on black
 color normal white black
-color attachment brightyellow black
+color attachment yellow black
 color tilde blue black
-color markers brightred black
+color markers red black
 color tree red black
 
 # Some in-mail colors : quotes, signature
 color quoted cyan black
 color quoted1 green black
-color quoted2 red black
-color quoted3 yellow black
+color quoted2 yellow black
+color quoted3 red black
 color quoted4 green black
 
 color signature cyan black
 
 # Various smilies and text formatting
 color body brightgreen black " [;:,][-=][\])>(<|]"
-color body brightblue black "(^|[[:space:]])\\*[^[:space:]]+\\*([[:space:]]|$)" # *Bold* text.
-color body brightblue black "(^|[[:space:]])_[^[:space:]]+_([[:space:]]|$)" # _Underlined_ text.
-color body brightblue black "(^|[[:space:]])/[^[:space:]]+/([[:space:]]|$)" # /Italic/ text.
+color body brightdefault black "(^|[[:space:]])\\*[^[:space:]]+\\*([[:space:]]|$)" # *Bold* text.
+color body brightdefault black "(^|[[:space:]])_[^[:space:]]+_([[:space:]]|$)" # _Underlined_ text.
+color body brightdefault black "(^|[[:space:]])/[^[:space:]]+/([[:space:]]|$)" # /Italic/ text.
 color body red black [\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+
 color body blue black (https?|ftp|news|telnet|finger|e2dk)://[\-\.,/%~_:?&=\#a-zA-Z0-9]+
 
 # Status bar
-color status yellow black
+color status brightwhite color239
 
 # Headers colors
 color hdrdefault cyan black
