@@ -45,6 +45,11 @@ if [ -x "`which xfce4-power-manager 2>/dev/null`" ] ; then
     xfce4-power-manager &
 fi
 
+# Start mpd daemon if no other user instance exists
+if [ ! -s ~/.mpd/pid -a -x "`which mpd 2>/dev/null`" ] ; then
+    mpd
+fi
+
 # Fire up apps
 for application in pidgin redshift ; do
     [ -x "`which  $application 2>/dev/null`" ] && $application &
