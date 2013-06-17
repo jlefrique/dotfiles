@@ -10,7 +10,7 @@ state_file              "~/.mpd/state"
 
 # Network
 port                    "6600"
-bind_to_address         "localhost"
+bind_to_address         "any"
 
 # Symlinks
 follow_outside_symlinks	"no"
@@ -24,17 +24,17 @@ input {
 # Audio output
 audio_output {
     type                "alsa"
-    name                "My ALSA Device"
+    name                "alsa-walnut"
 }
 
 # HTTP streaming
 audio_output {
-    type            "httpd"
-    name            "My HTTP Stream"
-    encoder         "vorbis"
-    port            "8000"
-    bitrate         "128"
-    format          "44100:16:1"
+    type                "httpd"
+    name                "http-walnut"
+    encoder             "vorbis"
+    port                "8000"
+    bitrate             "128"
+    format              "44100:16:1"
 }
 
 # Encoding
