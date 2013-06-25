@@ -85,7 +85,7 @@ myKeys =
     -- Email
     , ((0, 0x1008ff19), spawn "thunderbird")
     -- Calculator
-    , ((0, 0x1008ff1d), spawn "gcalctool")
+    , ((0, 0x1008ff1d), spawn (myTerminal ++ " -e ipython"))
     --
     -- Override default behavior
     --
