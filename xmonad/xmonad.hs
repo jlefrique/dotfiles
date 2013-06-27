@@ -15,7 +15,6 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
-import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
 import XMonad.Actions.WindowBringer
 import XMonad.Actions.GridSelect
@@ -132,16 +131,15 @@ confirm msg f = do
 myLayout = avoidStruts (
     tiled |||
     Mirror tiled |||
-    tabbed shrinkText tabConfig |||
     Full |||
-    spiral (6/7)) |||
+    tabbed shrinkText tabConfig) |||
     noBorders (fullscreenFull Full)
          where tiled = Tall 1 (3/100) (1/2)
 
 -- Tab layout configuration
 tabConfig = defaultTheme
     { activeBorderColor   = "grey"
-    , activeTextColor     = "green"
+    , activeTextColor     = "white"
     , activeColor         = "black"
     , inactiveBorderColor = "grey"
     , inactiveTextColor   = "grey"
