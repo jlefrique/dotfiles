@@ -8,13 +8,11 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
-# Set up an icon tray
-trayer --edge top --align right --SetDockType true --expand true \
-    --widthtype percent --width 10 --transparent true \
-    --alpha 0 --tint 0x000000 --heighttype pixel --height 18 &
-
 # Remove beeps
 xset b off
+
+# Set up an icon tray
+[ -f ~/bin/tray.sh ] && ~/bin/tray.sh
 
 # Configure keyboard
 [ -f ~/bin/set_keyboard.sh ] && ~/bin/set_keyboard.sh
