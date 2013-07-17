@@ -1,0 +1,19 @@
+# Setup for julien@lefrique.name
+
+set folder = imaps://julien@lefrique.name@mail.gandi.net/
+set spoolfile = +INBOX
+set postponed = +Draft
+set record = +Sent
+
+set smtp_url = smtps://julien@lefrique.name@mail.gandi.net
+set smtp_pass = $my_gandipass
+set from = 'Julien Lefrique <julien@lefrique.name>'
+
+set ssl_force_tls = yes
+unset ssl_starttls
+
+account-hook $folder "\
+    set imap_user = julien@lefrique.name \
+        imap_pass = $my_gandipass"
+
+mailboxes = +INBOX =Sent

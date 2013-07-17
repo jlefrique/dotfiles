@@ -8,10 +8,21 @@ source "gpg --textmode -d ~/.hide/mutt-pass.gpg |"
 set imap_keepalive=200
 unset imap_passive
 
-# Account hooks 
-account-hook . "unset imap_user; unset imap_pass; unset tunnel" # unset first!
-source ~/.mutt/accounts/gmail-imap-julien311085
+# Unset account hooks
+account-hook . "\
+    unset imap_user imap_pass tunnel"
+
 source ~/.mutt/accounts/gmail-imap-julien.lefrique
+folder-hook $folder "\
+    source ~/.mutt/accounts/gmail-imap-julien.lefrique"
+
+source ~/.mutt/accounts/gmail-imap-julien311085
+folder-hook $folder "\
+    source ~/.mutt/accounts/gmail-imap-julien311085"
+
+source ~/.mutt/accounts/gandi-imap-julien
+folder-hook $folder "\
+    source ~/.mutt/accounts/gandi-imap-julien"
 
 # Macros
 macro index <F2> "y12<return><return>" # jump to mailbox number 12

@@ -1,16 +1,16 @@
-# Setup for julien.lefrique@gmail.com:
+# Setup for julien.lefrique@gmail.com
 
-account-hook        "imaps://julien.lefrique@imap.gmail.com/" "\
-    set imap_user   = julien.lefrique@gmail.com \
-        imap_pass   = $my_gpass1"
+set folder = imaps://julien.lefrique@imap.gmail.com/
+set spoolfile = +INBOX
+set postponed = +[Gmail]/Drafts
+unset record
 
-set folder          = imaps://julien.lefrique@imap.gmail.com/
-mailboxes           = +INBOX =[Gmail]/Drafts =[Gmail]/'Sent Mail' =[Gmail]/Spam =[Gmail]/Trash
-set spoolfile       = +INBOX
-folder-hook         imaps://julien.lefrique@imap.gmail.com/ "\
-    set folder      = imaps://julien.lefrique@imap.gmail.com/ \
-        spoolfile   = +INBOX \
-        postponed   = +[Gmail]/Drafts \
-        from        = 'Julien Lefrique <julien.lefrique@gmail.com> ' \
-        smtp_url    = smtps://julien.lefrique@smtp.gmail.com \
-        smtp_pass   = $my_gpass1"
+set smtp_url = smtps://julien.lefrique@smtp.gmail.com
+set smtp_pass = $my_gpass1
+set from = 'Julien Lefrique <julien.lefrique@gmail.com>'
+
+account-hook $folder "\
+    set imap_user = julien.lefrique@gmail.com \
+        imap_pass = $my_gpass1"
+
+mailboxes = +INBOX =[Gmail]/Drafts =[Gmail]/'Sent Mail' =[Gmail]/Spam =[Gmail]/Trash

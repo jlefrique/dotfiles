@@ -15,6 +15,7 @@ set sort_aux=last-date-received
 set strict_threads
 set nopipe_decode
 set mailcap_sanitize
+set sleep_time=0
 
 # Edition
 set edit_headers
