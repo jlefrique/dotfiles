@@ -22,6 +22,7 @@ import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Dmenu
 import XMonad.Util.Scratchpad
+import XMonad.Util.NamedScratchpad
 import XMonad.Util.WorkspaceCompare
 
 import qualified XMonad.StackSet as W
@@ -65,7 +66,7 @@ myKeys =
     -- Launch dmenu-based finder
     , ((myModKey, xK_f), spawn "dmenu_find")
     -- Show/hide scratchpad terminal
-    , ((myModKey, xK_s), scratchpadSpawnActionTerminal myTerminal)
+    , ((myModKey, xK_s), namedScratchpadAction myScratchpads "terminal")
     -- Close focused window with one hand in Dvorak
     , ((myModKey .|. shiftMask, xK_o), kill)
     -- Print screen
@@ -84,7 +85,7 @@ myKeys =
     -- Email
     , ((0, 0x1008ff19), spawn "thunderbird")
     -- Calculator
-    , ((0, 0x1008ff1d), spawn (myTerminal ++ " -e ipython"))
+    , ((0, 0x1008ff1d), namedScratchpadAction myScratchpads "ipython")
     --
     -- Override default behavior
     --
@@ -169,18 +170,40 @@ myManageHook = composeAll
     , className =? "Pidgin"        --> doShift "3:mail"
     , className =? "VirtualBox"    --> doShift "9:vm"
     , className =? "Xfce4-notifyd" --> doIgnore -- Prevent to steal the focus.
-    ] <+> manageScratchPad
+    ] <+> namedScratchpadManageHook myScratchpads
 
--- Scratchpad will spawn the terminal, or bring it to the current workspace if
--- it already exists. Pressing the key with the terminal on the current
+------------------------------------------------------------------------
+---- Scratchpad:
+--
+-- Scratchpad will spawn an application, or bring it to the current workspace
+-- if it already exists. Pressing the key with the application on the current
 -- workspace will send it to a hidden workspace called NSP.
-manageScratchPad :: ManageHook
-manageScratchPad = scratchpadManageHook (W.RationalRect l t w h)
+--
+myScratchpads =
+    [ NS "terminal" spawnTerminal findTerminal manageTerminal
+    , NS "ipython" spawnIpython findIpython manageIpython
+    ]
     where
-        h = 0.1     -- Terminal height, 10%
-        w = 1       -- Terminal width, 100%
-        t = 1 - h   -- Distance from top edge, 90%
-        l = 1 - w   -- Distance from left edge, 0%
+
+        -- Terminal
+        spawnTerminal  = myTerminal ++ " -name scratchpad"
+        findTerminal   = resource =? "scratchpad"
+        manageTerminal = customFloating $ W.RationalRect l t w h
+            where
+                h = 0.1     -- Terminal height, 10%
+                w = 1       -- Terminal width, 100%
+                t = 1 - h   -- Distance from top edge, 90%
+                l = 1 - w   -- Distance from left edge, 0%
+
+        -- IPython in a terminal
+        spawnIpython   = myTerminal ++ " -name scratchpad-ipython -e ipython"
+        findIpython    = resource =? "scratchpad-ipython"
+        manageIpython  = customFloating $ W.RationalRect l t w h
+            where
+                h = 0.5     -- Height
+                w = 0.4     -- Width
+                t = 0.1     -- Distance from top edge
+                l = 1 - w   -- Distance from left edge
 
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
