@@ -24,3 +24,4 @@ extract () {
 alias servethis="python -m SimpleHTTPServer"
 
 alias svndiff="svn diff | colordiff | less -R"
+alias myip="curl ifconfig.me/ip"
