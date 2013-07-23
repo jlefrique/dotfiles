@@ -13,4 +13,4 @@ account-hook $folder "\
     set imap_user = julien311085@gmail.com \
         imap_pass = $my_gpass2"
 
-mailboxes = +INBOX =[Gmail]/Drafts =[Gmail]/'Sent Mail' =[Gmail]/Spam =[Gmail]/Trash
+mailboxes = +INBOX =[Gmail]/Drafts =[Gmail]/'Sent Mail' =[Gmail]/Spam =[Gmail]/Bin
