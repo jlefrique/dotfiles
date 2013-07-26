@@ -196,7 +196,14 @@ myScratchpads =
                 l = 1 - w   -- Distance from left edge, 0%
 
         -- IPython in a terminal
-        spawnIpython   = myTerminal ++ " -name scratchpad-ipython -e ipython"
+        spawnIpython = unwords
+            [ myTerminal
+            , "-name scratchpad-ipython"
+            , "-e sh"
+            , "-c \"" ++ cmd ++ "\""
+            ]
+            where
+                cmd = "ipython -i -c='from __future__ import division'"
         findIpython    = resource =? "scratchpad-ipython"
         manageIpython  = customFloating $ W.RationalRect l t w h
             where
