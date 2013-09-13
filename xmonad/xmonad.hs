@@ -181,30 +181,30 @@ myManageHook = composeAll
 --
 myScratchpads =
     [ NS "terminal" spawnTerminal findTerminal manageTerminal
-    , NS "ipython" spawnIpython findIpython manageIpython
+    , NS "ipython"  spawnIpython  findIpython  manageIpython
     ]
     where
-
         -- Terminal
-        spawnTerminal  = myTerminal ++ " -name scratchpad"
-        findTerminal   = resource =? "scratchpad"
+        nameTerminal   = "scratchpad-terminal"
+        spawnTerminal  = myTerminal ++ " -name " ++ nameTerminal
+        findTerminal   = resource =? nameTerminal
         manageTerminal = customFloating $ W.RationalRect l t w h
             where
                 h = 0.1     -- Terminal height, 10%
                 w = 1       -- Terminal width, 100%
                 t = 1 - h   -- Distance from top edge, 90%
                 l = 1 - w   -- Distance from left edge, 0%
-
-        -- IPython in a terminal
-        spawnIpython = unwords
+        -- IPython
+        nameIpython    = "scratchpad-ipython"
+        spawnIpython   = unwords
             [ myTerminal
-            , "-name scratchpad-ipython"
+            , "-name " ++ nameIpython
             , "-e sh"
             , "-c \"" ++ cmd ++ "\""
             ]
             where
                 cmd = "ipython -i -c='from __future__ import division'"
-        findIpython    = resource =? "scratchpad-ipython"
+        findIpython    = resource =? nameIpython
         manageIpython  = customFloating $ W.RationalRect l t w h
             where
                 h = 0.5     -- Height
