@@ -21,7 +21,8 @@ tmux.conf
 vimrc
 xscreensaver
 xsession
-zshrc"
+zshrc
+kermrc"
 
 FOLDERS="\
 config
