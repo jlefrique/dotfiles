@@ -1,0 +1,7 @@
+Section: jlefrique
+Priority: optional
+Standards-Version: 3.9.2
+
+Package: jlefrique-base
+Depends: zsh, vim, tmux, less, moreutils, git, tree
+Description: base tools
