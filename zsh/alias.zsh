@@ -21,7 +21,8 @@ extract () {
 }
 
 # Serve current directory tree at http://$HOSTNAME:8000/
-alias servethis="python -m SimpleHTTPServer"
+alias servethis='python -m SimpleHTTPServer'
 
-alias svndiff="svn diff | colordiff | less -R"
-alias myip="curl ifconfig.me/ip"
+alias svndiff='svn diff | colordiff | less -R'
+alias myip='curl ifconfig.me/ip'
+alias git-root='cd $(git root)'
