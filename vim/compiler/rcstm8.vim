@@ -1,12 +1,12 @@
-" ---- Beginning of ${vimfiles}/compiler/ride.vim ----
-" Compiler:     Ride 7
+" ---- Beginning of ${vimfiles}/compiler/rcstm8.vim ----
+" Compiler:     RCSTM8 - Raisonance's STM8 compiler
 " Maintainer:   Julien Lefrique
 " Last Change:  2013-09-24
 
 if exists("current_compiler")
   finish
 endif
-let current_compiler = "ride"
+let current_compiler = "rcstm8"
 
 " errorformat matches compiler errors and warnings like:
 "
