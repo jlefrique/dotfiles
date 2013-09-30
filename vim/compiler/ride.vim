@@ -12,9 +12,13 @@ let current_compiler = "ride"
 "
 " *** WARNING C090 IN LINE 223 OF C:\my\path\myfile.c : message
 "
+" Also matches linker errors of the form:
+" ***ERROR 107:some information
+"
 CompilerSet errorformat=
   \*\*\*\ %tRROR\ C%n\ IN\ LINE\ %l\ OF\ %f\ :\ %m,
-  \*\*\*\ %tARNING\ C%n\ IN\ LINE\ %l\ OF\ %f\ :\ %m
+  \*\*\*\ %tARNING\ C%n\ IN\ LINE\ %l\ OF\ %f\ :\ %m,
+  \*\*\*%tRROR\ %n:\ %m
 
 " ---- End of Vim compiler file ----
 "
