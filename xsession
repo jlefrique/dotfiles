@@ -11,7 +11,7 @@ fi
 # Change measuring units, paper size and first day of week
 export LC_MEASUREMENT="en_GB.UTF-8"
 export LC_PAPER="en_GB.UTF-8"
-export LC_TIME="en_GB.utf8"
+export LC_TIME="en_GB.UTF-8"
 
 # Remove beeps
 xset b off
