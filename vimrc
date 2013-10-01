@@ -121,7 +121,10 @@ if has("autocmd")
   augroup vimrc
   au!
   au FileType make setlocal noexpandtab
-  au BufNewFile,BufRead */JP/* call s:MyJPSettings()
+
+  au BufNewFile,BufRead */JP/*MCU*.[ch] call s:MyJPSettings()
+  au BufNewFile,BufRead */JP/MainMCU*.[ch] compiler iar
+  au BufNewFile,BufRead */JP/MonitorMCU*.[ch] compiler rcstm8
 
   au FileType c,cpp call s:MyCSettings()
   au FileType python call s:MyPythonSettings()
@@ -143,15 +146,8 @@ endif
 " For JP code
 function! s:MyJPSettings()
   syn keyword cType uint8 uint16 uint32 int8 int16 int32 boolean
-  compiler iar
-  set wildignore+=*.r43,*.d43
-  " Paver is used instead of Make.
-  if has("win32")
-    set makeprg=paver\ build
-  elseif has("unix")
-    " Converts Windows paths to Unix paths.
-    set makeprg=echo\ '\\n***\ Building...';\ paver\ build\ $*\ \\\|&\ iar_unix_path
-  endif
+  set wildignore+=*.r44,*.d43
+  set makeprg=echo\ '\\n***\ Building...';\ paver\ build\ $*
 endfunction
 
 " For kernel code
