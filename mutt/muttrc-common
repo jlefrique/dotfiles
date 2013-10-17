@@ -16,6 +16,7 @@ set strict_threads
 set nopipe_decode
 set mailcap_sanitize
 set sleep_time=0
+set beep_new
 
 # Edition
 set edit_headers

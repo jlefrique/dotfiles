@@ -34,6 +34,9 @@ URxvt*urlLauncher: /usr/bin/firefox
 URxvt*matcher.button: 1
 URxvt*colorUL: COLOR_TERM_LIGHT_BLUE
 
+URxvt*urgentOnBell: true
+URxvt*visualBell: false
+
 ! xterm terminal ------------------------------------------------------------
 XTerm*faceName: Terminus
 XTerm*faceSize: 10
