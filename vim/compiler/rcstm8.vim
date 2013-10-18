@@ -13,12 +13,14 @@ let current_compiler = "rcstm8"
 " *** WARNING C090 IN LINE 223 OF C:\my\path\myfile.c : message
 "
 " Also matches linker errors of the form:
-" ***ERROR 107:some information
+" ***ERROR 107: some information
+" ***FATAL ERROR 107: some information
 "
 CompilerSet errorformat=
   \*\*\*\ %tRROR\ C%n\ IN\ LINE\ %l\ OF\ %f\ :\ %m,
   \*\*\*\ %tARNING\ C%n\ IN\ LINE\ %l\ OF\ %f\ :\ %m,
-  \*\*\*%tRROR\ %n:\ %m
+  \*\*\*%tRROR\ %n:\ %m,
+  \*\*\*FATAL\ %tRROR\ %n:\ %m
 
 " ---- End of Vim compiler file ----
 "
