@@ -13,6 +13,7 @@ import System.Exit
 import Control.Monad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Tabbed
@@ -214,12 +215,14 @@ myScratchpads =
 
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
-    xmonad $ defaultConfig
+    xmonad $ withUrgencyHook NoUrgencyHook
+           $ defaultConfig
         { manageHook   = manageDocks <+> myManageHook <+> manageHook defaultConfig
         , logHook      = dynamicLogWithPP $ xmobarPP
             { ppOutput = hPutStrLn xmproc
             , ppTitle  = xmobarColor "green" "" . shorten 50
             , ppSort   = fmap (.scratchpadFilterOutWorkspace) getSortByIndex
+            , ppUrgent = xmobarColor "red" "" . xmobarStrip
             }
         , modMask      = myModKey
         , terminal     = myTerminal
