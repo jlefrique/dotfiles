@@ -22,6 +22,9 @@ xset b off
 # Configure keyboard
 [ -f ~/bin/set_keyboard.sh ] && ~/bin/set_keyboard.sh
 
+# Configure screen
+[ -f ~/bin/set_screen.sh ] && ~/bin/set_screen.sh
+
 # Per-machine config, if any
 [ -f ~/bin/init-machine.sh ] && ~/bin/init-machine.sh
 
