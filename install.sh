@@ -26,6 +26,7 @@ kermrc"
 
 FOLDERS="\
 config
+ssh
 mutt
 xmonad
 vim
