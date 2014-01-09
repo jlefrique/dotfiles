@@ -38,3 +38,7 @@
 	path = vim/bundle/vimoutliner
 	url = git://github.com/vimoutliner/vimoutliner.git
 	ignore = dirty
+[submodule "vim/bundle/vim-dispatch"]
+	path = vim/bundle/vim-dispatch
+	url = git://github.com/tpope/vim-dispatch.git
+	ignore = dirty
