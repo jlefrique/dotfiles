@@ -1,0 +1,13 @@
+[ui]
+username = Julien Lefrique <julien.lefrique@gmail.com>
+
+[extensions]
+color=
+graphlog=
+progress=
+
+[web]
+cacerts = /etc/ssl/certs/ca-certificates.crt
+
+[alias]
+lg = log --graph -l10

@@ -14,6 +14,7 @@ FILES="\
 Xresources
 dmenurc
 gitconfig
+hgrc
 mailcap
 muttrc
 signature
