@@ -12,7 +12,7 @@ function make_prompt() {
     local at='%F{cyan}@%f'
     local host="$host_color%m%f"
     local dir='%4~'
-    local git='$(git_prompt_info)'
+    local vcs='%F{yellow}$(git_prompt_info)$(hg_prompt_info)%f'
     local jobs='%(1j.[%j].)'
 
     local prompt
@@ -22,7 +22,7 @@ function make_prompt() {
         prompt='»'
     fi
 
-    echo "${user}${at}${host}${jobs} ${dir} ${git}${prompt} "
+    echo "${user}${at}${host}${jobs} ${dir} ${vcs}${prompt} "
 }
 
 # vi-mode indicator
@@ -36,7 +36,13 @@ local return_code='%(?..%F{red}%? ↵%f)'
 RPS1='${return_code}'
 
 # Git information
-ZSH_THEME_GIT_PROMPT_PREFIX="%F{yellow}±"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%f "
-ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_DIRTY="!"
+ZSH_THEME_GIT_PROMPT_PREFIX="±"
+ZSH_THEME_GIT_PROMPT_SUFFIX=""
+ZSH_THEME_GIT_PROMPT_CLEAN=" "
+ZSH_THEME_GIT_PROMPT_DIRTY="! "
+
+# Hg information
+ZSH_THEME_HG_PROMPT_PREFIX="+"
+ZSH_THEME_HG_PROMPT_SUFFIX=""
+ZSH_THEME_HG_PROMPT_CLEAN=" "
+ZSH_THEME_HG_PROMPT_DIRTY="! "

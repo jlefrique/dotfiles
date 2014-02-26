@@ -36,7 +36,7 @@ export ZSH_THEME="jlefrique"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git vi-mode)
+plugins=(git mercurial vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
