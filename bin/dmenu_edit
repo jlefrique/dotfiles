@@ -2,18 +2,25 @@
 
 # List files that we are likely to edit and display them with dmenu.
 #
-# We first search for versioned files (with git or svn). If files are not
-# versioned in this folder, all files are listed with find.
-#
-# TODO: exclude files in wildignore.
+# First search for files versioned with git, hg or svn. If files are not
+# versioned, list all files with find.
 
 DMENU='dmenu'
 
 get_files() {
-    FILES=`git ls-files 2>/dev/null` && SOURCE="git" && return
-    FILES=`timeout 5 svn list -R 2>/dev/null | grep -v ".*\/$"` && SOURCE="svn" && return
-    FILES=`find -type f | sed 's|^./*||'` && SOURCE="find" && return
+
+    FILES=$( git ls-files 2>/dev/null ) &&
+        SOURCE="git" && return
+
+    FILES=$( hg status -macnS . 2>/dev/null ) &&
+        SOURCE="hg" && return
+
+    FILES=$( timeout 5 svn list -R 2>/dev/null | grep -v ".*\/$" ) &&
+        SOURCE="svn" && return
+
+    FILES=$( find -type f -printf "%P\n" ) &&
+        SOURCE="find" && return
 }
 
 get_files
-echo "$FILES" | $DMENU -l 20 -p "$SOURCE"
+echo "$FILES" | $DMENU -l 20 -p $SOURCE
