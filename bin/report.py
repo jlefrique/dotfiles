@@ -20,7 +20,7 @@ def trailing_whitespaces_report(filename):
 
     with open(filename) as f:
         for count, line in enumerate(f.readlines(), start=1):
-            line = line.rstrip('\n')
+            line = line.rstrip('\n').rstrip('\r')
             if line.endswith(' ') or line.endswith('\t'):
                 print('Trailing whitespace at {}, line {}.\n>>> {}'.format(
                     filename, count, line))
