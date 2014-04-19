@@ -35,3 +35,22 @@ usb-serial converters
 To access /dev/ttyUSBx, add your user to the group dialout:
 
     sudo adduser jlefrique dialout
+
+
+LaTeX packages
+==============
+
+To install custom LaTeX packages, create the following directory:
+
+    mkdir -p $HOME/texmf/tex/latex
+
+Add your custom packages:
+
+    cd $HOME/texmf/tex/latex
+    git clone git@github.com:jlefrique/moderncv.git
+
+Run texhash. This will create a database of files inside your texmf directory:
+
+    texhash $HOME/texmf
+
+Whenever you add new files to your texmf tree, be sure to run texhash.
