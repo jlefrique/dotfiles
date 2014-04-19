@@ -1,1 +1,11 @@
-autofs zsh rxvt-unicode-256color xmonad xmobar vim-nox git subversion mercurial tree tmux trayer moreutils xfonts-terminus suckless-tools ranger feh exuberant-ctags ipython python-serial redshift pidgin git-annex mpd ipython lxappearance texlive texlive-base texlive-latex-recommended texlive-fonts-recommended vlc mutt offlineimap
+zsh rxvt-unicode-256color vim-nox tree tmux moreutils ranger autofs git-annex
+
+git subversion mercurial exuberant-ctags ipython python-serial
+
+xmonad xmobar trayer lxappearance xfonts-terminus suckless-tools feh redshift
+
+texlive texlive-base texlive-latex-recommended texlive-fonts-recommended
+
+vlc mpd
+
+mutt offlineimap pidgin
