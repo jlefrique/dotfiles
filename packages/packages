@@ -4,7 +4,7 @@ git subversion mercurial exuberant-ctags python ipython python-serial
 
 xmonad xmobar trayer lxappearance xfonts-terminus suckless-tools feh redshift
 
-texlive texlive-base texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra
+ikiwiki texlive texlive-base texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra
 
 vlc mpd mplayer2 inkscape
 
