@@ -6,6 +6,6 @@ xmonad xmobar trayer lxappearance xfonts-terminus suckless-tools feh redshift
 
 texlive texlive-base texlive-latex-recommended texlive-fonts-recommended
 
-vlc mpd
+vlc mpd mplayer2
 
 mutt offlineimap pidgin
