@@ -1,11 +1,11 @@
 zsh rxvt-unicode-256color vim-nox tree tmux moreutils ranger autofs git-annex
 
-git subversion mercurial exuberant-ctags ipython python-serial
+git subversion mercurial exuberant-ctags python ipython python-serial
 
 xmonad xmobar trayer lxappearance xfonts-terminus suckless-tools feh redshift
 
 texlive texlive-base texlive-latex-recommended texlive-fonts-recommended
 
-vlc mpd mplayer2
+vlc mpd mplayer2 inkscape
 
 mutt offlineimap pidgin
