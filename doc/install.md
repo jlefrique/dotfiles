@@ -81,3 +81,15 @@ only if you want to host the html output on Github pages:
 Run the setup file:
 
     ikiwiki --setup ~/git/jlefrique-wiki/jlefrique-wiki.setup
+
+
+Music Player Daemon
+===================
+
+mpd can be configured per user:
+
+    ln -s $HOME/dotfiles/mpdconf $HOME/.mpdconf
+    mkdir -p $HOME/.mpd/playlists
+    touch $HOME/.mpd/{database,log,pid,state}
+
+Then start or restart mpd.

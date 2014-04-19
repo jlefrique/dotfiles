@@ -23,6 +23,7 @@ vimrc
 xscreensaver
 xsession
 zshrc
+mpdconf
 kermrc"
 
 FOLDERS="\
