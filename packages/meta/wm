@@ -1,7 +1,0 @@
-Section: jlefrique
-Priority: optional
-Standards-Version: 3.9.2
-
-Package: jlefrique-wm
-Depends: xmonad, xmonad-contrib, xmobar, tint2
-Description: window manager

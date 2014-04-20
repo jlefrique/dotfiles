@@ -1,7 +1,0 @@
-Section: jlefrique
-Priority: optional
-Standards-Version: 3.9.2
-
-Package: jlefrique-dev
-Depends: python, subversion
-Description: development tools

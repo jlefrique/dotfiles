@@ -1,0 +1,60 @@
+author: jlefrique
+
+packages:
+
+- base:
+    - zsh
+    - rxvt-unicode-256color
+    - vim-nox
+    - tmux
+
+- util:
+    - tree
+    - htop
+    - dos2unix
+    - moreutils
+    - ranger
+    - autofs
+
+- development:
+    - git
+    - git-annex
+    - subversion
+    - mercurial
+    - exuberant-ctags
+
+- python:
+    - python
+    - ipython
+    - python-serial
+
+- wm:
+    - xmonad
+    - xmobar
+    - trayer
+    - lxappearance
+    - xfonts-terminus
+    - suckless-tools
+    - feh
+    - redshift
+
+- tex:
+    - texlive
+    - texlive-base
+    - texlive-latex-recommended
+    - texlive-fonts-recommended
+    - texlive-latex-extra
+
+- multimedia:
+    - vlc
+    - mpd
+    - ncmpcpp
+    - mplayer2
+    - inkscape
+
+- communication:
+    - mutt
+    - offlineimap
+    - pidgin
+    - weechat
+    - ikiwiki
