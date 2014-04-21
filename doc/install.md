@@ -13,7 +13,7 @@ etckeeper:
 
 Finally, install all the other packages:
 
-    sudo apt-get install $(cat $HOME/dotfiles/packages/packages)
+    sudo apt-get install $(cat $HOME/dotfiles/packages/packages_list.txt)
 
 
 NFS shares
