@@ -64,7 +64,7 @@ Clone the source of the wiki. This will be the working copy to edit:
     cd $HOME/git
     git clone /net/willow/git/jlefrique-wiki.git
 
-Using Ikiwiki with git requires an additional "working" repository in addition
+Using Ikiwiki with git requires an additional working repository in addition
 to the one that committers push to.
 
     sudo mkdir -p /var/lib/ikiwiki
@@ -86,7 +86,12 @@ Run the setup file:
 Music Player Daemon
 ===================
 
-mpd can be configured per user:
+Prevent mpd to start as a system daemon. mpd will be started in .xsession:
+
+    sudo service mpd stop and
+    sudo update-rc.d mpd disable
+
+Configure mpd per user:
 
     ln -s $HOME/dotfiles/mpdconf $HOME/.mpdconf
     mkdir -p $HOME/.mpd/playlists
