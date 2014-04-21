@@ -31,7 +31,7 @@ def generate_package(author, category, packages):
 def main():
 
     with open('packages.yaml', 'r') as f:
-        config = yaml.load(f)
+        config = yaml.safe_load(f)
 
     all_packages = []
     author = config.get('author')
