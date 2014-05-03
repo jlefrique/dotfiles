@@ -98,3 +98,11 @@ Configure mpd per user:
     touch $HOME/.mpd/{database,log,pid,state}
 
 Then start or restart mpd.
+
+
+Android SDK
+===========
+
+For Debian Jessie, ia32-libs is not available anymore.
+
+    sudo apt-get install lib32z1 lib32ncurses5 lib32stdc++6
