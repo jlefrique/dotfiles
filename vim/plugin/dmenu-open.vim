@@ -5,6 +5,11 @@ function! DmenuOpen(cmd)
   if empty(fname)
     return
   endif
-  execute a:cmd . " " . fnameescape(fname)
+  execute a:cmd . " " . fnameescape(StripNull(fname))
 endfunction
+
+function! StripNull(input)
+  return substitute(a:input, '\%x00', '', '')
+endfunction
+
 nnoremap <Leader>t :call DmenuOpen("e")<CR>
