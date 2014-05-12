@@ -15,10 +15,8 @@ Host *.lefrique.name !larch.lefrique.name
     # A netcat-like option is now available.
     ProxyCommand ssh -ax larch.lefrique.name -W `echo %h | cut -d. -f1`:%p
 
-Host github-debiotech
-    User git
-    HostName github.com
-    IdentityFile ~/.ssh/id_rsa_debiotech
+Host *.marvell.com
+    User lefrique
 
 Host *.* localhost
     ProxyCommand none
