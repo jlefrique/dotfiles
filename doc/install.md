@@ -106,3 +106,23 @@ Android SDK
 For Debian Jessie, ia32-libs is not available anymore.
 
     sudo apt-get install lib32z1 lib32ncurses5 lib32stdc++6
+
+
+Java Development Kit
+====================
+
+To install another JDK (e.g. Oracle JDK), extract your JDK in /opt/java. Then
+update alternatives:
+
+    sudo update-alternatives --install /usr/bin/java java /opt/java/jdk1.6.0_45/bin/java 1500
+    sudo update-alternatives --install /usr/bin/javac javac /opt/java/jdk1.6.0_45/bin/javac 1500
+
+Check with those commands:
+
+    update-alternatives --display java
+    update-alternatives --display javac
+
+To switch between JDK versions:
+
+    sudo update-alternatives --config java
+    sudo update-alternatives --config javac
