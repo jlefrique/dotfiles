@@ -2,13 +2,15 @@
 username = Julien Lefrique <julien.lefrique@gmail.com>
 
 [extensions]
-color=
-graphlog=
-progress=
-hgk=
+pager =
+color =
+graphlog =
+progress =
+hgk =
 
 [web]
 cacerts = /etc/ssl/certs/ca-certificates.crt
 
 [alias]
-lg = log --graph -l10
+lg = glog --pager yes
+shortlog = !hg log --template "{author|person}\n" | sort | uniq -c | sort -nr
