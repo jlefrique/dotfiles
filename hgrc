@@ -7,6 +7,8 @@ color =
 graphlog =
 progress =
 hgk =
+purge =
+shelve =
 
 [web]
 cacerts = /etc/ssl/certs/ca-certificates.crt
