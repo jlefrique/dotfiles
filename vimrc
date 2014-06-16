@@ -96,7 +96,7 @@ set sidescrolloff=2
 " Tab complete menu
 set wildmode=longest:full
 set wildmenu
-set wildignore=*.o,*.so,*~,*.swp,*.pyc,tags
+set wildignore=*.o,*.a,*.so,*~,*.swp,*.pyc,*.dll,tags
 
 " Key mappings
 nmap :W :w
