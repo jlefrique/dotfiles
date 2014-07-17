@@ -126,3 +126,31 @@ To switch between JDK versions:
 
     sudo update-alternatives --config java
     sudo update-alternatives --config javac
+
+
+Downgrade make
+==============
+
+To build Android, make 3.81 or 3.82 is required.
+
+Add the following repository to /etc/apt/sources.list:
+
+    deb http://ftp.ch.debian.org/debian stable main
+
+Then, install the package:
+
+    sudo apt-get update
+    apt-cache show make
+    sudo apt-get install make/stable
+
+
+Mark the package as held:
+
+    sudo apt-mark hold make
+
+Remove the stable repository from /etc/apt/sources.list and update again.
+
+To show or remove held packages:
+
+    apt-mark showhold
+    sudo apt-make unhold make
