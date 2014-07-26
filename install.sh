@@ -33,7 +33,8 @@ mutt
 xmonad
 vim
 xrdb
-zsh"
+zsh
+mplayer"
 
 [ -f "$GIT" ] || $(echo "Please install git." && exit 1)
 

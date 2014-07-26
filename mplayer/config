@@ -1,0 +1,4 @@
+# ~/.mplayer/config
+
+osdlevel = 0
+zoom = yes
