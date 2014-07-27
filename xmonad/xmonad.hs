@@ -167,6 +167,7 @@ myManageHook = composeAll
     [ className =? "Gimp"          --> doFloat
     , className =? "Vncviewer"     --> doFloat
     , className =? "Firefox"       --> doShift "2:web"
+    , className =? "Iceweasel"     --> doShift "2:web"
     , className =? "Thunderbird"   --> doShift "3:mail"
     , className =? "Pidgin"        --> doShift "3:mail"
     , className =? "VirtualBox"    --> doShift "9:vm"
