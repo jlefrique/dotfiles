@@ -13,3 +13,4 @@ fun! RangerChooser()
     redraw!
 endfun
 nnoremap <Leader>r :call RangerChooser()<CR>
+nnoremap <F3> :call RangerChooser()<CR>

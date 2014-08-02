@@ -6,10 +6,6 @@
 	path = vim/bundle/xoria256
 	url = git://github.com/vim-scripts/xoria256.vim.git
 	ignore = dirty
-[submodule "vim/bundle/nerdtree"]
-	path = vim/bundle/nerdtree
-	url = git://github.com/scrooloose/nerdtree.git
-	ignore = dirty
 [submodule "vim/bundle/snipmate"]
 	path = vim/bundle/snipmate
 	url = git://github.com/msanders/snipmate.vim.git
@@ -41,3 +37,8 @@
 [submodule "vim/bundle/vim-commentary"]
 	path = vim/bundle/vim-commentary
 	url = git://github.com/tpope/vim-commentary.git
+	ignore = dirty
+[submodule "vim/bundle/vim-vinegar"]
+	path = vim/bundle/vim-vinegar
+	url = git://github.com/tpope/vim-vinegar.git
+	ignore = dirty

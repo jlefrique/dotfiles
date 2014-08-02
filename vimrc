@@ -224,9 +224,6 @@ nmap <silent> <F7> :call ToggleSpell()<CR>
 " Change paste mode
 nnoremap <F10> :set paste! <Bar> :set paste?<CR>
 
-" NEERDTree plugin
-nnoremap <F3> :NERDTreeToggle<CR>
-
 " Tag List plugin
 nnoremap <F4> :TlistToggle<CR>
 let Tlist_Use_Right_Window = 1       " Display the taglist on the right
