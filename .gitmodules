@@ -42,3 +42,7 @@
 	path = vim/bundle/vim-vinegar
 	url = git://github.com/tpope/vim-vinegar.git
 	ignore = dirty
+[submodule "vim/bundle/vim-easy-align"]
+	path = vim/bundle/vim-easy-align
+	url = git://github.com/junegunn/vim-easy-align.git
+	ignore = dirty

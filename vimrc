@@ -230,3 +230,8 @@ let Tlist_Use_Right_Window = 1       " Display the taglist on the right
 
 " Python-mode plugin
 let g:pymode_folding = 0
+
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
+nmap <Leader>a <Plug>(EasyAlign)
