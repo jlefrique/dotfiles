@@ -26,10 +26,6 @@
 	path = vim/bundle/python-mode
 	url = git://github.com/klen/python-mode.git
 	ignore = dirty
-[submodule "vim/bundle/nerdcommenter"]
-	path = vim/bundle/nerdcommenter
-	url = git://github.com/scrooloose/nerdcommenter.git
-	ignore = dirty
 [submodule "vim/bundle/vim-pathogen"]
 	path = vim/bundle/vim-pathogen
 	url = git://github.com/tpope/vim-pathogen.git
@@ -42,3 +38,6 @@
 	path = vim/bundle/vim-dispatch
 	url = git://github.com/tpope/vim-dispatch.git
 	ignore = dirty
+[submodule "vim/bundle/vim-commentary"]
+	path = vim/bundle/vim-commentary
+	url = git://github.com/tpope/vim-commentary.git
