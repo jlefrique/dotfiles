@@ -12,7 +12,6 @@ filetype plugin indent on
 
 " Global settings
 set incsearch
-
 set modelines=0
 set hidden
 set autoread                       " Update buffer when file changes elsewhere
@@ -98,6 +97,10 @@ set wildmode=longest:full
 set wildmenu
 set wildignore=*.o,*.a,*.so,*~,*.swp,*.pyc,*.dll,tags
 
+" Search settings
+set grepprg=grep\ -rnHI\ --exclude='.*.swp'\ --exclude='*~'\ --exclude=tags
+map <F2> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+
 " Key mappings
 nmap :W :w
 nmap :Q :q
@@ -111,10 +114,6 @@ nnoremap Y y$
 nmap <tab> :bn<CR>
 nmap <s-tab> :bp<CR>
 nnoremap <Leader>l :ls<CR>:b<Space>
-
-" Search in multiple files
-map <F2> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
-map <Leader>x vawy:! grep <C-R>" .* *<CR>
 
 " Filetype specific configuration
 if has("autocmd")
@@ -226,10 +225,10 @@ nnoremap <F10> :set paste! <Bar> :set paste?<CR>
 
 " Tag List plugin
 nnoremap <F4> :TlistToggle<CR>
-let Tlist_Use_Right_Window = 1       " Display the taglist on the right
+let Tlist_Use_Right_Window=1       " Display the taglist on the right
 
 " Python-mode plugin
-let g:pymode_folding = 0
+let g:pymode_folding=0
 
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
