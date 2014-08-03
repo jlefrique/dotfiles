@@ -10,10 +10,6 @@
 	path = vim/bundle/snipmate
 	url = git://github.com/msanders/snipmate.vim.git
 	ignore = dirty
-[submodule "vim/bundle/taglist"]
-	path = vim/bundle/taglist
-	url = git://github.com/vim-scripts/taglist.vim.git
-	ignore = dirty
 [submodule "vim/bundle/a"]
 	path = vim/bundle/a
 	url = git://github.com/vim-scripts/a.vim.git
