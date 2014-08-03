@@ -6,10 +6,6 @@
 	path = vim/bundle/xoria256
 	url = git://github.com/vim-scripts/xoria256.vim.git
 	ignore = dirty
-[submodule "vim/bundle/snipmate"]
-	path = vim/bundle/snipmate
-	url = git://github.com/msanders/snipmate.vim.git
-	ignore = dirty
 [submodule "vim/bundle/a"]
 	path = vim/bundle/a
 	url = git://github.com/vim-scripts/a.vim.git
@@ -45,4 +41,12 @@
 [submodule "vim/bundle/vim-better-whitespace"]
 	path = vim/bundle/vim-better-whitespace
 	url = git://github.com/ntpeters/vim-better-whitespace.git
+	ignore = dirty
+[submodule "vim/bundle/ultisnips"]
+	path = vim/bundle/ultisnips
+	url = git://github.com/SirVer/ultisnips.git
+	ignore = dirty
+[submodule "vim/bundle/vim-snippets"]
+	path = vim/bundle/vim-snippets
+	url = git://github.com/honza/vim-snippets.git
 	ignore = dirty
