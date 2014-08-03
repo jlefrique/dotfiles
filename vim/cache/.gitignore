@@ -1,0 +1,4 @@
+# This directory contains Vim's swap and backup files.
+# Ignore everything in this directory, expect this file.
+*
+!.gitignore

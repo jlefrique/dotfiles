@@ -23,6 +23,9 @@ set history=1000
 " Suffixes : these are the files we are unlikely to edit
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.out,.toc
 
+set directory^=$HOME/.vim/cache//
+set backupdir^=$HOME/.vim/cache//
+
 " Visual aspect
 colorscheme xoria256
 
