@@ -1,14 +1,17 @@
 [user]
-  name = Julien Lefrique
-  email = julien.lefrique@gmail.com
+    name = Julien Lefrique
+    email = julien.lefrique@gmail.com
 
 [alias]
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-  root = rev-parse --show-toplevel
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    root = rev-parse --show-toplevel
 
 [color]
-  # Turn on color
-  ui = auto
+    # Turn on color
+    ui = auto
 
 [core]
-  autocrlf = input
+    autocrlf = input
+
+[push]
+    default = simple
