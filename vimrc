@@ -12,6 +12,7 @@ filetype plugin indent on
 
 " Global settings
 set incsearch
+
 set modelines=0
 set hidden
 set autoread                       " Update buffer when file changes elsewhere
@@ -74,10 +75,6 @@ set shiftwidth=2
 set tabstop=2
 set expandtab
 set softtabstop=2
-
-" Highlight extra whitespaces
-highlight ExtraWhitespace ctermbg=darkred guibg=darkgreen
-autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 " Highlight column 80
 if exists('+colorcolumn')

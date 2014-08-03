@@ -46,3 +46,6 @@
 	path = vim/bundle/vim-easy-align
 	url = git://github.com/junegunn/vim-easy-align.git
 	ignore = dirty
+[submodule "vim/bundle/vim-better-whitespace"]
+	path = vim/bundle/vim-better-whitespace
+	url = git://github.com/ntpeters/vim-better-whitespace.git
