@@ -134,7 +134,7 @@ if has("autocmd")
   au BufRead .letter,/tmp/mutt*,*.txt,.signature*,signature*
     \ call s:MyMuttSettings()
   au BufRead *.tex call s:MyTexSettings()
-  au BufRead *linux/*.c call s:MyKernelSettings()
+  au BufRead *linux/*.[ch] call s:MyKernelSettings()
   au BufNewFile,BufRead *.viki setfiletype viki
 
   " Enable modeline with vimoutliner files.
