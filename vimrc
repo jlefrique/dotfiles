@@ -95,7 +95,7 @@ set sidescrolloff=2
 " Tab complete menu
 set wildmode=longest:full
 set wildmenu
-set wildignore=*.o,*.a,*.so,*~,*.swp,*.pyc,*.dll,tags
+set wildignore=*.o,*.a,*.so,*.ko,*~,*.swp,*.pyc,*.dll,tags,*.o.*
 
 " Search settings
 set grepprg=grep\ -rnHI\ --exclude='.*.swp'\ --exclude='*~'\ --exclude=tags
