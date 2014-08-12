@@ -34,7 +34,8 @@ xmonad
 vim
 xrdb
 zsh
-mplayer"
+mplayer
+git_template"
 
 [ -f "$GIT" ] || $(echo "Please install git." && exit 1)
 
