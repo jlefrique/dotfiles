@@ -97,9 +97,10 @@ set sidescrolloff=2
 set wildmode=longest:full
 set wildmenu
 set wildignore=*.o,*.a,*.so,*.ko,*~,*.swp,*.pyc,*.dll,tags,*.o.*
+set wildignore+=.git/,.hg/,.svn/
 
 " Search settings
-set grepprg=grep\ -rnHI\ --exclude='.*.swp'\ --exclude='*~'\ --exclude=tags
+set grepprg=grep\ -rnHI\ --exclude='.*.swp'\ --exclude='*~'\ --exclude=tags\ $*
 map <F2> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 
 " Key mappings
