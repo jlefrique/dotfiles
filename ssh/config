@@ -18,6 +18,11 @@ Host *.lefrique.name !larch.lefrique.name
 Host *.marvell.com
     User lefrique
 
+Host tizen review.tizen.org
+    Hostname review.tizen.org
+    User lefrique
+    Port 29418
+
 Host *.* localhost
     ProxyCommand none
 
