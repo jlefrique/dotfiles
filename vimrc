@@ -137,7 +137,7 @@ if has("autocmd")
     \ call s:MyMuttSettings()
   au BufRead *.tex call s:MyTexSettings()
   au BufRead *linux/*.[ch] call s:MyKernelSettings()
-  au BufNewFile,BufRead *.md set filetype=markdown
+  au BufNewFile,BufRead *.md set filetype=markdown tw=80
 
   " Enable modeline with vimoutliner files.
   au BufRead *.otl,*.otl.gpg setlocal modeline modelines=1
