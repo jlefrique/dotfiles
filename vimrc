@@ -157,6 +157,7 @@ function! s:MyKernelSettings()
   setlocal softtabstop=8
   setlocal shiftwidth=8
   setlocal noexpandtab
+  setlocal grepprg=git\ grep\ -nI\ $*
 endfunction
 
 " For Git
