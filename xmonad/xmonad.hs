@@ -115,7 +115,7 @@ confirm msg f = do
 
 ------------------------------------------------------------------------
 ---- Layouts:
--- 
+--
 -- -- You can specify and transform your layouts by modifying these values.
 -- -- If you change layout bindings be sure to use 'mod-shift-space' after
 -- -- restarting (with 'mod-q') to reset your layout state to the new
@@ -150,7 +150,7 @@ tabConfig = defaultTheme
 
 ------------------------------------------------------------------------
 ---- Window rules:
--- 
+--
 -- -- Execute arbitrary actions and WindowSet manipulations when managing
 -- -- a new window. You can use this to, for example, always float a
 -- -- particular program, or have a client always appear on a particular
@@ -169,6 +169,7 @@ myManageHook = composeAll
     , className =? "Firefox"       --> doShift "2:web"
     , className =? "Iceweasel"     --> doShift "2:web"
     , className =? "Thunderbird"   --> doShift "3:mail"
+    , className =? "Icedove"       --> doShift "3:mail"
     , className =? "Pidgin"        --> doShift "3:mail"
     , className =? "VirtualBox"    --> doShift "9:vm"
     , className =? "Xfce4-notifyd" --> doIgnore -- Prevent to steal the focus.
