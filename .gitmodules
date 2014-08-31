@@ -50,3 +50,6 @@
 	path = vim/bundle/vim-snippets
 	url = git://github.com/honza/vim-snippets.git
 	ignore = dirty
+[submodule "tmux/plugins/tmux-resurrect"]
+	path = tmux/plugins/tmux-resurrect
+	url = git@github.com:tmux-plugins/tmux-resurrect.git
