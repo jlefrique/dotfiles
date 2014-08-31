@@ -25,7 +25,7 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.out,.toc
 
 set directory^=$HOME/.vim/cache//
 set backupdir^=$HOME/.vim/cache//
-set tags+=.git/tags
+set tags+=.git/tags,.hg/tags
 
 " Visual aspect
 colorscheme xoria256
