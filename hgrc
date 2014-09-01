@@ -19,5 +19,5 @@ lg = glog --pager yes
 shortlog = !hg log --template "{author|person}\n" | sort | uniq -c | sort -nr
 
 [hooks]
-commit.ctags = ctags-hg &
-update.ctags = ctags-hg &
+commit.ctags = ctags-hg >/dev/null 2>&1 &
+update.ctags = ctags-hg >/dev/null 2>&1 &
