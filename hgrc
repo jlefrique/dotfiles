@@ -17,7 +17,8 @@ cacerts = /etc/ssl/certs/ca-certificates.crt
 st = !hg status $($HG root) $HG_ARGS
 lg = glog --pager yes
 shortlog = !hg log --template "{author|person}\n" | sort | uniq -c | sort -nr
+ctags = !ctags-hg >/dev/null 2>&1 &
 
 [hooks]
-commit.ctags = ctags-hg >/dev/null 2>&1 &
-update.ctags = ctags-hg >/dev/null 2>&1 &
+commit.ctags = hg ctags
+update.ctags = hg ctags
