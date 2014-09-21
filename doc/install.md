@@ -154,3 +154,12 @@ To show or remove held packages:
 
     apt-mark showhold
     sudo apt-make unhold make
+
+
+Network scanner
+===============
+
+Edit /etc/sane.d/xerox_mfp.conf and add the following lines:
+
+    #Samsung C460 over network
+    tcp 192.168.1.15
