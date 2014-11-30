@@ -1,44 +1,24 @@
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+### Basics
 
-if [ ! -d $ZSH ]; then
-    echo "Looks like you're missing oh-my-zsh, trying to get it..."
-    if which git >/dev/null 2>&1; then
-        git clone git://github.com/robbyrussell/oh-my-zsh.git $ZSH
-    else
-        echo "Please install Git."
-    fi
-fi
+# /etc/zprofile resets PATH, among other things, so we need to
+# re-source.
+# source ~/.zshenv
+# In the case of an interactive, non-login shell, this leads to
+# repetitions in PATH. Fortunately, zsh to the rescue.
+export -U PATH=$PATH
 
-# Location of custom plugins and themes.
-export ZSH_CUSTOM="$HOME/.zsh"
+export EDITOR="vim"
+export VISUAL="vim"
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-export ZSH_THEME="jlefrique"
-
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
-
-# Comment this out to disable weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want disable red dots displayed while waiting for completion
-# DISABLE_COMPLETION_WAITING_DOTS="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git mercurial vi-mode)
-
-source $ZSH/oh-my-zsh.sh
+# Notify asynchronously of background job completion, don't
+# synchronize on prompt display.
+setopt notify
+# NO BEEPING!
+unsetopt beep
+# Allow comments
+setopt interactive_comments
+# Report time and CPU usage for long commands.
+export REPORTTIME=5
 
 # Detect if the $TERM environment variable starts with xterm, and change it
 # to xterm-256color.
@@ -46,11 +26,31 @@ case "$TERM" in
     xterm*) TERM=xterm-256color
 esac
 
-export EDITOR="vim"
-export VISUAL="vim"
+### Completion
+zstyle ':completion:*' completer _expand _complete _ignored _approximate
+zstyle ':completion:*' expand prefix suffix
+zstyle ':completion:*' ignore-parents parent
+zstyle ':completion:*' max-errors 2
+zstyle ':completion:*' squeeze-slashes true
+zstyle ':completion:*' verbose true
+zstyle ':completion:*' menu select
+autoload -Uz compinit
+compinit
 
-# Report time and CPU usage for long commands.
-export REPORTTIME=5
+### History management
+HISTFILE=~/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
+# Allow concurrent writing to the history file, write with timestamps,
+# suppress duplicate commands.
+setopt appendhistory extended_history hist_save_no_dups histignorespace
 
-# Allow comments
-setopt INTERACTIVE_COMMENTS
+### Source other zsh config files
+for file in ~/.zsh/*.zsh; do
+    [ -f $file ] && source $file
+done
+
+### Machine specializations
+if [ -f ~/.zshrc.local ]; then
+    source ~/.zshrc.local
+fi

@@ -1,4 +1,21 @@
-# Zsh theme
+### Prompt
+
+# Tun on command substitution in the prompt
+setopt prompt_subst
+
+# Configure vcs_info
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git hg
+zstyle ':vcs_info:(hg*|git*):*' get-revision true
+zstyle ':vcs_info:(hg*|git*):*' check-for-changes true
+zstyle ':vcs_info:*' formats "%F{yellow}(%s) %b%u%c%f"
+zstyle ':vcs_info:*' actionformats "%F{yellow}(%s) %b[%a]%u%c%f"
+zstyle ':vcs_info:*' unstagedstr "!"
+zstyle ':vcs_info:*' stagedstr "+"
+
+precmd() {
+    vcs_info
+}
 
 function make_prompt() {
     local host_color
@@ -12,7 +29,6 @@ function make_prompt() {
     local at='%F{cyan}@%f'
     local host="$host_color%m%f"
     local dir='%4~'
-    local vcs='%F{yellow}$(git_prompt_info)$(hg_prompt_info)%f'
     local jobs='%(1j.[%j].)'
 
     local prompt
@@ -22,27 +38,12 @@ function make_prompt() {
         prompt='»'
     fi
 
-    echo "${user}${at}${host}${jobs} ${dir} ${vcs}${prompt} "
+    echo "${user}${at}${host}${jobs} ${dir} ${vcs_info_msg_0_} ${prompt} "
 }
 
-# vi-mode indicator
-MODE_INDICATOR='%F{red}'
-
-PROMPT="$(make_prompt)"
+PROMPT='$(make_prompt)'
 PROMPT2='%F{red}\ %f'
 
 # Right side
 local return_code='%(?..%F{red}%? ↵%f)'
 RPS1='${return_code}'
-
-# Git information
-ZSH_THEME_GIT_PROMPT_PREFIX="(git) "
-ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_CLEAN=" "
-ZSH_THEME_GIT_PROMPT_DIRTY="! "
-
-# Hg information
-ZSH_THEME_HG_PROMPT_PREFIX="(hg) "
-ZSH_THEME_HG_PROMPT_SUFFIX=""
-ZSH_THEME_HG_PROMPT_CLEAN=" "
-ZSH_THEME_HG_PROMPT_DIRTY="! "

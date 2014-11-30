@@ -1,3 +1,8 @@
+### Alias
+
+alias ls='ls --color'
+alias ll='ls -lh'
+
 # Extract most known archives with one command
 extract () {
     if [ -f $1 ] ; then
@@ -23,6 +28,5 @@ extract () {
 # Serve current directory tree at http://$HOSTNAME:8000/
 alias servethis='python -m SimpleHTTPServer'
 
-alias svndiff='svn diff | colordiff | less -R'
 alias myip='curl ifconfig.me/ip'
 alias git-root='cd $(git root)'
