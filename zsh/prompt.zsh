@@ -8,8 +8,8 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git hg
 zstyle ':vcs_info:(hg*|git*):*' get-revision true
 zstyle ':vcs_info:(hg*|git*):*' check-for-changes true
-zstyle ':vcs_info:*' formats "%F{yellow}(%s) %b%u%c%f"
-zstyle ':vcs_info:*' actionformats "%F{yellow}(%s) %b[%a]%u%c%f"
+zstyle ':vcs_info:*' formats "%F{yellow}(%s) %b%u%c%f "
+zstyle ':vcs_info:*' actionformats "%F{yellow}(%s) %b[%a]%u%c%f "
 zstyle ':vcs_info:*' unstagedstr "!"
 zstyle ':vcs_info:*' stagedstr "+"
 
@@ -38,7 +38,7 @@ function make_prompt() {
         prompt='»'
     fi
 
-    echo "${user}${at}${host}${jobs} ${dir} ${vcs_info_msg_0_} ${prompt} "
+    echo "${user}${at}${host}${jobs} ${dir} ${vcs_info_msg_0_}${prompt} "
 }
 
 PROMPT='$(make_prompt)'
