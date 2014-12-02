@@ -9,6 +9,8 @@ export -U PATH=$PATH
 
 export EDITOR="vim"
 export VISUAL="vim"
+export PAGER='less -X'
+export LESS='-R'
 
 # Notify asynchronously of background job completion, don't
 # synchronize on prompt display.
