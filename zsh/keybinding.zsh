@@ -13,7 +13,10 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
     zle -N zle-line-finish
 fi
 
-bindkey -e                                            # Use emacs key bindings
+# Reduce the key timeout to avoid the lag when pressing Esc
+export KEYTIMEOUT=1
+
+bindkey -v                                            # Use vi key bindings
 
 bindkey '\ew' kill-region                             # [Esc-w] - Kill from the cursor to the mark
 bindkey -s '\el' 'ls\n'                               # [Esc-l] - run command: ls
