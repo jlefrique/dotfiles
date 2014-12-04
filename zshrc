@@ -15,10 +15,9 @@ export LESS='-R'
 # Notify asynchronously of background job completion, don't
 # synchronize on prompt display.
 setopt notify
-# NO BEEPING!
 unsetopt beep
-# Allow comments
 setopt interactive_comments
+setopt share_history
 # Report time and CPU usage for long commands.
 export REPORTTIME=5
 
