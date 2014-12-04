@@ -47,6 +47,26 @@ SAVEHIST=100000
 # suppress duplicate commands.
 setopt appendhistory extended_history hist_save_no_dups histignorespace
 
+### Dir stack
+DIRSTACKSIZE=30
+DIRSTACKFILE="$HOME/.zsh/cache/dirs"
+
+if [ -f $DIRSTACKFILE ] && [ $#dirstack -eq 0 ]; then
+    dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
+    [ -d $dirstack[1] ] && cd $dirstack[1]
+fi
+chpwd() {
+    print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
+}
+
+setopt autopushd pushdsilent pushdtohome
+# Remove duplicate entries
+setopt pushdignoredups
+# Revert the +/- operators
+setopt pushdminus
+# Always start in home
+cd ~
+
 ### Source other zsh config files
 for file in ~/.zsh/*.zsh; do
     [ -f $file ] && source $file
