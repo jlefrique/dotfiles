@@ -17,6 +17,13 @@ precmd() {
     vcs_info
 }
 
+# Vi mode indicator in prompt
+function zle-line-init zle-keymap-select {
+    zle reset-prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
+
 function make_prompt() {
     local host_color
     if [[ -n "$SSH_CLIENT" || -n "$SSH2_CLIENT" ]]; then
@@ -30,13 +37,7 @@ function make_prompt() {
     local host="$host_color%m%f"
     local dir='%4~'
     local jobs='%(1j.[%j].)'
-
-    local prompt
-    if `type vi_mode_prompt_info > /dev/null 2>&1` ; then
-        prompt='$(vi_mode_prompt_info)»%f'
-    else
-        prompt='»'
-    fi
+    local prompt=${${KEYMAP/vicmd/'%F{red}»%f'}/(main|viins)/'»'}
 
     echo "${user}${at}${host}${jobs} ${dir} ${vcs_info_msg_0_}${prompt} "
 }
