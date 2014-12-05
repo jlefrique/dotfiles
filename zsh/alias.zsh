@@ -2,6 +2,7 @@
 
 alias ls='ls --color'
 alias ll='ls -lh'
+alias grep='grep --color'
 
 # Extract most known archives with one command
 extract () {

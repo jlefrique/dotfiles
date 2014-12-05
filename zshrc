@@ -12,14 +12,17 @@ export VISUAL="vim"
 export PAGER='less -X'
 export LESS='-R'
 
+# Report time and CPU usage for long commands.
+export REPORTTIME=5
+
 # Notify asynchronously of background job completion, don't
 # synchronize on prompt display.
 setopt notify
 unsetopt beep
 setopt interactive_comments
 setopt share_history
-# Report time and CPU usage for long commands.
-export REPORTTIME=5
+setopt auto_cd
+setopt correct
 
 # Detect if the $TERM environment variable starts with xterm, and change it
 # to xterm-256color.
@@ -63,8 +66,6 @@ setopt autopushd pushdsilent pushdtohome
 setopt pushdignoredups
 # Revert the +/- operators
 setopt pushdminus
-# Always start in home
-cd ~
 
 ### Source other zsh config files
 for file in ~/.zsh/*.zsh; do
