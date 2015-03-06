@@ -22,6 +22,10 @@ case "$(hostname)" in
         fi
     ;;
 
+    boxelder)
+        xrandr --output Virtual1 --primary --mode 1680x1050 --rotate normal
+    ;;
+
     *) echo "No screen configuration found." ;;
 
 esac
