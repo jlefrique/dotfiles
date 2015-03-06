@@ -37,7 +37,7 @@ function make_prompt() {
     local host="$host_color%m%f"
     local dir='%4~'
     local jobs='%(1j.[%j].)'
-    local prompt=${${KEYMAP/vicmd/'%F{red}»%f'}/(main|viins)/'»'}
+    local prompt=${${KEYMAP/vicmd/'%F{red}'}/(main|viins)/'%F{white}'}'»%f'
 
     echo "${user}${at}${host}${jobs} ${dir} ${vcs_info_msg_0_}${prompt} "
 }
