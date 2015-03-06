@@ -18,6 +18,10 @@ Host *.lefrique.name !larch.lefrique.name
 Host *.marvell.com
     User lefrique
 
+Host bbb
+    User root
+    ProxyCommand ssh -ax jlefrique@10.10.130.195 -W 192.168.7.2:22
+
 Host tizen review.tizen.org
     Hostname review.tizen.org
     User lefrique
