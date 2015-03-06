@@ -136,7 +136,7 @@ if has("autocmd")
   au BufRead .letter,/tmp/mutt*,*.txt,.signature*,signature*
     \ call s:MyMuttSettings()
   au BufRead *.tex call s:MyTexSettings()
-  au BufRead *linux/*.[ch] call s:MyKernelSettings()
+  au BufRead *src/linux/*.[ch] call s:MyKernelSettings()
   au BufNewFile,BufRead *.md set filetype=markdown tw=80
 
   " Enable modeline with vimoutliner files.
@@ -228,6 +228,7 @@ nnoremap <F10> :set paste! <Bar> :set paste?<CR>
 
 " Python-mode plugin
 let g:pymode_folding=0
+let g:pymode_doc=0
 
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
