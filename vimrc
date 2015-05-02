@@ -71,10 +71,10 @@ let mysyntaxfile = "~/.vimsyntax.vim"
 set iskeyword=@,48-57,_,192-255,-
 
 " Default indentation and coding style
-set shiftwidth=2
-set tabstop=2
+set shiftwidth=4
+set tabstop=4
 set expandtab
-set softtabstop=2
+set softtabstop=4
 
 " Highlight column 80
 if exists('+colorcolumn')
@@ -153,9 +153,9 @@ endfunction
 
 " For kernel code
 function! s:MyKernelSettings()
-  setlocal ts=8
-  setlocal softtabstop=8
+  setlocal tabstop=8
   setlocal shiftwidth=8
+  setlocal softtabstop=8
   setlocal noexpandtab
   setlocal grepprg=git\ grep\ -nI\ $*
 endfunction
@@ -172,13 +172,10 @@ endfunction
 
 " For C
 function! s:MyCSettings()
-  "setlocal formatoptions=croql
-  "setlocal cindent
   setlocal comments=sr:/*,mb:*,el:*/,://
-  "setlocal noexpandtab
+  setlocal tabstop=4
+  setlocal shiftwidth=4
   setlocal expandtab
-  setlocal tabstop=2
-  setlocal shiftwidth=2
   setlocal autoindent
   setlocal smartindent
 endfunction
@@ -186,17 +183,14 @@ endfunction
 " For Python
 function! s:MyPythonSettings()
   setlocal tabstop=4
-  setlocal softtabstop=4
   setlocal shiftwidth=4
   setlocal expandtab
   setlocal autoindent
-  "setlocal textwidth=80
 endfunction
 
 " For Java
 function! s:MyJavaSettings()
   setlocal tabstop=4
-  setlocal softtabstop=4
   setlocal shiftwidth=4
   setlocal expandtab
   setlocal autoindent
