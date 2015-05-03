@@ -46,6 +46,7 @@ if [ -d "$DOTFILES" ]; then
     popd > /dev/null
 else
     $GIT clone --recursive "$REPOSITORY" "$DOTFILES"
+    $GIT submodule update --init --recursive
 fi
 
 $DOTFILES/bin/check_bin.sh

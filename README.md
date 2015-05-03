@@ -23,14 +23,17 @@ Automatic
 ---------
 
     cd ~
-    curl -s -k https://raw.github.com/jlefrique/dotfiles/master/install.sh | bash
+    git clone https://github.com/jlefrique/dotfiles.git
+    cd dotfiles
+    ./install.sh
 
 Manual
 ------
 
 Clone the repository:
 
-    git clone https://jlefrique@github.com/jlefrique/dotfiles.git ~/dotfiles
+    cd ~
+    git clone https://github.com/jlefrique/dotfiles.git
 
 Create symlinks:
 
