@@ -163,3 +163,12 @@ Edit /etc/sane.d/xerox_mfp.conf and add the following lines:
 
     #Samsung C460 over network
     tcp 192.168.1.15
+
+
+Multi-arch
+==========
+
+To add foreign architectures:
+
+    sudo dpkg --add-architecture i386
+    sudo dpkg --add-architecture armhf
