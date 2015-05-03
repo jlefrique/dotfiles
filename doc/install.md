@@ -172,3 +172,11 @@ To add foreign architectures:
 
     sudo dpkg --add-architecture i386
     sudo dpkg --add-architecture armhf
+
+
+Root
+====
+
+To activate root account:
+
+    sudo passwd root
