@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [[ "$(whoami)" != "root" ]]; then
+    echo "Run this as root."
+    exit 1
+fi
+
+cat >/etc/modprobe.d/blacklist-nfc.conf <<EOF
+blacklist port100
+EOF
+
+cat >/etc/udev/rules.d/52-nfcdev.rules <<EOF
+# Sony RC-S380
+SUBSYSTEM=="usb", ACTION=="add", ATTRS{idVendor}=="054c", ATTRS{idProduct}=="06c1", GROUP="plugdev"
+EOF
+
+echo "Rules added. Now run:"
+echo "  sudo udevadm control --reload-rules"
+echo "  sudo service udev restart"
