@@ -7,9 +7,10 @@ then
   # If a TypeMatrix keyboard is found, set US layout because hardware
   # Dvorak mode is used.
   echo "TypeMatrix keyboard found."
-  setxkbmap -layout us -option compose:ralt
+  LAYOUT=us
 else
   echo "TypeMatrix keyboard not found."
-  setxkbmap -layout dvorak -option compose:ralt
+  LAYOUT=dvorak
 fi
 
+setxkbmap -layout $LAYOUT -option compose:ralt -option caps:none
