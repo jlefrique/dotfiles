@@ -27,4 +27,4 @@
     default = simple
 
 [init]
-    templatedir = ~/.git_template
+    templatedir = ~/dotfiles/git_template
