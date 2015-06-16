@@ -106,6 +106,8 @@ map <F2> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 " Key mappings
 nmap :W :w
 nmap :Q :q
+" Avoid entering Ex mode
+map Q <Nop>
 nmap <Leader>q :nohlsearch<CR>
 " Move up/down a single row on the screen instead of on a linewise basis.
 nnoremap j gj
