@@ -9,17 +9,17 @@ DMENU='dmenu'
 
 get_files() {
 
-    FILES=$(git ls-files $(git root)) &&
-        SOURCE="git" && return
+    FILES=$({
+        git ls-files $(git root);
+        git --no-pager submodule --quiet foreach \
+            'git ls-files $(git root) | sed s!^!$path/!';
+        }) && SOURCE="git" && return
 
-    FILES=$(hg status -macnS $(hg root)) &&
-        SOURCE="hg" && return
+    FILES=$(hg status -macnS $(hg root)) && SOURCE="hg" && return
 
-    FILES=$(timeout 5 svn list -R | grep -v ".*\/$") &&
-        SOURCE="svn" && return
+    FILES=$(timeout 5 svn list -R | grep -v ".*\/$") && SOURCE="svn" && return
 
-    FILES=$(find -type f -printf "%P\n") &&
-        SOURCE="find" && return
+    FILES=$(find -type f -printf "%P\n") && SOURCE="find" && return
 }
 
 get_files 2>/dev/null
