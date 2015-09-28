@@ -15,7 +15,7 @@ cacerts = /etc/ssl/certs/ca-certificates.crt
 
 [alias]
 st = !hg status $($HG root) $HG_ARGS
-lg = glog --pager yes
+lg = glog --pager yes --style=/home/jlefrique/dotfiles/hg/map-cmdline.lg
 shortlog = !hg log --template "{author|person}\n" | sort | uniq -c | sort -nr
 ctags = !ctags-hg >/dev/null 2>&1 &
 
