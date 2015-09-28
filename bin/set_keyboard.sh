@@ -14,3 +14,6 @@ else
 fi
 
 setxkbmap -layout $LAYOUT -option compose:ralt -option caps:none
+
+# Keyboard repetition rate
+xset r rate 300 30

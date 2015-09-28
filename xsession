@@ -16,9 +16,6 @@ export LC_TIME="en_GB.UTF-8"
 # Remove beeps
 xset b off
 
-# Keyboard repetition rate
-xset r rate 300 30
-
 # Set up an icon tray
 [ -f ~/bin/tray.sh ] && ~/bin/tray.sh
 
