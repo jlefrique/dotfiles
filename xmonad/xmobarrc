@@ -9,10 +9,11 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
                     , Run Swap [] 10
                     , Run Com "uname" ["-s","-r"] "" 36000
+                    , Run Com "/bin/bash" ["-c","~/dotfiles/bin/quotes.sh -s \" * \""] "quotes" 600
                     , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %memory% * %swap% | %eth0% | <fc=#ee9a00>%date%</fc> | %LSGG% | %uname%"
+       , template = "%StdinReader% }{ %cpu% | %memory% * %swap% | %eth0% | <fc=#ee9a00>%date%</fc> | %LSGG% | %uname% | %quotes%"
        }
