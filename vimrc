@@ -100,7 +100,7 @@ set wildignore=*.o,*.a,*.so,*.ko,*~,*.swp,*.pyc,*.dll,tags,*.o.*
 set wildignore+=.git/,.hg/,.svn/
 
 " Search settings
-set grepprg=grep\ -rnHI\ --exclude='.*.swp'\ --exclude='*~'\ --exclude=tags\ $*
+set grepprg=grep\ -rnHI\ --exclude='.*.swp'\ --exclude='*~'\ --exclude=tags\ --exclude='*.map'\ $*
 map <F2> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 
 " Key mappings
@@ -118,6 +118,13 @@ nnoremap Y y$
 nmap <tab> :bn<CR>
 nmap <s-tab> :bp<CR>
 nnoremap <Leader>l :ls<CR>:b<Space>
+" Ignore quickfix when cycling through windows
+nnoremap <silent> <C-w><C-w> <C-w><C-w>:if &buftype ==# 'quickfix'<Bar>wincmd w<Bar>endif<CR>
+" Open quickfix
+nnoremap <Leader>o :copen<CR>
+" Copy/paste to X clipboard
+map <leader>y :w !xsel -i -b<CR>
+map <leader>p :r!xsel -p -b<CR>
 
 " Filetype specific configuration
 if has("autocmd")
@@ -230,6 +237,3 @@ let g:pymode_doc=0
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
 nmap <Leader>a <Plug>(EasyAlign)
-
-" Ignore quickfix when cycling through windows
-:nnoremap <silent> <C-w><C-w> <C-w><C-w>:if &buftype ==# 'quickfix'<Bar>wincmd w<Bar>endif<CR>
