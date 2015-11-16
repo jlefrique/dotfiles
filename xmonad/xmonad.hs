@@ -73,11 +73,11 @@ myKeys =
     -- Print screen
     , ((0, xK_Print), spawn "scrot")
     -- XF86AudioMute
-    , ((0, 0x1008ff12), spawn "amixer -c 0 set Master toggle")
+    , ((0, 0x1008ff12), spawn "amixer sset Master toggle")
     -- XF86AudioLowerVolume
-    , ((0, 0x1008ff11), spawn "amixer -c 0 set Master 2dB-")
+    , ((0, 0x1008ff11), spawn "amixer sset Master 5%-")
     -- XF86AudioRaiseVolume
-    , ((0, 0x1008ff13), spawn "amixer -c 0 set Master 2dB+")
+    , ((0, 0x1008ff13), spawn "amixer sset Master 5%+")
     --
     -- TypeMatrix special keys
     --
