@@ -2,6 +2,15 @@
 
 BIN="/usr/bin/dmenu -i"
 COLOR="-nb #333333 -nf #999999 -sb #1279bf -sf #ffffff"
-FONT="-fn -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*"
+
+VERSION=$(/usr/bin/dmenu -v | sed -e 's/dmenu-\([0-9]\.[0-9]\).*/\1/')
+
+# Starting from version 4.6, dmenu uses Xft fonts
+if [ $(echo "${VERSION} >= 4.6" | bc) -eq 0 ]; then
+    FONT="-fn -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*"
+else
+    FONT="-fn Terminus:12"
+fi
+
 
 DMENU="$BIN $COLOR $FONT"
