@@ -126,6 +126,9 @@ nnoremap <Leader>o :copen<CR>
 map <leader>y :w !xsel -i -b<CR>
 map <leader>p :r!xsel -p -b<CR>
 
+" Kind of fuzzy jump that works for ROM code patching with function pointers
+map g<c-]> :exec("tjump /".expand("<cword>")."\\C")<CR>
+
 " Filetype specific configuration
 if has("autocmd")
   augroup vimrc
