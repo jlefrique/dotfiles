@@ -235,6 +235,9 @@ nnoremap <F10> :set paste! <Bar> :set paste?<CR>
 " Python-mode plugin
 let g:pymode_folding=0
 let g:pymode_doc=0
+let g:pymode_rope=0
+let g:pymode_rope_completion=0
+let g:pymode_rope_complete_on_dot=0
 
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
