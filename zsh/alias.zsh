@@ -31,3 +31,5 @@ alias servethis='python -m SimpleHTTPServer'
 
 alias myip='curl ifconfig.me/ip'
 alias git-root='cd $(git root)'
+
+alias ag='ag --nobreak --noheading'

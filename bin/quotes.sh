@@ -4,7 +4,7 @@ usage() {
 cat << EOF
 usage: $0 options
 
-Look continuously for a pattern in a file and notify when found.
+Display quotes
 
 OPTIONS:
     -s      Specify a separator (default is a new line)

@@ -68,8 +68,6 @@ set nostartofline
 set ls=2
 let mysyntaxfile = "~/.vimsyntax.vim"
 
-set iskeyword=@,48-57,_,192-255,-
-
 " Default indentation and coding style
 set shiftwidth=4
 set tabstop=4
