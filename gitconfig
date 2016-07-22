@@ -32,7 +32,7 @@
     templatedir = ~/dotfiles/git_template
 
 [merge]
-	tool = meld
+    tool = meld
 
 [diff]
-	tool = meld
+    tool = meld
