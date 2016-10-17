@@ -180,3 +180,15 @@ Root
 To activate root account:
 
     sudo passwd root
+
+
+Git submodules
+==============
+
+Add a new submobule:
+
+    git submodule add git://github.com/tpope/vim-fugitive.git vim/bundle/vim-fugitive
+
+Pull all submodules to the lastest revision of master:
+
+    git submodule foreach git pull origin master
