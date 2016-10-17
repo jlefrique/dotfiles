@@ -12,11 +12,12 @@ EOF
 }
 
 
+FULL=0
 BASE_URL="http://tgftp.nws.noaa.gov/data/observations/metar/decoded/"
 STATION="LSGG"  # Default station: Geneve-Cointrin, Switzerland
 
 
-while getopts “hs:” OPTION
+while getopts “hs:f” OPTION
 do
     case $OPTION in
         h)
@@ -25,6 +26,9 @@ do
             ;;
         s)
             STATION="$OPTARG"
+            ;;
+        f)
+            FULL=1
             ;;
         ?)
             usage
@@ -36,9 +40,17 @@ done
 
 WEATHER=$(curl -s "${BASE_URL}${STATION}.TXT")
 
-STATION_NAME=$(echo "${WEATHER}" | head -n 1 | cut -d',' -f1)
-TEMPERATURE=$(echo "${WEATHER}" | grep "Temperature" | sed 's/.*(\(.*\) C)/\1/')
+if [ $FULL -eq 1 ]; then
+    echo "${WEATHER}"
+else
 
-printf "${STATION_NAME}: ${TEMPERATURE}C"
+    # Display the temperature only
+
+    STATION_NAME=$(echo "${WEATHER}" | head -n 1 | cut -d',' -f1)
+    TEMPERATURE=$(echo "${WEATHER}" | grep "Temperature" | sed 's/.*(\(.*\) C)/\1/')
+
+    printf "${STATION_NAME}: ${TEMPERATURE}C"
+fi
+
 
 exit 0

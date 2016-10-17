@@ -63,6 +63,11 @@ started in urxvt, and verify.
     tmux
     font_test.sh
 
+Then do the same as root:
+
+    sudo -s
+    tmux_terminfo.sh
+
 Note that there is no italic version of the Terminus font, therefore the font
 is replaced for italic characters.
 

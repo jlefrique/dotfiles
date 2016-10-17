@@ -41,6 +41,9 @@ zstyle ':completion:*' menu select
 autoload -Uz compinit
 compinit
 
+# Stop zsh from eating space before '|' and '&' after autocompletion
+ZLE_REMOVE_SUFFIX_CHARS=""
+
 ### History management
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
