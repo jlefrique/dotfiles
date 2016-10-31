@@ -153,7 +153,7 @@ Remove the stable repository from /etc/apt/sources.list and update again.
 To show or remove held packages:
 
     apt-mark showhold
-    sudo apt-make unhold make
+    sudo apt-mark unhold make
 
 
 Network scanner
