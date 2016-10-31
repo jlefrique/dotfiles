@@ -51,7 +51,8 @@ set statusline+=%f\                          " file name
 set statusline+=%h%m%r%w                     " flags
 set statusline+=\[%{strlen(&ft)?&ft:'none'}, " filetype
 set statusline+=%{&encoding},                " encoding
-set statusline+=%{&fileformat}]              " file format
+set statusline+=%{&fileformat}]\             " file format
+set statusline+=%{fugitive#statusline()}
 set statusline+=%=                           " right align
 set statusline+=0x%-8B\                      " current char
 set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
