@@ -1,0 +1,65 @@
+#!/bin/bash
+
+#
+# Select a toolchain and put it in the $PATH
+#
+
+
+TOOLCHAINS_PATH=/opt/toolchains
+
+
+die() {
+    echo $1
+    exit 1
+}
+
+
+contains () {
+    local e
+    for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
+    return 1
+}
+
+
+if [ ! -d ${TOOLCHAINS_PATH} ]
+then
+    die "No toolchain installed in ${TOOLCHAINS_PATH}"
+fi
+
+
+TOOLCHAINS=($(ls $TOOLCHAINS_PATH))
+
+
+if [ -z "$1" ]
+then
+    printf "Choose a toolchain:\n\n"
+    select opt in "${TOOLCHAINS[@]}"
+    do
+        case $opt in
+            *)
+                contains $opt "${TOOLCHAINS[@]}" || die "Invalid option"
+                selected=$opt
+                break
+                ;;
+        esac
+    done
+    printf "\n"
+else
+    contains $1 "${TOOLCHAINS[@]}" || die "Invalid option"
+    selected=$1
+fi
+
+
+printf "Setting up $selected"
+if [ -L ${TOOLCHAINS_PATH}/${selected} ]
+then
+    # This is a symlink, show the pointed directory
+    printf " %s %s\n" "->" $(basename $(readlink ${TOOLCHAINS_PATH}/${selected}))
+else
+    printf "\n"
+fi
+
+
+export SHELL=/bin/bash
+export PATH=${TOOLCHAINS_PATH}/${selected}/bin:${PATH}
+/bin/bash
