@@ -66,3 +66,7 @@
 	path = vim/bundle/vim-gnupg
 	url = git://github.com/jamessan/vim-gnupg.git
 	ignore = dirty
+[submodule "vim/bundle/vim-bitbake"]
+	path = vim/bundle/vim-bitbake
+	url = git://github.com/kergoth/vim-bitbake.git
+	ignore = dirty
