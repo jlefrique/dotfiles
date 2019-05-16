@@ -19,6 +19,7 @@
     ctags = !.git/hooks/ctags
     unpublish = push origin --delete
     dt = difftool --dir-diff
+    tagcommit = rev-list -n 1
 
 [color]
     # Turn on color
@@ -38,3 +39,7 @@
 
 [diff]
     tool = meld
+
+[diff "hex"]
+    textconv = hexdump -v -C
+    binary = true

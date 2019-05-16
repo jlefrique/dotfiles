@@ -192,3 +192,17 @@ Add a new submobule:
 Pull all submodules to the lastest revision of master:
 
     git submodule foreach git pull origin master
+
+
+Pinentry
+========
+
+Add this to ~/.gnupg/gpg.conf:
+
+    use-agent
+    pinentry-mode loopback
+
+And add this to ~/.gnupg/gpg-agent.conf, creating the file if it doesn't already
+exist:
+
+    allow-loopback-pinentry

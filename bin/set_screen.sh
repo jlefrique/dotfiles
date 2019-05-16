@@ -46,7 +46,11 @@ case "$(hostname)" in
     ;;
 
     boxelder)
-        xrandr --output Virtual1 --primary --mode 1680x1050 --rotate normal
+
+        RESOLUTION=1920x1080
+
+        xrandr --output HDMI-0 --mode $RESOLUTION --rotate normal --primary
+        xrandr --output VGA-0 --mode $RESOLUTION --rotate normal --right-of HDMI-0
     ;;
 
     *) echo "No screen configuration found." ;;

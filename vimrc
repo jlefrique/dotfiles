@@ -99,7 +99,7 @@ set wildignore=*.o,*.a,*.so,*.ko,*~,*.swp,*.pyc,*.dll,tags,*.o.*
 set wildignore+=.git/,.hg/,.svn/
 
 " Search settings
-set grepprg=grep\ -rnHI\ --exclude='.*.swp'\ --exclude='*~'\ --exclude=tags\ --exclude='*.map'\ $*
+set grepprg=grep\ -rnHI\ --exclude='.*.swp'\ --exclude='*~'\ --exclude=tags\ --exclude='*.map'\ --exclude-dir='doc'\ $*
 map <F2> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 
 " Key mappings
@@ -147,7 +147,8 @@ if has("autocmd")
   au BufRead .letter,/tmp/mutt*,*.txt,.signature*,signature*
     \ call s:MyMuttSettings()
   au BufRead *.tex call s:MyTexSettings()
-  au BufRead *src/linux/*.[ch] call s:MyKernelSettings()
+  au BufRead *src/*linux*/*.[ch] call s:MyKernelSettings()
+  au BufRead *src/*u-boot*/*.[ch] call s:MyKernelSettings()
   au BufNewFile,BufRead *.md set filetype=markdown tw=80
 
   " Enable modeline with vimoutliner files.
@@ -242,3 +243,6 @@ let g:pymode_rope_complete_on_dot=0
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
 nmap <Leader>a <Plug>(EasyAlign)
+
+set undofile
+set undodir=~/.vim/undodir
