@@ -192,3 +192,13 @@ Add a new submobule:
 Pull all submodules to the lastest revision of master:
 
     git submodule foreach git pull origin master
+
+
+xmobar
+======
+
+xmobar is not available in the Debian Bookworm repositories, it can be installed
+with `cabal`.
+
+
+    cabal install xmobar

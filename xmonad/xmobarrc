@@ -8,12 +8,18 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
                     , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
                     , Run Swap [] 10
+                    , Run Battery [ "-t", "Batt: <left>% (<timeleft>)"
+                                  , "-L", "10", "-H", "80", "-p", "3"
+                                  , "--", "-O", "<fc=green>On</fc> - ", "-i", ""
+                                  , "-L", "-15", "-H", "-5"
+                                  , "-l", "red", "-m", "blue", "-h", "green"
+                                  ] 600
                     , Run Com "uname" ["-s","-r"] "" 36000
-                    , Run Com "/bin/bash" ["-c","~/dotfiles/bin/quotes.sh -s \" * \""] "quotes" 600
+                    --, Run Com "/bin/bash" ["-c","~/dotfiles/bin/quotes.sh -s \" * \""] "quotes" 600
                     , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %memory% * %swap% | %eth0% | <fc=#ee9a00>%date%</fc> | %LSGG% | %uname% | %quotes%"
+       , template = "%StdinReader% }{ %cpu% | %memory% * %swap% | %battery% | %eth0% | <fc=#ee9a00>%date%</fc> | %LSGG% | %uname%"
        }

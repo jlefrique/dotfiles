@@ -5,7 +5,7 @@ xrdb -merge ~/.Xresources
 
 # Set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+    PATH="$HOME/bin:$HOME/.cabal/bin:$PATH"
 fi
 
 # Change measuring units, paper size and first day of week

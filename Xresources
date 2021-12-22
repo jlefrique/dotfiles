@@ -37,6 +37,8 @@ URxvt*colorUL: COLOR_TERM_LIGHT_BLUE
 URxvt*urgentOnBell: true
 URxvt*visualBell: false
 
+URxvt.letterSpace: -1
+
 ! xterm terminal ------------------------------------------------------------
 XTerm*faceName: Terminus
 XTerm*faceSize: 10

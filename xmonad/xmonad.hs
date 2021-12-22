@@ -17,7 +17,7 @@ import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Tabbed
-import XMonad.Actions.WindowBringer
+import XMonad.Actions.WindowBringer hiding (menuArgs)
 import XMonad.Actions.GridSelect
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
@@ -30,7 +30,7 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 
 -- Default terminal emulator
-myTerminal = "urxvt"
+myTerminal = "xterm"
 
 -- Use Super instead of Alt for the modifier key
 myModKey = mod4Mask
@@ -166,8 +166,6 @@ tabConfig = defaultTheme
 myManageHook = composeAll
     [ className =? "Gimp"          --> doFloat
     , className =? "Vncviewer"     --> doFloat
-    , className =? "Firefox"       --> doShift "2:web"
-    , className =? "Iceweasel"     --> doShift "2:web"
     , className =? "Thunderbird"   --> doShift "3:mail"
     , className =? "Icedove"       --> doShift "3:mail"
     , className =? "Pidgin"        --> doShift "3:mail"
@@ -219,15 +217,16 @@ main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
     xmonad $ withUrgencyHook NoUrgencyHook
            $ defaultConfig
-        { manageHook   = manageDocks <+> myManageHook <+> manageHook defaultConfig
-        , logHook      = dynamicLogWithPP $ xmobarPP
+        { modMask         = myModKey
+        , manageHook      = manageDocks <+> myManageHook <+> manageHook defaultConfig
+        , layoutHook      = smartBorders $ myLayout
+        , handleEventHook = handleEventHook defaultConfig <+> docksEventHook
+        , logHook         = dynamicLogWithPP $ xmobarPP
             { ppOutput = hPutStrLn xmproc
             , ppTitle  = xmobarColor "green" "" . shorten 50
             , ppSort   = fmap (.scratchpadFilterOutWorkspace) getSortByIndex
             , ppUrgent = xmobarColor "red" "" . xmobarStrip
             }
-        , modMask      = myModKey
-        , terminal     = myTerminal
-        , workspaces   = myWorkspaces
-        , layoutHook   = smartBorders $ myLayout
+        , terminal        = myTerminal
+        , workspaces      = myWorkspaces
         } `additionalKeys` myKeys
