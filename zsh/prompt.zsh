@@ -7,7 +7,6 @@ setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git hg
 zstyle ':vcs_info:(hg*|git*):*' get-revision true
-zstyle ':vcs_info:(hg*|git*):*' check-for-changes true
 zstyle ':vcs_info:*' formats "%F{yellow}(%s) %b%u%c%f "
 zstyle ':vcs_info:*' actionformats "%F{yellow}(%s) %b[%a]%u%c%f "
 zstyle ':vcs_info:*' unstagedstr "!"
@@ -23,6 +22,23 @@ function zle-line-init zle-keymap-select {
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
+
+zstyle -e ':vcs_info:(hg*|git*):*' \
+	check-for-changes 'estyle-cfc && reply=( true ) || reply=( false )'
+
+function estyle-cfc() {
+    local d
+    local -a cfc_dirs
+    cfc_dirs=(
+        ${HOME}/src/linux
+    )
+
+    for d in ${cfc_dirs}; do
+        d=${d%/##}
+        [[ $PWD == $d(|/*) ]] && return 1
+    done
+    return 0
+}
 
 function make_prompt() {
     local host_color

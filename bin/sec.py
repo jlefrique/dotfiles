@@ -14,8 +14,12 @@ def main():
         print("Usage: {} second".format(sys.argv[0]))
         exit(1)
 
-    sec = int(sys.argv[1])
-    print(second_to_time(sec))
+    try:
+        sec = int(sys.argv[1])
+        print(second_to_time(sec))
+    except ValueError:
+        dt = datetime.strptime(sys.argv[1])
+
     exit(0)
 
 if __name__ == '__main__':

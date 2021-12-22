@@ -17,7 +17,7 @@ EOF
 SEPARATOR="\n"
 
 get_quote() {
-    echo $(timeout 5s curl -s "http://download.finance.yahoo.com/d/quotes.csv?s=$1&f=l1" || echo 'N/A')
+    echo $(timeout 5s curl -s "https://api.iextrading.com/1.0/stock/$1/price" || echo 'N/A')
 }
 
 get_currency() {

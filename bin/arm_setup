@@ -4,8 +4,8 @@
 # Select a toolchain and put it in the $PATH
 #
 
-
 TOOLCHAINS_PATH=/opt/toolchains
+TOOLCHAINS=( $(ls $TOOLCHAINS_PATH) )
 
 
 die() {
@@ -62,4 +62,6 @@ fi
 
 export SHELL=/bin/bash
 export PATH=${TOOLCHAINS_PATH}/${selected}/bin:${PATH}
+export LINARO_SDK_ROOT=${TOOLCHAINS_PATH}/${selected}
+export TOOLCHAIN_PATH_ARMV7=${TOOLCHAINS_PATH}/${selected}
 /bin/bash

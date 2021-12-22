@@ -25,6 +25,7 @@ import XMonad.Util.Dmenu
 import XMonad.Util.Scratchpad
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.WorkspaceCompare
+import XMonad.Actions.PerWorkspaceKeys
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
@@ -68,6 +69,7 @@ myKeys =
     , ((myModKey, xK_f), spawn "dmenu_find")
     -- Show/hide scratchpad terminal
     , ((myModKey, xK_s), namedScratchpadAction myScratchpads "terminal")
+    , ((myModKey, xK_b), namedScratchpadAction myScratchpads "wiki")
     -- Close focused window with one hand in Dvorak
     , ((myModKey .|. shiftMask, xK_o), kill)
     -- Print screen
@@ -90,6 +92,8 @@ myKeys =
     --
     -- Override default behavior
     --
+    -- Launch xterm on workspace 5, myTerminal on other workspaces
+    , ((myModKey .|. shiftMask, xK_Return), bindOn [("5:log", spawn "xterm"), ("", spawn myTerminal)])
     -- Quit xmonad
     , ((myModKey .|. shiftMask, xK_q), confirm "Exit?" $ io (exitWith ExitSuccess))
     -- Restart xmonad
@@ -171,6 +175,7 @@ myManageHook = composeAll
     , className =? "Pidgin"        --> doShift "3:mail"
     , className =? "VirtualBox"    --> doShift "9:vm"
     , className =? "Xfce4-notifyd" --> doIgnore -- Prevent to steal the focus.
+    , title     =? "Logic"         --> doIgnore
     ] <+> namedScratchpadManageHook myScratchpads
 
 ------------------------------------------------------------------------
@@ -183,6 +188,7 @@ myManageHook = composeAll
 myScratchpads =
     [ NS "terminal" spawnTerminal findTerminal manageTerminal
     , NS "ipython"  spawnIpython  findIpython  manageIpython
+    , NS "wiki"     spawnWiki     findWiki     manageWiki
     ]
     where
         -- Terminal
@@ -204,7 +210,7 @@ myScratchpads =
             , "-c \"" ++ cmd ++ "\""
             ]
             where
-                cmd = "ipython -i -c='from __future__ import division'"
+                cmd = "ipython3 -i"
         findIpython    = resource =? nameIpython
         manageIpython  = customFloating $ W.RationalRect l t w h
             where
@@ -212,6 +218,21 @@ myScratchpads =
                 w = 0.4     -- Width
                 t = 0.1     -- Distance from top edge
                 l = 1 - w   -- Distance from left edge
+        -- Wiki
+        nameWiki   = "scratchpad-wiki"
+        spawnWiki  = unwords
+            [ myTerminal
+            , "-name " ++ nameWiki
+            , "-e sh"
+            , "-c \"cd ~/annex/wiki && vim .\""
+            ]
+        findWiki   = resource =? nameWiki
+        manageWiki = customFloating $ W.RationalRect l t w h
+            where
+                h = 0.8
+                w = 0.4
+                t = 0.03
+                l = 1 - w
 
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
