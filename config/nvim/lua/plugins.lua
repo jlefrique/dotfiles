@@ -18,6 +18,7 @@ vim.pack.add({
     -- Highlighting and completion
     { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
     { src = "https://github.com/hrsh7th/nvim-cmp" },
+    { src = "https://github.com/hrsh7th/cmp-buffer" },
 
     -- Outliner
     { src = "https://github.com/vimoutliner/vimoutliner.git" },
@@ -95,20 +96,12 @@ local cmp = require('cmp')
 require('cmp').setup {
     sources = {
       { name = 'copilot' },
-      { name = 'nvim_lsp' }
+      { name = 'nvim_lsp' },
+      { name = 'buffer' },
     },
     completion = {
         -- Disable automatic autocomplete
         autocomplete = false
-    },
-    mapping = cmp.mapping.preset.insert {
-        -- Accept ([y]es) the completion.
-        --  This will auto-import if your LSP supports it.
-        --  This will expand snippets if the LSP sent a snippet.
-        ['<CR>'] = cmp.mapping.confirm { select = true },
-
-        -- Manually trigger a completion from nvim-cmp.
-        ['<TAB>'] = cmp.mapping.complete {},
     }
 }
 

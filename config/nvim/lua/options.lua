@@ -48,3 +48,6 @@ vim.o.sidescrolloff = 2
 
 -- Copy in both unnamed (*) and selection (+) clipboards
 vim.opt.clipboard = 'unnamed,unnamedplus'
+
+-- Highlight 80th column
+vim.opt.colorcolumn = '80'
