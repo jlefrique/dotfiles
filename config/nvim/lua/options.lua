@@ -25,7 +25,22 @@ vim.o.showmode = true
 vim.o.showcmd = true
 vim.o.signcolumn = 'yes'
 vim.o.startofline = false
+
+-- Nice statusbar
 vim.o.laststatus = 2
+vim.o.statusline = table.concat({
+    "%#@variable#",                           -- highlight group
+    "%-3.3n",                                 -- buffer number
+    "%f",                                     -- file name
+    "%h%m%r%w",                               -- flags
+    "[%{strlen(&ft)?&ft:'none'},",            -- filetype
+    "%{&encoding},",                          -- encoding
+    "%{&fileformat}]",                        -- file format
+    --"%{FugitiveStatusline()}",              -- fugitive status
+    "%=",                                     -- right align
+    "0x%-8B",                                 -- current char
+    "%-14.(%l,%c%V%) %<%P"                    -- offset
+}, " ")
 
 -- Default indentation and coding style
 vim.o.shiftwidth = 4

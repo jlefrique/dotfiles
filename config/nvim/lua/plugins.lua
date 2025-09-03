@@ -17,6 +17,7 @@ vim.pack.add({
 
     -- Highlighting and completion
     { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+    { src = "https://github.com/ntpeters/vim-better-whitespace.git" },
     { src = "https://github.com/hrsh7th/nvim-cmp" },
     { src = "https://github.com/hrsh7th/cmp-buffer" },
 
@@ -38,7 +39,18 @@ vim.pack.add({
 
 -- colorscheme
 vim.cmd.colorscheme 'xoria256'
-vim.g.lightline = { colorscheme = 'xoria256' }
+vim.g.lightline = {
+    colorscheme = 'xoria256',
+    active = {
+        left = {
+            { 'mode', 'paste' },
+            { 'gitbranch', 'readonly', 'filename', 'modified' }
+        }
+    },
+    component_function = {
+        gitbranch = 'FugitiveStatusline'
+    }
+}
 
 -- oil
 require('oil').setup({
