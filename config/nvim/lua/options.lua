@@ -66,3 +66,8 @@ vim.opt.clipboard = 'unnamed,unnamedplus'
 
 -- Highlight 80th column
 vim.opt.colorcolumn = '80'
+
+-- Tab complete menu
+vim.opt.wildmode = 'longest:full'
+vim.opt.wildmenu = true
+vim.opt.wildignore ='*.o,*.a,*.so,*.ko,*~,*.swp,*.pyc,*.dll,tags,*.o.*,.git/,.hg/,.svn/'

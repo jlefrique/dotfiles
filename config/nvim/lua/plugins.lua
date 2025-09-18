@@ -52,6 +52,12 @@ vim.g.lightline = {
     }
 }
 
+-- Enable cfilter plugin to filter the quickfix.
+-- Cfilter! /{pat}/
+-- :cdo s/search1/replace1/g
+-- :wall
+vim.cmd.packadd('cfilter')
+
 -- oil
 require('oil').setup({
     win_options = {
@@ -79,13 +85,13 @@ require('telescope').setup({
 require('nvim-treesitter.configs').setup {
     ensure_installed = {
         'c', 'cpp', 'python', 'lua', 'bash', 'make', 'cmake', 'devicetree',
-        'bitbake', 'markdown'
+        'bitbake', 'markdown', 'gitcommit', 'json'
     },
     sync_install = false,
     auto_install = true,
     ignore_install = {},
     highlight = {
-        enable = true,
+        enable = false,
         additional_vim_regex_highlighting = false,
     },
 }
@@ -114,7 +120,14 @@ require('cmp').setup {
     completion = {
         -- Disable automatic autocomplete
         autocomplete = false
-    }
+    },
+    mapping = cmp.mapping.preset.insert({
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.abort(),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item.
+    })
 }
 
 -- Copilot completion
