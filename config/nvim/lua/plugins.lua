@@ -104,10 +104,10 @@ require('mason-lspconfig').setup {
 }
 
 local cmp_lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
-require('lspconfig').clangd.setup {
+vim.lsp.config('clangd', {
     -- nvim-cmp almost supports LSP's capabilities so advertise it to LSP servers.
     capabilities = cmp_lsp_capabilities
-}
+})
 
 -- Completion
 local cmp = require('cmp')
