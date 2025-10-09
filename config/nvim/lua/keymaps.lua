@@ -30,3 +30,10 @@ vim.keymap.set('n', '<leader>fr', builtin.resume, {})
 -- clipboard=autoselect is not implemented yet
 vim.keymap.set('v', '<LeftRelease>', '"*ygv', { noremap = true, silent = true })
 vim.keymap.set('v', '<2-LeftRelease>', '"*ygv', { noremap = true, silent = true })
+
+-- Render LaTex formula in a popup
+-- nabla-nvim requires the LaTeX tree-sitter parser. which requires
+-- tree-sitter-cli to build it. It can be installed with:
+--     npm install -g tree-sitter-cli
+local nabla = require('nabla')
+vim.keymap.set('n', '<leader>p', nabla.popup, {})

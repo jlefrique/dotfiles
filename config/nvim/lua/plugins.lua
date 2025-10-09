@@ -35,6 +35,9 @@ vim.pack.add({
     { src = "https://github.com/zbirenbaum/copilot.lua.git" },
     { src = "https://github.com/CopilotC-Nvim/CopilotChat.nvim" },
     { src = "https://github.com/zbirenbaum/copilot-cmp.git" },
+
+    -- Latex
+    { src = "https://github.com/jbyuki/nabla.nvim.git" },
 })
 
 -- colorscheme
@@ -99,7 +102,7 @@ require('nvim-treesitter.configs').setup {
 -- LSP
 require('mason').setup()
 require('mason-lspconfig').setup {
-    ensure_installed = { 'clangd', 'pyright', 'lua_ls' },
+    ensure_installed = { 'clangd', 'pyright', 'lua_ls', 'bashls', 'cmake' },
     automatic_enable = true,
 }
 
@@ -114,8 +117,17 @@ local cmp = require('cmp')
 require('cmp').setup {
     sources = {
       { name = 'copilot' },
-      { name = 'nvim_lsp' },
-      { name = 'buffer' },
+      { name = 'nvim_lsp', keyword_length = 1 },
+      {
+          name = 'buffer',
+          keyword_length = 3,
+          option = {
+              -- Complete from all the buffers
+              get_bufnrs = function()
+                  return vim.api.nvim_list_bufs()
+              end
+          }
+      }
     },
     completion = {
         -- Disable automatic autocomplete

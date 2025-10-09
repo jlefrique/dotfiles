@@ -62,12 +62,34 @@ vim.o.scrolloff = 3
 vim.o.sidescrolloff = 2
 
 -- Copy in both unnamed (*) and selection (+) clipboards
-vim.opt.clipboard = 'unnamed,unnamedplus'
+vim.o.clipboard = 'unnamed,unnamedplus'
 
 -- Highlight 80th column
-vim.opt.colorcolumn = '80'
+vim.o.colorcolumn = '80'
 
 -- Tab complete menu
-vim.opt.wildmode = 'longest:full'
-vim.opt.wildmenu = true
-vim.opt.wildignore ='*.o,*.a,*.so,*.ko,*~,*.swp,*.pyc,*.dll,tags,*.o.*,.git/,.hg/,.svn/'
+vim.o.wildmode = 'longest:full'
+vim.o.wildmenu = true
+vim.o.wildignore ='*.o,*.a,*.so,*.ko,*~,*.swp,*.pyc,*.dll,tags,*.o.*,.git/,.hg/,.svn/'
+
+-- Set ft=log
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+    pattern = {"*.log", "messages", "messages.*"},
+    callback = function()
+        vim.bo.filetype = "log"
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "json",
+    callback = function()
+        vim.bo.formatprg = "jq"
+    end,
+})
+
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+    pattern = {"*.conf"},
+    callback = function()
+        vim.bo.filetype = "config"
+    end,
+})
