@@ -3,7 +3,6 @@ vim.pack.add({
     -- Colorcheme and UI
     { src = "https://github.com/neozenith/estilo-xoria256" },
     { src = "https://github.com/itchyny/lightline.vim.git" },
-    { src = "https://github.com/Bekaboo/deadcolumn.nvim" },
 
     -- tpope's goodness
     { src = "https://github.com/tpope/vim-fugitive.git" },
@@ -15,11 +14,17 @@ vim.pack.add({
     { src = "https://github.com/stevearc/oil.nvim" },
     { src = "https://github.com/nvim-telescope/telescope.nvim" },
 
-    -- Highlighting and completion
+    -- Highlighting
     { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+    { src = "https://github.com/Bekaboo/deadcolumn.nvim" },
     { src = "https://github.com/ntpeters/vim-better-whitespace.git" },
+
+    -- Completion
     { src = "https://github.com/hrsh7th/nvim-cmp" },
     { src = "https://github.com/hrsh7th/cmp-buffer" },
+    { src = "https://github.com/hrsh7th/cmp-path" },
+    { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
+    { src = "https://github.com/zbirenbaum/copilot-cmp.git" },
 
     -- Outliner
     { src = "https://github.com/vimoutliner/vimoutliner.git" },
@@ -29,12 +34,11 @@ vim.pack.add({
     { src = "https://github.com/mason-org/mason.nvim.git" },
     { src = "https://github.com/mason-org/mason-lspconfig.nvim.git" },
     { src = "https://github.com/nvim-lua/plenary.nvim" },
-    { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
 
-    -- Copilot-related
+    -- AI assistant
     { src = "https://github.com/zbirenbaum/copilot.lua.git" },
     { src = "https://github.com/CopilotC-Nvim/CopilotChat.nvim" },
-    { src = "https://github.com/zbirenbaum/copilot-cmp.git" },
+    { src = "https://github.com/ravitemer/mcphub.nvim.git" },
 
     -- Latex
     { src = "https://github.com/jbyuki/nabla.nvim.git" },
@@ -81,7 +85,7 @@ require('telescope').setup({
         live_grep = {
             theme = 'ivy',
         },
-    },
+    }
 })
 
 -- treesitter
@@ -96,14 +100,14 @@ require('nvim-treesitter.configs').setup {
     highlight = {
         enable = false,
         additional_vim_regex_highlighting = false,
-    },
+    }
 }
 
 -- LSP
 require('mason').setup()
 require('mason-lspconfig').setup {
     ensure_installed = { 'clangd', 'pyright', 'lua_ls', 'bashls', 'cmake' },
-    automatic_enable = true,
+    automatic_enable = true
 }
 
 local cmp_lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -118,6 +122,7 @@ require('cmp').setup {
     sources = {
       { name = 'copilot' },
       { name = 'nvim_lsp', keyword_length = 1 },
+      { name = 'path' },
       {
           name = 'buffer',
           keyword_length = 3,
@@ -149,7 +154,31 @@ require('copilot_cmp').setup()
 require('copilot').setup({
     suggestion = { enabled = false },
     panel = { enabled = false },
+    should_attach = function(bufnr)
+        return true
+    end,
 })
 
 -- Copilot chat
-require('CopilotChat').setup()
+require('CopilotChat').setup({
+    model = "claude-sonnet-4.5",
+    window = {
+        layout = 'float',
+        height = 0.8,
+        width = 0.8
+    }
+})
+
+-- MCP Hub
+-- mcp-hub can be  installed with:
+--     npm install -g mcp-hub@latest
+require('mcphub').setup({
+    extensions = {
+        copilotchat = {
+            enabled = true,
+            convert_tools_to_functions = true,     -- Convert MCP tools to CopilotChat functions
+            convert_resources_to_functions = true, -- Convert MCP resources to CopilotChat functions
+            add_mcp_prefix = false,                -- Add "mcp_" prefix to function names
+        }
+    }
+})

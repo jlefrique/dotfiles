@@ -37,3 +37,19 @@ vim.keymap.set('v', '<2-LeftRelease>', '"*ygv', { noremap = true, silent = true 
 --     npm install -g tree-sitter-cli
 local nabla = require('nabla')
 vim.keymap.set('n', '<leader>p', nabla.popup, {})
+
+-- CopilotChat
+vim.keymap.set("n", "<leader>c", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle CopilotChat" })
+vim.keymap.set("n", "<leader>ce", "<cmd>CopilotChatExplain<cr>", { desc = "Explain code" })
+vim.keymap.set("n", "<leader>cr", "<cmd>CopilotChatReview<cr>", { desc = "Review code" })
+vim.keymap.set("n", "<leader>cf", "<cmd>CopilotChatFix<cr>", { desc = "Fix code" })
+vim.keymap.set("n", "<leader>co", "<cmd>CopilotChatOptimize<cr>", { desc = "Optimize code" })
+vim.keymap.set("n", "<leader>cd", "<cmd>CopilotChatDocs<cr>", { desc = "Generate docs" })
+vim.keymap.set("n", "<leader>ct", "<cmd>CopilotChatTests<cr>", { desc = "Generate tests" })
+
+-- CopilotChat visual mode
+vim.keymap.set("v", "<leader>c", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle CopilotChat" })
+vim.keymap.set("v", "<leader>ce", "<cmd>CopilotChatExplain<cr>", { desc = "Explain selection" })
+vim.keymap.set("v", "<leader>cr", "<cmd>CopilotChatReview<cr>", { desc = "Review selection" })
+vim.keymap.set("v", "<leader>cf", "<cmd>CopilotChatFix<cr>", { desc = "Fix selection" })
+vim.keymap.set("v", "<leader>co", "<cmd>CopilotChatOptimize<cr>", { desc = "Optimize selection" })

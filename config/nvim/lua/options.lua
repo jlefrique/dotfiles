@@ -72,6 +72,28 @@ vim.o.wildmode = 'longest:full'
 vim.o.wildmenu = true
 vim.o.wildignore ='*.o,*.a,*.so,*.ko,*~,*.swp,*.pyc,*.dll,tags,*.o.*,.git/,.hg/,.svn/'
 
+
+-- Grep programs
+if vim.fn.executable("rg") == 1 then
+    -- rg already excludes files ignored by the VCS, it's enough
+    vim.o.grepprg = "rg --vimgrep"
+    vim.o.grepformat = "%f:%l:%c:%m"
+
+elseif vim.fn.system('git rev-parse --is-inside-work-tree'):match('true') then
+    -- git grep only searches in tracked files
+    vim.o.grepprg = "git grep -n -I $*"
+    vim.o.grepformat = "%f:%l:%m"
+else
+    -- Exclude all the files from wildignore
+    local wildignore = vim.o.wildignore
+    local exclude_args = ""
+    for pattern in string.gmatch(wildignore, "[^,]+") do
+        exclude_args = exclude_args .. " --exclude=" .. vim.fn.shellescape(pattern)
+    end
+    vim.o.grepprg = "grep -n -R -I" .. exclude_args .. " $*"
+    vim.o.grepformat = "%f:%l:%m,%f:%l%m,%f  %l%m"
+end
+
 -- Set ft=log
 vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
     pattern = {"*.log", "messages", "messages.*"},
