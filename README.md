@@ -68,8 +68,19 @@ Then do the same as root:
     sudo -s
     tmux_terminfo.sh
 
-Note that there is no italic version of the Terminus font, therefore the font
-is replaced for italic characters.
+Note that the Terminus font has no true italic, but the `fonts-terminus-otb`
+package provides an oblique style that is used for italic characters.
+
+Install alacritty's upstream terminfo entries in `~/.terminfo`, and verify.
+
+    alacritty_terminfo.sh
+    infocmp alacritty-direct
+
+Install the Terminess Nerd Font used by alacritty. It provides the Nerd Font
+icons used by nvim plugins such as octo.nvim and nvim-web-devicons.
+
+    terminess_font.sh
+    fc-list | grep TerminessNerdFont
 
 Set a wallpaper using feh:
 
