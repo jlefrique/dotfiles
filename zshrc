@@ -7,8 +7,8 @@
 # repetitions in PATH. Fortunately, zsh to the rescue.
 export -U PATH=$PATH
 
-export EDITOR="vim"
-export VISUAL="vim"
+export EDITOR="nvim"
+export VISUAL="nvim"
 export PAGER='less -X'
 export LESS='-R'
 

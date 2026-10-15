@@ -3,6 +3,7 @@
 alias ls='ls --color'
 alias ll='ls -lh'
 alias grep='grep --color'
+alias vim='nvim'
 
 alias pssh='parallel-ssh'
 alias pscp='parallel-scp'
