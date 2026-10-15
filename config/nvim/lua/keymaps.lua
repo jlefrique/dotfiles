@@ -12,10 +12,17 @@ vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Open diag
 vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist, { desc = 'Open diagnostics quickfix list' })
 
 -- Switch between source/header
-vim.api.nvim_create_user_command('A', 'ClangdSwitchSourceHeader', {})
+vim.api.nvim_create_user_command('A', 'LspClangdSwitchSourceHeader', {})
 
 -- Make Oil behave like vim-vinegar
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "-", function()
+    if vim.api.nvim_win_get_config(0).relative ~= "" then
+        -- In a floating window, let - behave normally
+        vim.api.nvim_feedkeys("-", "n", false)
+        return
+    end
+    vim.cmd("Oil")
+end, { desc = "Open parent directory" })
 
 -- telescope
 local builtin = require('telescope.builtin')
@@ -39,7 +46,7 @@ local nabla = require('nabla')
 vim.keymap.set('n', '<leader>p', nabla.popup, {})
 
 -- CopilotChat
-vim.keymap.set("n", "<leader>c", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle CopilotChat" })
+vim.keymap.set("n", "<leader>cc", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle CopilotChat" })
 vim.keymap.set("n", "<leader>ce", "<cmd>CopilotChatExplain<cr>", { desc = "Explain code" })
 vim.keymap.set("n", "<leader>cr", "<cmd>CopilotChatReview<cr>", { desc = "Review code" })
 vim.keymap.set("n", "<leader>cf", "<cmd>CopilotChatFix<cr>", { desc = "Fix code" })
@@ -48,8 +55,11 @@ vim.keymap.set("n", "<leader>cd", "<cmd>CopilotChatDocs<cr>", { desc = "Generate
 vim.keymap.set("n", "<leader>ct", "<cmd>CopilotChatTests<cr>", { desc = "Generate tests" })
 
 -- CopilotChat visual mode
-vim.keymap.set("v", "<leader>c", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle CopilotChat" })
+vim.keymap.set("v", "<leader>cc", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle CopilotChat" })
 vim.keymap.set("v", "<leader>ce", "<cmd>CopilotChatExplain<cr>", { desc = "Explain selection" })
 vim.keymap.set("v", "<leader>cr", "<cmd>CopilotChatReview<cr>", { desc = "Review selection" })
 vim.keymap.set("v", "<leader>cf", "<cmd>CopilotChatFix<cr>", { desc = "Fix selection" })
 vim.keymap.set("v", "<leader>co", "<cmd>CopilotChatOptimize<cr>", { desc = "Optimize selection" })
+
+-- Lazygit
+vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<cr>', { desc = 'Open LazyGit' })

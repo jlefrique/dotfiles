@@ -3,6 +3,7 @@ vim.pack.add({
     -- Colorcheme and UI
     { src = "https://github.com/neozenith/estilo-xoria256" },
     { src = "https://github.com/itchyny/lightline.vim.git" },
+    { src = "https://github.com/EdenEast/nightfox.nvim.git" },
 
     -- tpope's goodness
     { src = "https://github.com/tpope/vim-fugitive.git" },
@@ -13,11 +14,16 @@ vim.pack.add({
     -- Navigation and fuzzy finders
     { src = "https://github.com/stevearc/oil.nvim" },
     { src = "https://github.com/nvim-telescope/telescope.nvim" },
+    { src = "https://github.com/nvim-telescope/telescope-ui-select.nvim.git" },
 
     -- Highlighting
-    { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+    { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
     { src = "https://github.com/Bekaboo/deadcolumn.nvim" },
     { src = "https://github.com/ntpeters/vim-better-whitespace.git" },
+
+    -- Markdown
+    { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim.git" },
+    { src = "https://github.com/brianhuster/live-preview.nvim.git" },
 
     -- Completion
     { src = "https://github.com/hrsh7th/nvim-cmp" },
@@ -25,6 +31,7 @@ vim.pack.add({
     { src = "https://github.com/hrsh7th/cmp-path" },
     { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
     { src = "https://github.com/zbirenbaum/copilot-cmp.git" },
+    { src = "https://github.com/andersevenrud/cmp-tmux.git" },
 
     -- Outliner
     { src = "https://github.com/vimoutliner/vimoutliner.git" },
@@ -35,19 +42,31 @@ vim.pack.add({
     { src = "https://github.com/mason-org/mason-lspconfig.nvim.git" },
     { src = "https://github.com/nvim-lua/plenary.nvim" },
 
+    -- Git
+    { src = "https://github.com/kdheepak/lazygit.nvim.git" },
+    { src = "https://github.com/pwntester/octo.nvim" },
+    { src = "https://github.com/nvim-tree/nvim-web-devicons" },
+
     -- AI assistant
     { src = "https://github.com/zbirenbaum/copilot.lua.git" },
     { src = "https://github.com/CopilotC-Nvim/CopilotChat.nvim" },
     { src = "https://github.com/ravitemer/mcphub.nvim.git" },
+    { src = "https://github.com/folke/sidekick.nvim.git" },
 
     -- Latex
     { src = "https://github.com/jbyuki/nabla.nvim.git" },
 })
 
 -- colorscheme
-vim.cmd.colorscheme 'xoria256'
+require('nightfox').setup({
+    options = {
+        transparent = true,
+    },
+})
+vim.cmd.colorscheme 'carbonfox'
+
 vim.g.lightline = {
-    colorscheme = 'xoria256',
+    colorscheme = 'carbonfox',
     active = {
         left = {
             { 'mode', 'paste' },
@@ -85,28 +104,32 @@ require('telescope').setup({
         live_grep = {
             theme = 'ivy',
         },
+        buffers = {
+            theme = 'ivy',
+        },
+    },
+    extensions = {
+        ["ui-select"] = {
+            require("telescope.themes").get_dropdown {
+            }
+        }
     }
 })
 
+-- Set vim.ui.select to telescope so that neovim core can fill the telescope
+-- picker.
+require("telescope").load_extension("ui-select")
+
 -- treesitter
-require('nvim-treesitter.configs').setup {
-    ensure_installed = {
-        'c', 'cpp', 'python', 'lua', 'bash', 'make', 'cmake', 'devicetree',
-        'bitbake', 'markdown', 'gitcommit', 'json'
-    },
-    sync_install = false,
-    auto_install = true,
-    ignore_install = {},
-    highlight = {
-        enable = false,
-        additional_vim_regex_highlighting = false,
-    }
+require('nvim-treesitter').install {
+    'c', 'cpp', 'python', 'lua', 'bash', 'make', 'cmake', 'devicetree',
+    'bitbake', 'markdown', 'markdown_inline', 'gitcommit', 'json'
 }
 
 -- LSP
 require('mason').setup()
 require('mason-lspconfig').setup {
-    ensure_installed = { 'clangd', 'pyright', 'lua_ls', 'bashls', 'cmake' },
+    ensure_installed = { 'clangd', 'pyright', 'lua_ls', 'bashls', 'cmake', 'marksman' },
     automatic_enable = true
 }
 
@@ -120,19 +143,26 @@ vim.lsp.config('clangd', {
 local cmp = require('cmp')
 require('cmp').setup {
     sources = {
-      { name = 'copilot' },
-      { name = 'nvim_lsp', keyword_length = 1 },
-      { name = 'path' },
-      {
-          name = 'buffer',
-          keyword_length = 3,
-          option = {
-              -- Complete from all the buffers
-              get_bufnrs = function()
-                  return vim.api.nvim_list_bufs()
-              end
-          }
-      }
+        { name = 'copilot' },
+        { name = 'nvim_lsp', keyword_length = 1 },
+        { name = 'path' },
+        {
+            name = 'buffer',
+            keyword_length = 3,
+            option = {
+                -- Complete from all the buffers
+                get_bufnrs = function()
+                    return vim.api.nvim_list_bufs()
+                end
+            }
+        },
+        {
+            name = 'tmux',
+            option = {
+                -- Source from all panes in session instead of adjacent panes
+                all_panes = true
+            }
+        }
     },
     completion = {
         -- Disable automatic autocomplete
@@ -160,8 +190,12 @@ require('copilot').setup({
 })
 
 -- Copilot chat
+-- For accurate token counting, install tiktoken_core with:
+--     luarocks install --local --lua-version 5.1 tiktoken_core
+-- Add luarocks to your path with:
+--     eval "$(luarocks path --bin)"
 require('CopilotChat').setup({
-    model = "claude-sonnet-4.5",
+    model = "claude-sonnet-4.6",
     window = {
         layout = 'float',
         height = 0.8,
@@ -170,8 +204,10 @@ require('CopilotChat').setup({
 })
 
 -- MCP Hub
--- mcp-hub can be  installed with:
+-- mcp-hub can be installed with:
 --     npm install -g mcp-hub@latest
+-- uvx can be installed with:
+--     pip3 install uv
 require('mcphub').setup({
     extensions = {
         copilotchat = {
@@ -181,4 +217,28 @@ require('mcphub').setup({
             add_mcp_prefix = false,                -- Add "mcp_" prefix to function names
         }
     }
+})
+
+-- Sidekick
+require('sidekick').setup({
+    cli = {
+        enabled = true,
+        backend = "tmux"
+    },
+    nes = {
+        enabled = false
+    }
+})
+
+-- Markdown render
+require('render-markdown').setup({
+    -- Keep the sign column for diagnostics only.
+    sign = { enabled = false },
+})
+require('livepreview.config').set()
+
+require('octo').setup({
+    -- Square bubbles: the rounded glyphs clip with alacritty's reduced line height.
+    left_bubble_delimiter = ' ',
+    right_bubble_delimiter = ' ',
 })
