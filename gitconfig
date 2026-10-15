@@ -13,13 +13,46 @@
     cp = cherry-pick
     out = !git fetch && git log FETCH_HEAD..
     in = !git fetch && git log ..FETCH_HEAD
-    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --all
     sbt = log --simplify-by-decoration --pretty=oneline --decorate --abbrev-commit --all
     root = rev-parse --show-toplevel
     ctags = !.git/hooks/ctags
     unpublish = push origin --delete
     dt = difftool --dir-diff
     tagcommit = rev-list -n 1
+    p4 = !~/bin/git-p4.py
+    # Arguments: refbranch (default: origin/main), count (default: 20)
+    recentb = "!r() { refbranch=$1 count=$2; git for-each-ref --sort=-committerdate refs/heads --format='%(refname:short)|%(HEAD)%(color:yellow)%(refname:short)|%(color:bold green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:magenta)%(authorname)%(color:reset)' --color=always --count=${count:-20} | while read line; do branch=$(echo \"$line\" | awk 'BEGIN { FS = \"|\" }; { print $1 }' | tr -d '*'); ahead=$(git rev-list --count \"${refbranch:-origin/main}..${branch}\"); behind=$(git rev-list --count \"${branch}..${refbranch:-origin/main}\"); colorline=$(echo \"$line\" | sed 's/^[^|]*|//'); echo \"$ahead|$behind|$colorline\" | awk -F'|' -vOFS='|' '{$5=substr($5,1,70)}1' ; done | ( echo \"ahead|behind|branch|lastcommit|message|author\n\" && cat) | column -ts'|';}; r"
+
+    # Find where this branch diverged from origin/main (fork-point algorithm).
+    # Use when branched directly from main with no squash-merged deps underneath.
+    # Usage: git branch-base
+    #        git log $(git branch-base)..
+    #        git diff $(git branch-base)
+    branch-base = !git merge-base --fork-point origin/main HEAD
+
+    # Find where this branch's own commits start, using the ticket number from
+    # the branch name (e.g. PROJ-1234 from PROJ-1234_my-feature).
+    # Use after a dependency branch has been squash-merged into main, where
+    # branch-base would point too far back.
+    # Assumes branch name and commit messages share the same ticket prefix.
+    # Usage: git branch-base-ticket
+    #        git log $(git branch-base-ticket)..
+    branch-base-ticket = "!f() { ticket=$(git branch --show-current | grep -oE \"[A-Z]+-[0-9]+\"); if [ -z \"$ticket\" ]; then echo \"Cannot extract ticket from branch name\" >&2; exit 1; fi; oldest=$(git log --oneline --grep=\"^$ticket\" HEAD ^origin/main | tail -1 | awk \"{print \\$1}\"); if [ -z \"$oldest\" ]; then echo \"No commits found for $ticket on this branch\" >&2; exit 1; fi; git rev-parse \"${oldest}^\"; }; f"
+
+    # Replay this branch's own commits on top of origin/main, skipping any
+    # commits from a dependency branch that has since been squash-merged.
+    # Usage: git fetch origin main
+    #        git rebase-onto-main $(git branch-base-ticket)
+    #        git rebase-onto-main $(git branch-base)
+    rebase-onto-main = !git rebase --onto origin/main
+
+    # Reset the current branch to its upstream, discarding local commits, e.g.
+    # after the branch was rebased and force-pushed from another machine.
+    # Refuses to run with uncommitted changes.
+    # Undo with: git reset --hard ORIG_HEAD
+    # Usage: git resync
+    resync = "!f() { if ! git diff --quiet || ! git diff --cached --quiet; then echo \"Uncommitted changes, aborting\" >&2; exit 1; fi; git fetch && git reset --hard @{upstream}; }; f"
 
 [color]
     # Turn on color
@@ -30,9 +63,11 @@
 
 [push]
     default = simple
+    autoSetupRemote = true
 
 [init]
     templatedir = ~/dotfiles/git_template
+    defaultBranch = main
 
 [merge]
     tool = meld
@@ -43,3 +78,8 @@
 [diff "hex"]
     textconv = hexdump -v -C
     binary = true
+
+# Machine-specific overrides (e.g. work email and credentials). Last, so it
+# wins; git silently skips the include when the file does not exist.
+[include]
+    path = ~/.gitconfig.corp
