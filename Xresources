@@ -1,4 +1,4 @@
-#include ".xrdb/tango.xrdb"
+#include ".xrdb/carbonfox.xrdb"
 
 #ifdef COLOR
   *customization:

@@ -1,0 +1,23 @@
+! Nightfox carbonfox palette.
+! Yellows replaced with IBM Carbon yellow 30/20; upstream uses teal.
+! Upstream: https://github.com/edeneast/nightfox.nvim/raw/main/extra/carbonfox/carbonfox.Xresources
+#define COLOR_BG                  #161616
+#define COLOR_FG                  #F2F4F8
+
+#define COLOR_TERM_BLACK          #282828
+#define COLOR_TERM_DARK_RED       #EE5396
+#define COLOR_TERM_DARK_GREEN     #25BE6A
+#define COLOR_TERM_DARK_YELLOW    #F1C21B
+#define COLOR_TERM_DARK_BLUE      #78A9FF
+#define COLOR_TERM_DARK_MAGENTA   #BE95FF
+#define COLOR_TERM_DARK_CYAN      #33B1FF
+#define COLOR_TERM_LIGHT_GRAY     #DFDFE0
+
+#define COLOR_TERM_DARK_GRAY      #484848
+#define COLOR_TERM_LIGHT_RED      #F16DA6
+#define COLOR_TERM_LIGHT_GREEN    #46C880
+#define COLOR_TERM_LIGHT_YELLOW   #FDDC69
+#define COLOR_TERM_LIGHT_BLUE     #8CB6FF
+#define COLOR_TERM_LIGHT_MAGENTA  #C8A5FF
+#define COLOR_TERM_LIGHT_CYAN     #52BDFF
+#define COLOR_TERM_WHITE          #E4E4E5
