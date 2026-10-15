@@ -31,7 +31,7 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 
 -- Default terminal emulator
-myTerminal = "xterm"
+myTerminal = "alacritty"
 
 -- Use Super instead of Alt for the modifier key
 myModKey = mod4Mask
@@ -191,9 +191,11 @@ myScratchpads =
     , NS "wiki"     spawnWiki     findWiki     manageWiki
     ]
     where
+        -- Sets the X11 instance name that 'resource' matches (alacritty syntax).
+        nameArg name   = "--class " ++ name ++ "," ++ name
         -- Terminal
         nameTerminal   = "scratchpad-terminal"
-        spawnTerminal  = myTerminal ++ " -name " ++ nameTerminal
+        spawnTerminal  = myTerminal ++ " " ++ nameArg nameTerminal
         findTerminal   = resource =? nameTerminal
         manageTerminal = customFloating $ W.RationalRect l t w h
             where
@@ -205,7 +207,7 @@ myScratchpads =
         nameIpython    = "scratchpad-ipython"
         spawnIpython   = unwords
             [ myTerminal
-            , "-name " ++ nameIpython
+            , nameArg nameIpython
             , "-e sh"
             , "-c \"" ++ cmd ++ "\""
             ]
@@ -222,9 +224,9 @@ myScratchpads =
         nameWiki   = "scratchpad-wiki"
         spawnWiki  = unwords
             [ myTerminal
-            , "-name " ++ nameWiki
+            , nameArg nameWiki
             , "-e sh"
-            , "-c \"cd ~/annex/wiki && vim .\""
+            , "-c \"cd ~/annex/wiki && nvim .\""
             ]
         findWiki   = resource =? nameWiki
         manageWiki = customFloating $ W.RationalRect l t w h
@@ -244,9 +246,10 @@ main = do
         , handleEventHook = handleEventHook defaultConfig <+> docksEventHook
         , logHook         = dynamicLogWithPP $ xmobarPP
             { ppOutput = hPutStrLn xmproc
-            , ppTitle  = xmobarColor "green" "" . shorten 50
+            , ppCurrent = xmobarColor "#33b1ff" "" . wrap "[" "]"
+            , ppTitle  = xmobarColor "#25be6a" "" . shorten 50
             , ppSort   = fmap (.scratchpadFilterOutWorkspace) getSortByIndex
-            , ppUrgent = xmobarColor "red" "" . xmobarStrip
+            , ppUrgent = xmobarColor "#ee5396" "" . xmobarStrip
             }
         , terminal        = myTerminal
         , workspaces      = myWorkspaces
