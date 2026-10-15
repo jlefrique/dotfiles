@@ -1,16 +1,25 @@
 ### Prompt
 
-# Tun on command substitution in the prompt
+# Turn on command substitution in the prompt
 setopt prompt_subst
 
 # Configure vcs_info
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git hg
 zstyle ':vcs_info:(hg*|git*):*' get-revision true
-zstyle ':vcs_info:*' formats "%F{yellow}(%s) %b%u%c%f "
-zstyle ':vcs_info:*' actionformats "%F{yellow}(%s) %b[%a]%u%c%f "
+zstyle ':vcs_info:*' formats "%F{yellow}%b%u%c%f "
+zstyle ':vcs_info:*' actionformats "%F{yellow}%b[%a]%u%c%f "
 zstyle ':vcs_info:*' unstagedstr "!"
 zstyle ':vcs_info:*' stagedstr "+"
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+
+# Appends "?" to the unstaged marker when the git work tree has untracked files.
+function +vi-git-untracked() {
+    estyle-cfc || return 0
+    if [[ -n $(git ls-files --others --exclude-standard --directory --no-empty-directory 2>/dev/null | head -n 1) ]]; then
+        hook_com[unstaged]+='?'
+    fi
+}
 
 precmd() {
     vcs_info
@@ -42,7 +51,7 @@ function estyle-cfc() {
 
 function make_prompt() {
     local host_color
-    if [[ -n "$SSH_CLIENT" || -n "$SSH2_CLIENT" ]]; then
+    if [[ -n "$SSH_CONNECTION" || -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
         host_color='%F{yellow}'
     else
         host_color='%F{green}'
@@ -53,7 +62,7 @@ function make_prompt() {
     local host="$host_color%m%f"
     local dir='%4~'
     local jobs='%(1j.[%j].)'
-    local prompt=${${KEYMAP/vicmd/'%F{red}'}/(main|viins)/'%F{white}'}'»%f'
+    local prompt=${${KEYMAP/vicmd/'%F{red}'}/(main|viins)/'%F{white}'}'$%f'
 
     echo "${user}${at}${host}${jobs} ${dir} ${vcs_info_msg_0_}${prompt} "
 }
@@ -62,5 +71,5 @@ PROMPT='$(make_prompt)'
 PROMPT2='%F{red}\ %f'
 
 # Right side
-local return_code='%(?..%F{red}%? ↵%f)'
+local return_code='%(?..%F{red}%? #%f)'
 RPS1='${return_code}'
