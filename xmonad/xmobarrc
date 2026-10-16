@@ -8,18 +8,18 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
                     , Run Cpu ["-L","3","-H","50","--normal","#25be6a","--high","#ee5396"] 10
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
                     , Run Swap [] 10
-                    , Run Battery [ "-t", "Batt: <left>% (<timeleft>)"
+                    , Run DiskU [("/", "Disk: <free> free")] ["-L", "10", "--low", "#ee5396"] 600
+                    , Run Battery [ "-t", "Batt: <left>%"
                                   , "-L", "10", "-H", "80", "-p", "3"
                                   , "--", "-O", "<fc=#25be6a>On</fc> - ", "-i", ""
                                   , "-L", "-15", "-H", "-5"
                                   , "-l", "#ee5396", "-m", "#78a9ff", "-h", "#25be6a"
                                   ] 600
-                    , Run Com "uname" ["-s","-r"] "" 36000
                     --, Run Com "/bin/bash" ["-c","~/dotfiles/bin/quotes.sh -s \" * \""] "quotes" 600
                     , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %memory% * %swap% | %battery% | %eth0% | <fc=#f1c21b>%date%</fc> | %LSGG% | %uname%"
+       , template = "%StdinReader% }{ %cpu% | %memory% * %swap% | %disku% | %battery% | %eth0% | <fc=#f1c21b>%date%</fc> | %LSGG%"
        }
