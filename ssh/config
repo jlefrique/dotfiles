@@ -37,3 +37,4 @@ Host *
     ForwardAgent yes
     ControlMaster auto
     ControlPath /tmp/ssh_mux_jlefrique_%h_%p_%r
+    HostKeyAlgorithms +ssh-rsa
