@@ -147,7 +147,9 @@ if has("autocmd")
   au BufRead .letter,/tmp/mutt*,*.txt,.signature*,signature*
     \ call s:MyMuttSettings()
   au BufRead *.tex call s:MyTexSettings()
+  au BufRead *recipes-modules/*.[ch] call s:MyKernelSettings()
   au BufRead *src/*linux*/*.[ch] call s:MyKernelSettings()
+  au BufRead *.dts* call s:MyKernelSettings()
   au BufRead *src/*u-boot*/*.[ch] call s:MyKernelSettings()
   au BufNewFile,BufRead *.md set filetype=markdown tw=80
 
