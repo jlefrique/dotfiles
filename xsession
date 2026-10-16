@@ -12,6 +12,7 @@ fi
 export LC_MEASUREMENT="en_GB.UTF-8"
 export LC_PAPER="en_GB.UTF-8"
 export LC_TIME="en_GB.UTF-8"
+export LANG=en_US.UTF-8
 
 # Warn the JVM that xmonad is non-reparenting
 export _JAVA_AWT_WM_NONREPARENTING=1
