@@ -1,5 +1,8 @@
 # ~/.ssh/config
 
+# Work hosts live outside dotfiles; skipped when the file is missing.
+Include corp.conf
+
 Host walnut walnut.lefrique.name
     ForwardX11 yes
 
