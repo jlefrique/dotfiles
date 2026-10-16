@@ -21,11 +21,11 @@ set number                         " Display line number
 set history=1000
 
 " Suffixes : these are the files we are unlikely to edit
-set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.out,.toc
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.out,.toc,.gcda,.gcno
 
 set directory^=$HOME/.vim/cache//
 set backupdir^=$HOME/.vim/cache//
-set tags+=.git/tags,.hg/tags
+set tags+=.git/tags,.hg/tags,./tags;
 
 " Visual aspect
 colorscheme xoria256
