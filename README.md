@@ -82,6 +82,49 @@ icons used by nvim plugins such as octo.nvim and nvim-web-devicons.
     terminess_font.sh
     fc-list | grep TerminessNerdFont
 
+The nvim configuration needs Neovim 0.12 or later. Check the installed
+version, and if it is older, install a release from
+https://github.com/neovim/neovim/releases instead.
+
+    nvim --version | head -1
+
+Install the tools the nvim configuration uses. Telescope needs ripgrep and fd,
+the tmux copy command needs xclip, and the treesitter parsers need a C compiler.
+
+    sudo apt install ripgrep fd-find xclip build-essential curl
+
+Install Rust with rustup, since the Ubuntu toolchain is too old, then
+tree-sitter-cli to build the treesitter parsers, and alacritty.
+
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    sudo apt install cmake pkg-config libfreetype6-dev libfontconfig1-dev \
+        libxcb-xfixes0-dev libxkbcommon-dev python3
+    cargo install --locked tree-sitter-cli alacritty
+
+Install Node.js with nvm for copilot.lua and mcp-hub. `PROFILE=/dev/null`
+stops the nvm installer from appending to `~/.zshrc`, which already sets up
+nvm.
+
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | PROFILE=/dev/null bash
+    nvm install --lts
+    npm install -g mcp-hub@latest
+
+Optionally, install tiktoken_core for exact token counts in CopilotChat.
+
+    sudo apt install luarocks
+    luarocks install --local --lua-version 5.1 tiktoken_core
+
+Start nvim to install the plugins, the treesitter parsers and, through Mason,
+the language servers.
+
+To update the plugins later, run the command below in nvim, review the changes
+in the buffer that opens and write it with `:w` to apply them. Then restart
+nvim and rebuild the treesitter parsers, which must match the updated
+nvim-treesitter queries.
+
+    :lua vim.pack.update()
+    :TSUpdate
+
 Set a wallpaper using feh:
 
     feh --bg-fill ~/wallpaper/my_wallpaper.png
