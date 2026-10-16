@@ -70,6 +70,7 @@ myKeys =
     -- Show/hide scratchpad terminal
     , ((myModKey, xK_s), namedScratchpadAction myScratchpads "terminal")
     , ((myModKey, xK_b), namedScratchpadAction myScratchpads "wiki")
+    , ((myModKey, xK_i), namedScratchpadAction myScratchpads "ipython")
     -- Close focused window with one hand in Dvorak
     , ((myModKey .|. shiftMask, xK_o), kill)
     -- Print screen
