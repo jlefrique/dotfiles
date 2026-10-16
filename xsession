@@ -36,7 +36,7 @@ xmonad & wmpid=$!
 
 # Set the background
 if [ -f ~/.fehbg ] ; then
-    eval $(cat ~/.fehbg)
+    sh ~/.fehbg
 else
     xsetroot -solid black
 fi
