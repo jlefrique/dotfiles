@@ -78,3 +78,9 @@ done
 if [ -f ~/.zshrc.local ]; then
     source ~/.zshrc.local
 fi
+
+export NVM_DIR="$HOME/.nvm"
+# Put the newest installed node on PATH without loading nvm.sh (~0.2 s);
+# nvm itself loads the first time it is called.
+path=("$NVM_DIR"/versions/node/*/bin(Nn[-1]) $path)
+[ -s "$NVM_DIR/nvm.sh" ] && nvm() { unset -f nvm; . "$NVM_DIR/nvm.sh"; nvm "$@"; }
