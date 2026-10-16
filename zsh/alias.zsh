@@ -54,3 +54,5 @@ alias ff='find . | egrep'
 alias myip='curl ifconfig.me/ip'
 alias wttr='curl wttr.in'
 alias wttr_now='curl "wttr.in?0"'
+
+alias evince='atril'
