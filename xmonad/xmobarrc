@@ -3,10 +3,10 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
        , fgColor = "#b6b8bb"
        , position = TopSize L 90 16
        , lowerOnStart = True
-       , commands = [ Run Weather "LSGG" ["-t","<station>: <tempC>C","-L","18","-H","25","--normal","#25be6a","--high","#ee5396","--low","#78a9ff"] 36000
+       , commands = [ Run Weather "LSGG" ["-t","󰖕  <tempC>C","-L","18","-H","25","--normal","#25be6a","--high","#ee5396","--low","#78a9ff"] 36000
                     , Run Network "eth0" ["-L","0","-H","32","--normal","#25be6a","--high","#ee5396"] 10
-                    , Run Cpu ["-L","3","-H","50","--normal","#25be6a","--high","#ee5396"] 10
-                    , Run Memory ["-t","Mem: <usedratio>%"] 10
+                    , Run Cpu ["-t","󰓅  <total>%","-p","3","-L","3","-H","50","--normal","#25be6a","--high","#ee5396"] 10
+                    , Run Memory ["-t","󰍛  <usedratio>%","-p","3"] 10
                     , Run DiskU [("/", "Disk: <free> free")] ["-L", "10", "--low", "#ee5396"] 600
                     , Run Battery [ "-t", "Batt: <left>%"
                                   , "-L", "10", "-H", "80", "-p", "3"
@@ -15,7 +15,7 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
                                   , "-l", "#ee5396", "-m", "#78a9ff", "-h", "#25be6a"
                                   ] 600
                     --, Run Com "/bin/bash" ["-c","~/dotfiles/bin/quotes.sh -s \" * \""] "quotes" 600
-                    , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+                    , Run Date "󰃭  %a %b %_d %Y %H:%M:%S" "date" 10
                     , Run StdinReader
                     ]
        , sepChar = "%"
