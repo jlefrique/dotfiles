@@ -7,7 +7,6 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
                     , Run Network "eth0" ["-L","0","-H","32","--normal","#25be6a","--high","#ee5396"] 10
                     , Run Cpu ["-L","3","-H","50","--normal","#25be6a","--high","#ee5396"] 10
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
-                    , Run Swap [] 10
                     , Run DiskU [("/", "Disk: <free> free")] ["-L", "10", "--low", "#ee5396"] 600
                     , Run Battery [ "-t", "Batt: <left>%"
                                   , "-L", "10", "-H", "80", "-p", "3"
@@ -21,5 +20,5 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %memory% * %swap% | %disku% | %battery% | %eth0% | <fc=#f1c21b>%date%</fc> | %LSGG%"
+       , template = "%StdinReader% }{ %cpu% | %memory% | %disku% | %battery% | %eth0% | <fc=#f1c21b>%date%</fc> | %LSGG%"
        }
