@@ -4,7 +4,7 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
        , position = TopSize L 90 16
        , lowerOnStart = True
        , commands = [ Run Weather "LSGG" ["-t","󰖕  <skyCondition> <tempC>C","-L","18","-H","25","--normal","#25be6a","--high","#ee5396","--low","#78a9ff"] 36000
-                    , Run Network "eth0" ["-L","0","-H","32","--normal","#25be6a","--high","#ee5396"] 10
+                    , Run DynNetwork ["-t","󰛳  <dev> <rx>KB|<tx>KB","-m","4","-a","l","-L","0","-H","32","--normal","#25be6a","--high","#ee5396"] 10
                     , Run Cpu ["-t","󰓅  <total>%","-p","3","-L","3","-H","50","--normal","#25be6a","--high","#ee5396"] 10
                     , Run Memory ["-t","󰍛  <usedratio>%","-p","3"] 10
                     , Run Com "sh" ["-c","df -BG --output=avail,size / | awk 'NR==2 { sub(/G/, \"\", $1); sub(/G/, \"\", $2); print \"󰋊  \" $1 \"/\" $2 \" G\" }'"] "disk" 600
@@ -15,5 +15,5 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %memory% | %disk% | %battery% | %eth0% | <fc=#f1c21b>%date%</fc> | %LSGG%"
+       , template = "%StdinReader% }{ %cpu% | %memory% | %disk% | %battery% | %dynnetwork% | <fc=#f1c21b>%date%</fc> | %LSGG%"
        }
