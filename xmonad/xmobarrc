@@ -3,7 +3,7 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
        , fgColor = "#b6b8bb"
        , position = TopSize L 90 16
        , lowerOnStart = True
-       , commands = [ Run Weather "LSGG" ["-t","󰖕  <tempC>C","-L","18","-H","25","--normal","#25be6a","--high","#ee5396","--low","#78a9ff"] 36000
+       , commands = [ Run Weather "LSGG" ["-t","󰖕  <skyCondition> <tempC>C","-L","18","-H","25","--normal","#25be6a","--high","#ee5396","--low","#78a9ff"] 36000
                     , Run Network "eth0" ["-L","0","-H","32","--normal","#25be6a","--high","#ee5396"] 10
                     , Run Cpu ["-t","󰓅  <total>%","-p","3","-L","3","-H","50","--normal","#25be6a","--high","#ee5396"] 10
                     , Run Memory ["-t","󰍛  <usedratio>%","-p","3"] 10
