@@ -63,3 +63,6 @@ vim.keymap.set("v", "<leader>co", "<cmd>CopilotChatOptimize<cr>", { desc = "Opti
 
 -- Lazygit
 vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<cr>', { desc = 'Open LazyGit' })
+
+-- Zen mode
+vim.keymap.set('n', '<leader>z', '<cmd>ZenMode<cr>', { desc = 'Toggle reading view' })

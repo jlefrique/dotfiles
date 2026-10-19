@@ -24,6 +24,7 @@ vim.pack.add({
     -- Markdown
     { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim.git" },
     { src = "https://github.com/brianhuster/live-preview.nvim.git" },
+    { src = "https://github.com/folke/zen-mode.nvim" },
 
     -- Completion
     { src = "https://github.com/hrsh7th/nvim-cmp" },
@@ -236,6 +237,14 @@ require('render-markdown').setup({
     sign = { enabled = false },
 })
 require('livepreview.config').set()
+
+-- Reading view: centered page without line numbers or signs.
+require('zen-mode').setup({
+    window = {
+        width = 120,
+        options = { number = false, relativenumber = false, signcolumn = 'no' },
+    },
+})
 
 require('octo').setup({
     -- Square bubbles: the rounded glyphs clip with alacritty's reduced line height.
