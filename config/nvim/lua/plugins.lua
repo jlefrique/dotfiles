@@ -63,6 +63,13 @@ require('nightfox').setup({
     options = {
         transparent = true,
     },
+    groups = {
+        all = {
+            -- No strikethrough on deprecated code: it keeps the underline of its
+            -- diagnostic severity (hint, warning...) like any other diagnostic.
+            DiagnosticDeprecated = { style = 'NONE' },
+        },
+    },
 })
 vim.cmd.colorscheme 'carbonfox'
 
