@@ -22,7 +22,6 @@ import XMonad.Actions.GridSelect
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Dmenu
-import XMonad.Util.Scratchpad
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.WorkspaceCompare
 import XMonad.Actions.PerWorkspaceKeys
@@ -144,7 +143,7 @@ myLayout = avoidStruts (
          where tiled = Tall 1 (3/100) (1/2)
 
 -- Tab layout configuration
-tabConfig = defaultTheme
+tabConfig = def
     { activeBorderColor   = "#484848"
     , activeTextColor     = "#161616"
     , activeColor         = "#33b1ff"
@@ -240,17 +239,18 @@ myScratchpads =
 
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
-    xmonad $ withUrgencyHook NoUrgencyHook
-           $ defaultConfig
+    xmonad $ docks
+           $ withUrgencyHook NoUrgencyHook
+           $ def
         { modMask         = myModKey
-        , manageHook      = manageDocks <+> myManageHook <+> manageHook defaultConfig
+        , manageHook      = myManageHook <+> manageHook def
         , layoutHook      = smartBorders $ myLayout
-        , handleEventHook = handleEventHook defaultConfig <+> docksEventHook
         , logHook         = dynamicLogWithPP $ xmobarPP
             { ppOutput = hPutStrLn xmproc
             , ppCurrent = xmobarColor "#33b1ff" "" . wrap "[" "]"
             , ppTitle  = xmobarColor "#25be6a" "" . shorten 50
-            , ppSort   = fmap (.scratchpadFilterOutWorkspace) getSortByIndex
+            -- Hide the NSP workspace that holds hidden scratchpads.
+            , ppSort   = fmap (. filter ((/= "NSP") . W.tag)) getSortByIndex
             , ppUrgent = xmobarColor "#ee5396" "" . xmobarStrip
             }
         , terminal        = myTerminal
