@@ -1,7 +1,8 @@
 # Customize dmenu appearance.
 
 BIN="/usr/bin/dmenu -i"
-COLOR="-nb #333333 -nf #999999 -sb #1279bf -sf #ffffff"
+# Carbonfox: background and text as in xmobar, selection in the active workspace cyan.
+COLOR="-nb #161616 -nf #b6b8bb -sb #33b1ff -sf #161616"
 
 VERSION=$(/usr/bin/dmenu -v | sed -e 's/dmenu-\([0-9]\.[0-9]\).*/\1/')
 
@@ -9,7 +10,8 @@ VERSION=$(/usr/bin/dmenu -v | sed -e 's/dmenu-\([0-9]\.[0-9]\).*/\1/')
 if [ $(echo "${VERSION} >= 4.6" | bc) -eq 0 ]; then
     FONT="-fn -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*"
 else
-    FONT="-fn Terminus:12"
+    # No spaces in the name: DMENU is word-split; fontconfig ignores them anyway.
+    FONT="-fn TerminessNerdFont:pixelsize=14"
 fi
 
 
