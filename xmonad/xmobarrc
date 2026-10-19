@@ -8,12 +8,7 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
                     , Run Cpu ["-t","󰓅  <total>%","-p","3","-L","3","-H","50","--normal","#25be6a","--high","#ee5396"] 10
                     , Run Memory ["-t","󰍛  <usedratio>%","-p","3"] 10
                     , Run Com "sh" ["-c","df -BG --output=avail,size / | awk 'NR==2 { sub(/G/, \"\", $1); sub(/G/, \"\", $2); print \"󰋊  \" $1 \"/\" $2 \" G\" }'"] "disk" 600
-                    , Run Battery [ "-t", "Batt: <left>%"
-                                  , "-L", "10", "-H", "80", "-p", "3"
-                                  , "--", "-O", "<fc=#25be6a>On</fc> - ", "-i", ""
-                                  , "-L", "-15", "-H", "-5"
-                                  , "-l", "#ee5396", "-m", "#78a9ff", "-h", "#25be6a"
-                                  ] 600
+                    , Run Com "xmobar_battery.sh" [] "battery" 600
                     --, Run Com "/bin/bash" ["-c","~/dotfiles/bin/quotes.sh -s \" * \""] "quotes" 600
                     , Run Date "󰃭  %a %b %_d %Y %H:%M:%S" "date" 10
                     , Run StdinReader
