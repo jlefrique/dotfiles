@@ -1,4 +1,4 @@
-Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
+Config { font = "xft:Terminess Nerd Font:pixelsize=12"
        , bgColor = "#161616"
        , fgColor = "#b6b8bb"
        , position = TopSize L 90 16
