@@ -56,6 +56,11 @@ Set zsh as your default shell, and restart your session:
 
     chsh -s /bin/zsh
 
+Where bash is used instead (e.g. root shells or other machines), get a prompt
+with the same information by sourcing it from `~/.bashrc`:
+
+    echo '[ -f ~/dotfiles/bash/prompt.bash ] && . ~/dotfiles/bash/prompt.bash' >> ~/.bashrc
+
 Fix screen's terminfo to display italic and standout correctly when tmux is
 started in urxvt, and verify.
 
