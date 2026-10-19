@@ -7,7 +7,7 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
                     , Run Network "eth0" ["-L","0","-H","32","--normal","#25be6a","--high","#ee5396"] 10
                     , Run Cpu ["-t","󰓅  <total>%","-p","3","-L","3","-H","50","--normal","#25be6a","--high","#ee5396"] 10
                     , Run Memory ["-t","󰍛  <usedratio>%","-p","3"] 10
-                    , Run DiskU [("/", "Disk: <free> free")] ["-L", "10", "--low", "#ee5396"] 600
+                    , Run Com "sh" ["-c","df -BG --output=avail,size / | awk 'NR==2 { sub(/G/, \"\", $1); sub(/G/, \"\", $2); print \"󰋊  \" $1 \"/\" $2 \" G\" }'"] "disk" 600
                     , Run Battery [ "-t", "Batt: <left>%"
                                   , "-L", "10", "-H", "80", "-p", "3"
                                   , "--", "-O", "<fc=#25be6a>On</fc> - ", "-i", ""
@@ -20,5 +20,5 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %memory% | %disku% | %battery% | %eth0% | <fc=#f1c21b>%date%</fc> | %LSGG%"
+       , template = "%StdinReader% }{ %cpu% | %memory% | %disk% | %battery% | %eth0% | <fc=#f1c21b>%date%</fc> | %LSGG%"
        }
