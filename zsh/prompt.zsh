@@ -16,7 +16,8 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 # Appends "?" to the unstaged marker when the git work tree has untracked files.
 function +vi-git-untracked() {
     estyle-cfc || return 0
-    if [[ -n $(git ls-files --others --exclude-standard --directory --no-empty-directory 2>/dev/null | head -n 1) ]]; then
+    # ":/" searches the whole work tree, not only below the current directory.
+    if [[ -n $(git ls-files --others --exclude-standard --directory --no-empty-directory -- :/ 2>/dev/null | head -n 1) ]]; then
         hook_com[unstaged]+='?'
     fi
 }
