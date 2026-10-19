@@ -145,12 +145,13 @@ myLayout = avoidStruts (
 
 -- Tab layout configuration
 tabConfig = defaultTheme
-    { activeBorderColor   = "grey"
-    , activeTextColor     = "white"
-    , activeColor         = "black"
-    , inactiveBorderColor = "grey"
-    , inactiveTextColor   = "grey"
-    , inactiveColor       = "black"
+    { activeBorderColor   = "#484848"
+    , activeTextColor     = "#161616"
+    , activeColor         = "#33b1ff"
+    , inactiveBorderColor = "#484848"
+    , inactiveTextColor   = "#7b7c7e"
+    , inactiveColor       = "#161616"
+    , fontName            = "xft:Terminess Nerd Font:pixelsize=12"
     }
 
 ------------------------------------------------------------------------
