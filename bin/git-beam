@@ -1,0 +1,199 @@
+#!/bin/bash
+
+# Beams the git checkout (or worktree) containing the current directory to a
+# copy of the same repository on a remote host, e.g. to build and test there
+# before pushing.
+#
+# The remote checkout is moved to the current branch at the newest commit that
+# is on origin, then only the tracked files that differ from that commit
+# (committed or not) are copied, and deleted files are removed. Untracked files,
+# including build output, are never copied: git add (or git add -N) new files.
+# Untracked files next to the changed files (same directory) are listed so a
+# forgotten git add is visible; -u copies them as well.
+#
+# Configuration, read with git config (per repository, e.g. through
+# includeIf "hasconfig:remote.*.url:..." in the global config):
+#   beam.host           remote host, unless given on the command line
+#   beam.base           candidate base branches (multi-valued); the one the
+#                       current branch has the fewest commits on top of wins
+#                       (default: origin/HEAD)
+#   beam.<base>.dest    remote tree for that base, relative to the remote home
+#   beam.dest           remote tree when there is no per-base dest
+#   beam.exclude        path regexes never copied (multi-valued)
+#   beam.hook           local script run in the remote tree after the checkout
+#
+# Example setup, with one file per repository in ~/.gitconfig.d:
+#
+#   ~/.gitconfig (or a file it includes):
+#     [includeIf "hasconfig:remote.*.url:git@git.example.com:team/project.git"]
+#         path = ~/.gitconfig.d/project
+#     [includeIf "hasconfig:remote.*.url:git@git.example.com:team/firmware.git"]
+#         path = ~/.gitconfig.d/firmware
+#
+#   ~/.gitconfig.d/project (one base, one remote tree):
+#     [beam]
+#         host = buildhost
+#         base = origin/main
+#         dest = src/project
+#
+#   ~/.gitconfig.d/firmware (remote tree chosen by base, plus a hook):
+#     [beam]
+#         host = buildhost
+#         base = origin/release-1
+#         base = origin/release-2
+#         exclude = ^local\\.conf$
+#         hook = ~/.gitconfig.d/firmware-hook.sh
+#     [beam "origin/release-1"]
+#         dest = src/firmware-1
+#     [beam "origin/release-2"]
+#         dest = src/firmware-2
+#
+#   ~/.gitconfig.d/firmware-hook.sh (shell code run in the remote tree):
+#     sed -i "s|^path = .*|path = $(dirname "$PWD")/project|" local.conf
+#
+# Usage: git beam [-u] [-n] [host]
+#   -u  also copy the untracked files listed next to the changes
+#   -n  dry run: show what would be done without contacting the host
+
+set -euo pipefail
+
+with_untracked=false
+dry_run=false
+while [[ "${1:-}" == -* ]]; do
+    case "$1" in
+        -u) with_untracked=true ;;
+        -n) dry_run=true ;;
+        *) echo "Usage: git beam [-u] [-n] [host]" >&2; exit 1 ;;
+    esac
+    shift
+done
+
+src=$(git rev-parse --show-toplevel)
+cd "$src"
+repo=$(basename "$(git remote get-url origin)" .git)
+
+die() { echo "Error: $*" >&2; exit 1; }
+indent() { sed 's/^/    /'; }
+
+# Prints the base branch the current branch has the fewest commits on top of.
+closest_base() {
+    local base best="" best_count=""
+    for base in "$@"; do
+        git rev-parse -q --verify "$base" > /dev/null || continue
+        local count
+        count=$(git rev-list --count "$base..HEAD")
+        if [[ -z "$best_count" || "$count" -lt "$best_count" ]]; then
+            best="$base"
+            best_count="$count"
+        fi
+    done
+    echo "$best"
+}
+
+mapfile -t bases < <(git config --get-all beam.base || true)
+[[ ${#bases[@]} -gt 0 ]] || bases=(origin/HEAD)
+base=$(closest_base "${bases[@]}")
+[[ -n "$base" ]] || die "none of the base branches exist: ${bases[*]}"
+dest=$(git config --get "beam.$base.dest" || git config --get beam.dest || true)
+[[ -n "$dest" ]] || die "no beam.dest configured for $repo (base $base)"
+host="${1:-$(git config --get beam.host || true)}"
+[[ -n "$host" ]] || die "no host given and no beam.host configured for $repo"
+hook=$(git config --type=path --get beam.hook || true)
+[[ -z "$hook" || -r "$hook" ]] || die "beam.hook $hook is not readable"
+
+branch=$(git branch --show-current)
+
+# Newest commit the remote can fetch: the parent of the oldest commit that is
+# on no origin branch (whatever the upstream setting), or HEAD if all are.
+first_local=$(git rev-list --reverse --topo-order HEAD --not --remotes=origin | head -n 1)
+if [[ -z "$first_local" ]]; then
+    sync_commit=$(git rev-parse HEAD)
+else
+    sync_commit=$(git rev-parse "$first_local^")
+fi
+
+# Tracked files that differ from the sync commit, committed or not. Top-level
+# dot entries (e.g. .claude) are skipped, as are the configured exclusions.
+excludes=$(git config --get-all beam.exclude | paste -s -d '|' - || true)
+skip='^\.'
+[[ -z "$excludes" ]] || skip+="|$excludes"
+# core.quotePath=false keeps non-ASCII names as is instead of quoting them.
+all_changed=$(git -c core.quotePath=false diff --name-only --no-renames --diff-filter=d "$sync_commit")
+changed=$(grep -v -E "$skip" <<< "$all_changed" || true)
+# Deleted files, NUL-separated for the remote rm, with the same exclusions.
+deleted_files() {
+    git diff -z --name-only --no-renames --diff-filter=D "$sync_commit" | { grep -z -v -E "$skip" || true; }
+}
+deleted=$(deleted_files | tr '\0' '\n')
+
+# Untracked files in the same directories as the changed files, not below
+# them, so build output in subdirectories is left out.
+nearby=$(
+    {
+        [[ -z "$changed" ]] || printf '%s\n' "$changed" | sed 's/^/changed /'
+        git -c core.quotePath=false ls-files --others --exclude-standard | { grep -v -E "$skip" || true; } | sed 's/^/untracked /'
+    } | awk '{ path = substr($0, index($0, " ") + 1); dir = path
+               if (!sub(/\/[^\/]*$/, "", dir)) dir = "." }
+             $1 == "changed" { dirs[dir] = 1; next }
+             dir in dirs { print path }'
+)
+if $with_untracked && [[ -n "$nearby" ]]; then
+    changed=$(printf '%s\n%s' "$changed" "$nearby" | grep -v '^$')
+fi
+
+# Origin branch the sync commit belongs to, e.g. origin/topic or origin/main~3.
+sync_ref=$(git name-rev --name-only --no-undefined --refs='refs/remotes/origin/*' --exclude='refs/remotes/origin/HEAD' "$sync_commit" 2> /dev/null || true)
+sync_ref=${sync_ref#remotes/}
+echo "Beaming $src (${branch:-detached}) to $host:$dest at ${sync_commit:0:10}${sync_ref:+ ($sync_ref)}"
+
+if [[ -n "$excludes" ]]; then
+    local_excluded=$(grep -E "$excludes" <<< "$all_changed" || true)
+    [[ -z "$local_excluded" ]] || echo "Warning: local changes not beamed (excluded): $(paste -s -d ' ' <<< "$local_excluded")" >&2
+fi
+
+if ! $with_untracked && [[ -n "$nearby" ]]; then
+    echo "Not beamed (untracked, next to your changes):"
+    indent <<< "$nearby"
+    echo "  git add -N them, or rerun with -u to copy them"
+fi
+
+if $dry_run; then
+    echo "Base: $base"
+    echo "Remote checkout: ${sync_commit:0:10}${sync_ref:+ ($sync_ref)}, $(git rev-list --count "$base..$sync_commit") commit(s) since $base"
+    [[ -z "$hook" ]] || echo "Hook: $hook"
+    [[ -z "$changed" ]] || { echo "Copied on top:"; indent <<< "$changed"; }
+    [[ -z "$deleted" ]] || { echo "Removed on top:"; indent <<< "$deleted"; }
+    exit 0
+fi
+
+# Moves the remote checkout to the sync commit; --force discards changes left by
+# the previous beam, untracked files are kept. The hook runs right after, in
+# the remote tree. Single quotes on purpose: this expands on the remote host.
+# shellcheck disable=SC2016
+remote_checkout='set -e
+cd "$1" 2> /dev/null || { echo "Error: remote tree $1 is missing" >&2; exit 1; }
+git fetch -q origin
+git cat-file -e "$2^{commit}" 2> /dev/null || { echo "Error: ${2:0:10} not found on origin" >&2; exit 1; }
+if [ -n "$3" ]; then
+    git checkout -q --force -B "$3" "$2"
+else
+    git checkout -q --force --detach "$2"
+fi
+'
+{
+    printf '%s' "$remote_checkout"
+    [[ -z "$hook" ]] || cat "$hook"
+    # shellcheck disable=SC2016 # expands on the remote host
+    echo 'echo "Remote checkout at $(git log -1 --format="%h %s")"'
+} | ssh "$host" bash -s -- "$dest" "$sync_commit" "$branch"
+
+if [[ -n "$changed" ]]; then
+    echo "Copying $(wc -l <<< "$changed") file(s)"
+    rsync -a --files-from=<(printf '%s\n' "$changed") ./ "$host:$dest/"
+fi
+if [[ -n "$deleted" ]]; then
+    echo "Removing $(wc -l <<< "$deleted") file(s)"
+    # The local value of dest, quoted for the remote shell.
+    # shellcheck disable=SC2029
+    deleted_files | ssh "$host" "cd $(printf %q "$dest") && xargs -0 rm -f --"
+fi
