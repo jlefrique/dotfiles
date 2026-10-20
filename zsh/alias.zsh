@@ -69,3 +69,11 @@ tdir() {
         tmux new-session -A -s "$name" -c "$dir"
     fi
 }
+
+# Logs into a host over ssh and attaches to its most recent tmux session, or
+# starts one; falls back to a login shell where tmux is not installed.
+tssh() {
+    ssh -t "$@" 'if command -v tmux > /dev/null; then tmux attach || tmux new; else exec "$SHELL" -l; fi'
+}
+# Complete host names like ssh.
+compdef tssh=ssh
