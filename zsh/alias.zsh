@@ -56,3 +56,16 @@ alias wttr='curl wttr.in'
 alias wttr_now='curl "wttr.in?0"'
 
 alias evince='atril'
+
+# Opens (or attaches to) a tmux session named after a directory, the current
+# one by default, starting in it. Inside tmux, switches to it instead of nesting.
+tdir() {
+    local dir="${1:-$PWD}"
+    local name="$(basename "$dir" | tr '.:' '--')"
+    if [ -n "$TMUX" ]; then
+        tmux has-session -t "=$name" 2> /dev/null || tmux new-session -d -s "$name" -c "$dir"
+        tmux switch-client -t "=$name"
+    else
+        tmux new-session -A -s "$name" -c "$dir"
+    fi
+}
