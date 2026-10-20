@@ -5,9 +5,9 @@ This repository contains my dotfiles used to configure the softwares I like to
 use. Hosting my dotfiles in a Git repository allows me to deploy them easily
 across the machines I work on (home, work...) and to keep them centralized.
 
-I use Xmonad as window manager, Vim as text editor, tmux as terminal
-multiplexer, urxvt as terminal emulator, Zsh as shell and the excellent
-dmenu as an application launcher, Vim file opener, and more...
+I use Xmonad as window manager, Neovim as text editor, tmux as terminal
+multiplexer, Alacritty as terminal emulator, Zsh as shell and dmenu as an
+application launcher.
 
 These files contain tricks, tips and code snippets collected around the web.
 Feel free to re-use (part of) them.
@@ -60,21 +60,6 @@ Where bash is used instead (e.g. root shells or other machines), get a prompt
 with the same information by sourcing it from `~/.bashrc`:
 
     echo '[ -f ~/dotfiles/bash/prompt.bash ] && . ~/dotfiles/bash/prompt.bash' >> ~/.bashrc
-
-Fix screen's terminfo to display italic and standout correctly when tmux is
-started in urxvt, and verify.
-
-    tmux_terminfo.sh
-    tmux
-    font_test.sh
-
-Then do the same as root:
-
-    sudo -s
-    tmux_terminfo.sh
-
-Note that the Terminus font has no true italic, but the `fonts-terminus-otb`
-package provides an oblique style that is used for italic characters.
 
 Install alacritty's upstream terminfo entries in `~/.terminfo`, and verify.
 
@@ -130,6 +115,13 @@ nvim-treesitter queries.
     :lua vim.pack.update()
     :TSUpdate
 
-Set a wallpaper using feh:
+Set a wallpaper using feh, which saves the command in `~/.fehbg` for the X
+session to restore at login:
 
     feh --bg-fill ~/wallpaper/my_wallpaper.png
+
+To pick a random wallpaper at each login instead, write `~/.fehbg` by hand.
+`--no-fehbg` stops feh from overwriting it with the chosen image:
+
+    #!/bin/sh
+    feh --no-fehbg --bg-fill --randomize ~/wallpaper/one.jpg ~/wallpaper/two.jpg
