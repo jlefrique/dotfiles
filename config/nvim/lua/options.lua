@@ -115,3 +115,27 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
         vim.bo.filetype = "config"
     end,
 })
+
+-- Applies Linux kernel style to the current buffer: tabs shown 8 wide, with
+-- kernel C indentation. vim-sleuth is turned off for the buffer, since it
+-- keeps the 4-column tab width and cannot guess for new files. Global so that
+-- machine-specific config can apply it to more paths.
+function KernelStyle()
+    vim.b.sleuth_automatic = 0
+    vim.bo.tabstop = 8
+    vim.bo.shiftwidth = 8
+    vim.bo.softtabstop = 8
+    vim.bo.expandtab = false
+    vim.bo.cinoptions = ':0,l1,t0,g0,(0'
+end
+
+-- Kernel style for kernel, U-Boot and device tree sources.
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufReadPost' }, {
+    pattern = {
+        '*.dts', '*.dtsi', '*.dtso',
+        '*/linux*/*.[ch]', '*/u-boot*/*.[ch]',
+        '*/recipes-modules/*.[ch]', '*/target/linux/*.[ch]',
+    },
+    callback = KernelStyle,
+    desc = 'Linux kernel indentation',
+})
