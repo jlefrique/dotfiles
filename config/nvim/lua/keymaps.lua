@@ -64,5 +64,9 @@ vim.keymap.set("v", "<leader>co", "<cmd>CopilotChatOptimize<cr>", { desc = "Opti
 -- Lazygit
 vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<cr>', { desc = 'Open LazyGit' })
 
+-- git beam: save everything, then copy the checkout to the build host
+vim.keymap.set('n', '<leader>gb', '<cmd>wall | botright 12split | terminal git beam<cr>',
+    { desc = 'Save all and beam to the build host' })
+
 -- Zen mode
 vim.keymap.set('n', '<leader>z', '<cmd>ZenMode<cr>', { desc = 'Toggle reading view' })
