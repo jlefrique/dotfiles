@@ -144,7 +144,20 @@ require('mason-lspconfig').setup {
 local cmp_lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 vim.lsp.config('clangd', {
     -- nvim-cmp almost supports LSP's capabilities so advertise it to LSP servers.
-    capabilities = cmp_lsp_capabilities
+    capabilities = cmp_lsp_capabilities,
+    -- Without a compilation database clangd guesses the build flags, so the
+    -- #if blocks it greys out as inactive are unreliable (e.g. kernel code
+    -- under CONFIG_* options it does not know). Drop its semantic highlighting
+    -- in that case.
+    on_attach = function(client, bufnr)
+        local file_dir = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
+        local database = vim.fs.find({ 'compile_commands.json', 'compile_flags.txt' },
+            { path = file_dir, upward = true })[1]
+            or (client.root_dir and vim.uv.fs_stat(client.root_dir .. '/build/compile_commands.json'))
+        if not database then
+            vim.lsp.semantic_tokens.enable(false, { bufnr = bufnr, client_id = client.id })
+        end
+    end,
 })
 
 -- Completion
