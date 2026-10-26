@@ -2,7 +2,7 @@
 vim.pack.add({
     -- Colorcheme and UI
     { src = "https://github.com/neozenith/estilo-xoria256" },
-    { src = "https://github.com/itchyny/lightline.vim.git" },
+    { src = "https://github.com/nvim-lualine/lualine.nvim" },
     { src = "https://github.com/EdenEast/nightfox.nvim.git" },
 
     -- tpope's goodness
@@ -45,6 +45,7 @@ vim.pack.add({
 
     -- Git
     { src = "https://github.com/kdheepak/lazygit.nvim.git" },
+    { src = "https://github.com/lewis6991/gitsigns.nvim" },
     { src = "https://github.com/pwntester/octo.nvim" },
     { src = "https://github.com/nvim-tree/nvim-web-devicons" },
 
@@ -73,18 +74,12 @@ require('nightfox').setup({
 })
 vim.cmd.colorscheme 'carbonfox'
 
-vim.g.lightline = {
-    colorscheme = 'carbonfox',
-    active = {
-        left = {
-            { 'mode', 'paste' },
-            { 'gitbranch', 'readonly', 'filename', 'modified' }
-        }
-    },
-    component_function = {
-        gitbranch = 'FugitiveStatusline'
-    }
-}
+-- The default sections show the mode, branch, diff counts, diagnostics,
+-- file name, file type and position.
+require('lualine').setup({ options = { theme = 'carbonfox' } })
+
+-- Git changes color the line numbers, leaving the sign column to diagnostics.
+require('gitsigns').setup({ signcolumn = false, numhl = true })
 
 -- Enable cfilter plugin to filter the quickfix.
 -- Cfilter! /{pat}/
