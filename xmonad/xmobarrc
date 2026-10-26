@@ -12,9 +12,10 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
                     --, Run Com "/bin/bash" ["-c","~/dotfiles/bin/quotes.sh -s \" * \""] "quotes" 600
                     , Run Date "󰃭  %a %b %_d %Y %H:%M:%S" "date" 10
                     , Run Com "sh" ["-c","echo \"󰇧  $(TZ=America/Los_Angeles date +'%Z %H:%M')  $(TZ=America/New_York date +'%Z %H:%M')\""] "usclocks" 300
+                    , Run Kbd [("us", "󰌌  US"), ("dvorak", "󰌌  DV"), ("us(dvorak)", "󰌌  DV")]
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %memory% | %disk% | %battery% | %dynnetwork% | <fc=#f1c21b>%date%</fc> | %usclocks% | %LSGG%"
+       , template = "%StdinReader% }{ %cpu% | %memory% | %disk% | %battery% | %dynnetwork% | %kbd% | <fc=#f1c21b>%date%</fc> | %usclocks% | %LSGG%"
        }
