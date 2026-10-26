@@ -10,6 +10,8 @@ export -U PATH=$PATH
 export EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER='less -X'
+# fzf styled like dmenu (carbonfox colors, see dmenurc)
+export FZF_DEFAULT_OPTS="--color=bg:#161616,fg:#b6b8bb,bg+:#33b1ff,fg+:#161616,hl:#33b1ff,hl+:#161616,prompt:#b6b8bb,pointer:#33b1ff --pointer=' ' --marker=' '"
 export LESS='-R'
 
 # Report time and CPU usage for long commands.
