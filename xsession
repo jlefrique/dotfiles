@@ -3,10 +3,20 @@
 # Load resources
 xrdb -merge ~/.Xresources
 
-# Set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$HOME/.cabal/bin:$PATH"
-fi
+# Put the user's bin directories that exist in front of PATH, in this order
+user_path=
+for dir in "$HOME/bin" "$HOME/.local/bin" "$HOME/.cabal/bin" "$HOME/.cargo/bin"; do
+    [ -d "$dir" ] && user_path="$user_path$dir:"
+done
+export PATH="$user_path$PATH"
+
+# Let services started by D-Bus or systemd open windows on this display (some
+# distributions already do it before this script).
+command -v dbus-update-activation-environment > /dev/null &&
+    dbus-update-activation-environment --systemd DISPLAY XAUTHORITY 2> /dev/null
+
+# Starts a program in the background if it is installed.
+start() { command -v "$1" > /dev/null && "$@" & }
 
 # Change measuring units, paper size and first day of week
 export LC_MEASUREMENT="en_GB.UTF-8"
@@ -42,28 +52,11 @@ else
     xsetroot -solid black
 fi
 
-if [ -x "`which xscreensaver 2>/dev/null`" ] ; then
-    xscreensaver -no-splash &
-fi
-
-if [ -x "`which nm-applet 2>/dev/null`" ] ; then
-    nm-applet --sm-disable &
-fi
-
-if [ -x "`which xfce4-power-manager 2>/dev/null`" ] ; then
-    sleep 3
-    xfce4-power-manager &
-fi
-
-# Start mpd daemon if no other user instance exists
-if [ ! -s ~/.mpd/pid -a -x "`which mpd 2>/dev/null`" ] ; then
-    mpd
-fi
-
-# Fire up apps
-for application in pidgin redshift ; do
-    [ -x "`which  $application 2>/dev/null`" ] && $application &
-done
+start xscreensaver -no-splash
+start nm-applet --sm-disable
+# Delayed, in the background so the rest of the session is not held up
+(sleep 3; start xfce4-power-manager) &
+start redshift
 
 # Wait for window manager to exit
 wait $wmpid
