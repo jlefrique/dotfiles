@@ -1,19 +1,21 @@
 #!/bin/sh
 
-COUNT=`lsusb | grep -c "TypeMatrix 2030 USB Keyboard"`
+# Sets the keyboard layout and repetition rate for the X session.
+#
+# us is active by default, for keyboards typing Dvorak in hardware (e.g. a
+# TypeMatrix, or an XD75 with QMK). Pressing both Shift keys switches to
+# Dvorak in software, e.g. for a laptop's built-in keyboard, and back. A
+# machine can override the settings in ~/.keyboard.local.
 
-if [ $COUNT -ne 0 ]
-then
-  # If a TypeMatrix keyboard is found, set US layout because hardware
-  # Dvorak mode is used.
-  echo "TypeMatrix keyboard found."
-  LAYOUT=us
-else
-  echo "TypeMatrix keyboard not found."
-  LAYOUT=dvorak
-fi
+LAYOUT=us,us
+VARIANT=,dvorak
+OPTIONS=compose:ralt,caps:none,grp:shifts_toggle
+# shellcheck source=/dev/null
+[ -f ~/.keyboard.local ] && . ~/.keyboard.local
 
-setxkbmap -layout $LAYOUT -option compose:ralt -option caps:none
+# The empty -option clears the options set earlier, so reruns do not add them
+# again.
+setxkbmap -layout "$LAYOUT" -variant "$VARIANT" -option '' -option "$OPTIONS"
 
 # Keyboard repetition rate
-xset r rate 300 30
+xset r rate 300 50
