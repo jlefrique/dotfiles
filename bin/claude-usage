@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# Prints the Claude Code spend against its monthly limit for xmobar, as /usage
+# shows it, colored by its pace: the spend against the share of the limit for
+# the working days so far (Monday to Friday, the limit resetting on the 1st).
+# On the last working day that share is the whole limit. Uses the claude.ai
+# login of Claude Code and the usage endpoint /usage calls, which is
+# undocumented and rate-limited: the result is cached for 10 minutes, and the
+# last one is kept when a request fails (expired login, rate limit, changed
+# endpoint).
+#
+# Usage: claude-usage [--details]
+#   --details  print the spend, working days, even pace, remaining, average
+#              and projection
+
+# Counts the Monday to Friday days of the current month, up to the given day.
+# Holidays and vacation count as working days.
+working_days() {
+    local last=$1 first_weekday day count=0
+    first_weekday=$(date -d "$(date +%Y-%m-01)" +%u)   # 1 is Monday
+    for ((day = 1; day <= last; day++)); do
+        (( (first_weekday + day - 2) % 7 < 5 )) && count=$((count + 1))
+    done
+    echo "$count"
+}
+
+# Reports "used<TAB>limit", in dollars, for xmobar or in details.
+report() {
+    local days_in_month
+    days_in_month=$(date -d "$(date +%Y-%m-01) +1 month -1 day" +%d)
+    awk -v details="$1" -v elapsed="$(working_days "$(date +%d)")" -v total="$(working_days "$days_in_month")" '{
+        used = $1; limit = $2
+        # A month starting on a weekend has no working day yet: count one.
+        days = elapsed > 0 ? elapsed : 1
+        # Even pace: the spend by today if the limit is spread over the working days.
+        even = limit * days / total
+        pace = even > 0 ? used / even : 0
+        if (pace >= 1.5) { color = "#ee5396"; name = "red" }
+        else if (pace >= 1.25) { color = "#ff832b"; name = "orange" }
+        else if (pace >= 1) { color = "#f1c21b"; name = "yellow" }
+        else { color = "#25be6a"; name = "green" }
+        if (!details) {
+            printf "<fc=%s>󰚩  $%.2f/$%.0f</fc>\n", color, used, limit
+            exit
+        }
+        print "󰚩  Claude Code usage"
+        printf "Spent        $%.2f of $%.0f (%.1f%%)\n", used, limit, (limit > 0 ? 100 * used / limit : 0)
+        printf "Working days %d of %d, %d left\n", elapsed, total, total - elapsed
+        printf "Even pace    $%.2f by today, $%.2f per working day\n", even, limit / total
+        left = total - elapsed
+        if (left > 0) printf "Remaining    $%.2f, $%.2f per working day left\n", limit - used, (limit - used) / left
+        else printf "Remaining    $%.2f\n", limit - used
+        printf "Average      $%.2f per working day\n", used / days
+        printf "Projected    $%.2f by the end of the month\n", used / days * total
+        printf "Pace         %.2f× of even pace (%s)\n", pace, name
+    }'
+}
+
+# Machines without a Claude Code login show nothing, without asking Anthropic.
+[[ -r ~/.claude/.credentials.json ]] || exit 0
+
+details=0
+[[ "${1:-}" == --details ]] && details=1
+
+cache="${XDG_RUNTIME_DIR:-/tmp}/claude-usage.tsv"
+if [[ -z "$(find "$cache" -mmin -10 2> /dev/null)" ]]; then
+    # Touching the cache first delays the next try even if this one fails.
+    touch "$cache"
+    token=$(jq -r '.claudeAiOauth.accessToken // empty' ~/.claude/.credentials.json 2> /dev/null)
+    # The header comes from a file descriptor, keeping the token out of ps.
+    usage=$(curl -sS -m 10 -f -H @<(printf 'Authorization: Bearer %s\n' "$token") \
+            -H 'anthropic-beta: oauth-2025-04-20' https://api.anthropic.com/api/oauth/usage 2> /dev/null |
+        jq -r '.spend | select(.enabled) | [.used, .limit] | map(.amount_minor / pow(10; .exponent)) | @tsv' 2> /dev/null)
+    [[ -n "$usage" ]] && echo "$usage" > "$cache"
+fi
+# Nothing to report yet (logged out, first try failed): print nothing, but
+# exit cleanly, since xmobar reports a failing command.
+if [[ -s "$cache" ]]; then
+    report "$details" < "$cache"
+fi

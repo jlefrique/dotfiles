@@ -9,6 +9,7 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
                     , Run Memory ["-t","󰍛  <usedratio>%","-p","3"] 10
                     , Run Com "sh" ["-c","df -BG --output=avail,size / | awk 'NR==2 { sub(/G/, \"\", $1); sub(/G/, \"\", $2); print \"󰋊  \" $1 \"/\" $2 \" G\" }'"] "disk" 600
                     , Run Com "xmobar_battery.sh" [] "battery" 600
+                    , Run Com "sh" ["-c","usage=$(claude-usage); [ -z \"$usage\" ] || echo \"| $usage\""] "claudeusage" 6000
                     --, Run Com "/bin/bash" ["-c","~/dotfiles/bin/quotes.sh -s \" * \""] "quotes" 600
                     , Run Date "󰃭  %a %b %_d %Y %H:%M:%S" "date" 10
                     , Run Com "sh" ["-c","echo \"󰇧  $(TZ=America/Los_Angeles date +'%Z %H:%M')  $(TZ=America/New_York date +'%Z %H:%M')\""] "usclocks" 300
@@ -17,5 +18,5 @@ Config { font = "xft:Terminess Nerd Font:pixelsize=12"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %memory% | %disk% | %battery% | %dynnetwork% | %kbd% | <fc=#f1c21b>%date%</fc> | %usclocks% | %LSGG%"
+       , template = "%StdinReader% }{ %cpu% | %memory% | %disk% | %battery% | %dynnetwork% | %kbd% | <fc=#f1c21b>%date%</fc> | %usclocks% | %LSGG% %claudeusage%"
        }
