@@ -227,7 +227,8 @@ myScratchpads =
             [ myTerminal
             , nameArg nameWiki
             , "-e sh"
-            , "-c \"cd ~/annex/wiki && nvim .\""
+            -- No mouse in nvim: the terminal selects for copy-paste.
+            , "-c \"cd ~/annex/wiki && nvim -c 'set mouse=' .\""
             ]
         findWiki   = resource =? nameWiki
         manageWiki = customFloating $ W.RationalRect l t w h
