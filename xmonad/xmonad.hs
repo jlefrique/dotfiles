@@ -24,11 +24,14 @@ import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Dmenu
 import XMonad.Util.NamedScratchpad
+import XMonad.Util.NamedWindows (getName)
 import XMonad.Util.WorkspaceCompare
 import XMonad.Actions.PerWorkspaceKeys
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
+import Data.List (stripPrefix)
+import Data.Maybe (catMaybes, listToMaybe)
 
 -- Default terminal emulator
 myTerminal = "alacritty"
@@ -242,6 +245,46 @@ myScratchpads =
                 t = 0.03
                 l = 1 - w
 
+-- Extracts the session from a tmux title of the form "tmux: <session> | ...".
+-- Titles without the "|" delimiter come from older tmux configs and are skipped.
+sessionFromTitle :: String -> Maybe String
+sessionFromTitle title = case words <$> stripPrefix "tmux: " title of
+    Just (session : "|" : _) -> Just session
+    _ -> Nothing
+
+-- Returns the tmux session named in a window title, if any.
+tmuxSession :: Window -> X (Maybe String)
+tmuxSession window = sessionFromTitle . show <$> getName window
+
+-- Maps each workspace holding a tmux terminal to its session name.
+workspaceSessions :: X (M.Map WorkspaceId String)
+workspaceSessions = withWindowSet $ \windowSet -> do
+    entries <- forM (W.workspaces windowSet) $ \workspace -> do
+        sessions <- catMaybes <$> mapM tmuxSession (W.integrate' (W.stack workspace))
+        return $ (,) (W.tag workspace) <$> listToMaybe sessions
+    return $ M.fromList (catMaybes entries)
+
+-- Shows the tmux session in place of the workspace name, keeping its number.
+myLogHook :: Handle -> X ()
+myLogHook xmproc = do
+    sessions <- workspaceSessions
+    let label tag = maybe tag ((takeWhile (/= ':') tag ++) . (':' :)) (M.lookup tag sessions)
+        pp = xmobarPP
+            { ppOutput = hPutStrLn xmproc
+            , ppCurrent = xmobarColor "#33b1ff" "" . wrap "[" "]"
+            , ppTitle  = xmobarColor "#25be6a" "" . shorten 50
+            -- Hide the NSP workspace that holds hidden scratchpads.
+            , ppSort   = fmap (. filter ((/= "NSP") . W.tag)) getSortByIndex
+            , ppUrgent = xmobarColor "#ee5396" "" . xmobarStrip
+            }
+    dynamicLogWithPP pp
+        { ppCurrent = ppCurrent pp . label
+        , ppVisible = ppVisible pp . label
+        , ppHidden = ppHidden pp . label
+        , ppHiddenNoWindows = ppHiddenNoWindows pp . label
+        , ppUrgent = ppUrgent pp . label
+        }
+
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
     xmonad $ docks
@@ -251,14 +294,7 @@ main = do
         { modMask         = myModKey
         , manageHook      = myManageHook <+> manageHook def
         , layoutHook      = smartBorders $ myLayout
-        , logHook         = dynamicLogWithPP $ xmobarPP
-            { ppOutput = hPutStrLn xmproc
-            , ppCurrent = xmobarColor "#33b1ff" "" . wrap "[" "]"
-            , ppTitle  = xmobarColor "#25be6a" "" . shorten 50
-            -- Hide the NSP workspace that holds hidden scratchpads.
-            , ppSort   = fmap (. filter ((/= "NSP") . W.tag)) getSortByIndex
-            , ppUrgent = xmobarColor "#ee5396" "" . xmobarStrip
-            }
+        , logHook         = myLogHook xmproc
         , terminal        = myTerminal
         , workspaces      = myWorkspaces
         } `additionalKeys` myKeys
