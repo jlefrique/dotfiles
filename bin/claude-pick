@@ -1,0 +1,187 @@
+#!/bin/bash
+
+# Lists the running Claude Code sessions (waiting first, then busy, then idle)
+# in fzf and jumps to the tmux pane of the chosen one:
+#   - inside tmux, switches the current client to it;
+#   - if a terminal already shows its tmux session, focuses that terminal, so
+#     the window manager switches to its workspace (needs xdotool, and EWMH
+#     support in the window manager);
+#   - otherwise attaches the session, in a new terminal with --new-terminal.
+#
+# With --resume, lists the sessions of the last 3 weeks (except empty ones and
+# one-shot PR reviews), newest first, with their size; choosing
+# one that is not running resumes it with claude in this terminal, from its
+# directory (running ones are jumped to as above).
+#
+# The preview shows the session's latest recap (the summary Claude writes when
+# you come back to a session) and your last prompt.
+#
+# Usage: claude-pick [--new-terminal | --resume]
+
+set -euo pipefail
+
+# Prints the latest recap (if any) and last prompt of a session, from its
+# transcript. The last prompt falls back to the last message typed in the
+# conversation, since some last-prompt records have no text.
+preview() {
+    local transcript prompt
+    transcript=$(compgen -G ~/.claude/projects/"*/$1.jsonl" | head -n 1) || return 0
+    { grep -a '"subtype":"away_summary"' "$transcript" || true; } | tail -n 1 |
+        jq -r '"Recap (" + (.timestamp | sub("\\.[0-9]+Z$"; "Z") | fromdate | strflocaltime("%a %d %b %H:%M")) + "):\n" + .content + "\n"'
+    prompt=$({ grep -a '"type":"last-prompt"' "$transcript" || true; } |
+        jq -R -r 'fromjson? | select(.type == "last-prompt") | .lastPrompt // empty
+            | select(startswith("Another Claude session") | not)' | tail -n 1)
+    if [[ -z "$prompt" ]]; then
+        prompt=$({ grep -a '"type":"user"' "$transcript" || true; } |
+            jq -R -r 'fromjson? | select(.type == "user" and (.isMeta | not)) | .message.content
+                | if type == "string" then . else map(select(.type == "text") | .text) | join(" ") end' |
+            { grep -v -e '^$' -e '^<' || true; } | tail -n 1)
+    fi
+    printf 'Last prompt:\n%s\n' "${prompt:-(none)}"
+}
+
+if [[ "${1:-}" == "--preview" ]]; then
+    preview "$2" | fold -s -w "${FZF_PREVIEW_COLUMNS:-80}"
+    exit 0
+fi
+
+mode=running
+new_terminal=false
+case "${1:-}" in
+    --new-terminal) new_terminal=true ;;
+    --resume) mode=all ;;
+esac
+
+# Prints one tab-separated line per live session with a tmux pane:
+# sort key, pane id, session id, status, name, tmux window, directory.
+list_sessions() {
+    local file pid pane window
+    for file in ~/.claude/sessions/*.json; do
+        [[ -e "$file" ]] || continue
+        pid=$(basename "$file" .json)
+        [[ -d "/proc/$pid" ]] || continue
+        # Unit separator, not tabs: read merges consecutive tabs, losing empty fields.
+        # The sort key puts waiting sessions first, then busy, then idle.
+        IFS=$'\x1f' read -r key session_id status name name_source tmux_location cwd < <(
+            jq -r '[{waiting: "0", busy: "1"}[.status] // "2", .sessionId // "", .status // "?", .name // "",
+                .nameSource // "", .tmux // "", .cwd // ""] | join("\u001f")' "$file")
+        pane=${tmux_location##*.}
+        [[ "$pane" == %* ]] || continue
+        # The pane may have moved since the session started; ask tmux.
+        window=$(tmux display-message -p -t "$pane" '#{session_name}:#{window_index}' 2> /dev/null) || continue
+        # Derived names are placeholders (directory and id); the pane title
+        # Claude sets holds the real one, after a status symbol.
+        if [[ -z "$name" || "$name_source" == derived ]]; then
+            name=$(tmux display-message -p -t "$pane" '#{pane_title}' | sed -E 's/^[^[:alnum:]]+ //')
+        fi
+        printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$key" "$pane" "$session_id" "$status" "$name" "$window" "${cwd/#$HOME/\~}"
+    done
+}
+
+# Colors the status column and aligns the rest for fzf.
+format() {
+    awk -F '\t' -v OFS='\t' '
+        BEGIN { color["waiting"] = "\033[33m"; color["busy"] = "\033[36m"
+                color["idle"] = "\033[38;2;123;124;126m"; reset = "\033[0m" }
+        { name = length($5) > 40 ? substr($5, 1, 39) "…" : $5
+          printf "%s\t%s\t%s%-8s%s %-40s %-16s %s\n", $2, $3, color[$4], $4, reset, name, $6, $7 }'
+}
+
+# Prints one tab-separated line per session transcript of the last 3 weeks,
+# newest first: pane id if running (else -), session id, date, size, title,
+# directory.
+list_all_sessions() {
+    local running mtime size transcript id title cwd pane running_name
+    # Pane, session id and name of the running sessions.
+    running=$(list_sessions | cut -f 2,3,5)
+    find ~/.claude/projects -mindepth 2 -maxdepth 2 -name '*.jsonl' -mtime -21 -printf '%T@\t%s\t%p\n' |
+        sort -rn |
+        while IFS=$'\t' read -r mtime size transcript; do
+            id=$(basename "$transcript" .jsonl)
+            # The latest /rename title wins over the latest generated one; the
+            # stable sort keeps the file order within each kind.
+            title=$(grep -a -o -E '"(customTitle|aiTitle)":"[^"]*"' "$transcript" |
+                sort -s -t '"' -k 2,2 | tail -n 1 | sed -E 's/^"[^"]*":"//; s/"$//') || true
+            cwd=$(grep -a -m 1 -o '"cwd":"[^"]*"' "$transcript" | sed -E 's/^"cwd":"//; s/"$//') || true
+            # Skip sessions opened and closed without any message.
+            [[ -n "$title" ]] || grep -a -q '"type":"user"' "$transcript" || continue
+            IFS=$'\t' read -r pane running_name < <(awk -F '\t' -v id="$id" '$2 == id { print $1 "\t" $3 }' <<< "$running") || true
+            # Skip one-shot PR reviews (small, ending with /review-pr), unlikely
+            # to be resumed.
+            if [[ -z "$pane" && "$size" -lt 1048576 ]] &&
+                { grep -a '"type":"last-prompt"' "$transcript" || true; } |
+                    jq -R -r 'fromjson? | .lastPrompt // empty' | tail -n 1 | grep -q '^/review-pr'; then
+                continue
+            fi
+            title=${title:-$running_name}
+            printf '%s\t%s\t%s\t%s\t%s\t%s\n' "${pane:--}" "$id" \
+                "$(date -d "@${mtime%.*}" '+%a %d %b %H:%M')" "$(numfmt --to=iec "$size")" \
+                "${title:-(untitled)}" "$cwd"
+        done
+}
+
+# Marks running sessions and aligns the columns for fzf, keeping the raw
+# directory in a hidden last field for the resume.
+format_all() {
+    awk -F '\t' -v OFS='\t' -v home="$HOME" '
+        { mark = $1 == "-" ? "       " : "\033[36mrunning\033[0m"
+          title = length($5) > 50 ? substr($5, 1, 49) "…" : $5
+          dir = index($6, home) == 1 ? "~" substr($6, length(home) + 1) : $6
+          printf "%s\t%s\t%s %s %5s  %-50s %s\t%s\n", $1, $2, mark, $3, $4, title, dir, $6 }'
+}
+
+# Runs fzf styled like dmenu (see dmenurc), showing field 3 only, with the
+# session id in field 2 driving the preview.
+pick() {
+    fzf --ansi --reverse --no-info --delimiter '\t' --with-nth 3 --prompt 'claude> ' \
+        --color=bg:#161616,fg:#b6b8bb,bg+:#33b1ff,fg+:#161616,hl:#33b1ff,hl+:#161616,prompt:#b6b8bb,pointer:#33b1ff \
+        --pointer=' ' --marker=' ' --preview "$0 --preview {2}" --preview-window down,40%,wrap "$@"
+}
+
+# Focuses the X window of the terminal running the given process (e.g. a tmux
+# client), found through its parent processes.
+focus_terminal() {
+    local pid=$1 window
+    command -v xdotool > /dev/null || return 1
+    while [[ "$pid" -gt 1 ]]; do
+        window=$(xdotool search --pid "$pid" 2> /dev/null | head -n 1) || true
+        if [[ -n "$window" ]]; then
+            xdotool windowactivate "$window"
+            return 0
+        fi
+        pid=$(ps -o ppid= -p "$pid" | tr -d ' ')
+    done
+    return 1
+}
+
+# Selects the given tmux pane and brings it in front of the user.
+jump_to_pane() {
+    local pane=$1 session client
+    session=$(tmux display-message -p -t "$pane" '#{session_name}')
+    tmux select-window -t "$pane"
+    tmux select-pane -t "$pane"
+    if [[ -n "${TMUX:-}" ]]; then
+        tmux switch-client -t "$session"
+    elif client=$(tmux list-clients -t "$session" -F '#{client_pid}' | head -n 1) && [[ -n "$client" ]]; then
+        focus_terminal "$client" || echo "Session $session is shown in another terminal"
+    elif $new_terminal; then
+        setsid -f "${TERMINAL:-alacritty}" -e tmux attach-session -t "$session"
+    else
+        exec tmux attach-session -t "$session"
+    fi
+}
+
+if [[ "$mode" == all ]]; then
+    choice=$(list_all_sessions | format_all | pick --no-sort) || exit 0
+    pane=${choice%%$'\t'*}
+    if [[ "$pane" != - ]]; then
+        jump_to_pane "$pane"
+        exit 0
+    fi
+    cwd=${choice##*$'\t'}
+    [[ -d "$cwd" ]] && cd "$cwd"
+    exec claude --resume "$(cut -f 2 <<< "$choice")"
+fi
+
+choice=$(list_sessions | sort | format | pick) || exit 0
+jump_to_pane "${choice%%$'\t'*}"

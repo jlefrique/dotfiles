@@ -12,6 +12,7 @@ import System.IO
 import System.Exit
 import Control.Monad
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.Fullscreen
@@ -70,6 +71,8 @@ myKeys =
     , ((myModKey, xK_s), namedScratchpadAction myScratchpads "terminal")
     , ((myModKey, xK_b), namedScratchpadAction myScratchpads "wiki")
     , ((myModKey, xK_i), namedScratchpadAction myScratchpads "ipython")
+    -- Pick a running Claude Code session and jump to it
+    , ((myModKey, xK_a), spawn (myTerminal ++ " --class claude-pick,claude-pick -e claude-pick --new-terminal"))
     -- Close focused window with one hand in Dvorak
     , ((myModKey .|. shiftMask, xK_o), kill)
     -- Print screen
@@ -177,6 +180,7 @@ myManageHook = composeAll
     , className =? "VirtualBox"    --> doShift "9:vm"
     , className =? "Xfce4-notifyd" --> doIgnore -- Prevent to steal the focus.
     , title     =? "Logic"         --> doIgnore
+    , resource  =? "claude-pick"   --> customFloating (W.RationalRect 0.1 0.25 0.8 0.5)
     ] <+> namedScratchpadManageHook myScratchpads
 
 ------------------------------------------------------------------------
@@ -241,6 +245,7 @@ myScratchpads =
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
     xmonad $ docks
+           $ ewmh
            $ withUrgencyHook NoUrgencyHook
            $ def
         { modMask         = myModKey
