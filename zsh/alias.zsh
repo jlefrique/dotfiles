@@ -77,3 +77,11 @@ tssh() {
 }
 # Complete host names like ssh.
 compdef tssh=ssh
+
+# Picks a worktree of the current git repository with fzf and changes into it.
+wt() {
+    local dir
+    git rev-parse --git-dir > /dev/null || return
+    dir="$(git worktree list | fzf --height=40% --reverse | awk '{print $1}')" || return
+    [ -n "$dir" ] && cd "$dir"
+}
