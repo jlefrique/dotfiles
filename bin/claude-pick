@@ -172,7 +172,10 @@ jump_to_pane() {
 }
 
 if [[ "$mode" == all ]]; then
-    choice=$(list_all_sessions | format_all | pick --no-sort) || exit 0
+    # Picking before the list is complete kills its writers with SIGPIPE, which
+    # pipefail would report as a failure; only an empty choice means cancel.
+    choice=$(list_all_sessions | format_all | pick --no-sort) || true
+    [[ -n "$choice" ]] || exit 0
     pane=${choice%%$'\t'*}
     if [[ "$pane" != - ]]; then
         jump_to_pane "$pane"
@@ -183,5 +186,6 @@ if [[ "$mode" == all ]]; then
     exec claude --resume "$(cut -f 2 <<< "$choice")"
 fi
 
-choice=$(list_sessions | sort | format | pick) || exit 0
+choice=$(list_sessions | sort | format | pick) || true
+[[ -n "$choice" ]] || exit 0
 jump_to_pane "${choice%%$'\t'*}"
