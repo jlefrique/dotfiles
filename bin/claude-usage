@@ -16,7 +16,7 @@
 # Counts the Monday to Friday days of the current month, up to the given day.
 # Holidays and vacation count as working days.
 working_days() {
-    local last=$1 first_weekday day count=0
+    local last=$((10#$1)) first_weekday day count=0   # 10# keeps 08 and 09 from being octal
     first_weekday=$(date -d "$(date +%Y-%m-01)" +%u)   # 1 is Monday
     for ((day = 1; day <= last; day++)); do
         (( (first_weekday + day - 2) % 7 < 5 )) && count=$((count + 1))
