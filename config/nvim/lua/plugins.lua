@@ -47,6 +47,7 @@ vim.pack.add({
     { src = "https://github.com/kdheepak/lazygit.nvim.git" },
     { src = "https://github.com/lewis6991/gitsigns.nvim" },
     { src = "https://github.com/pwntester/octo.nvim" },
+    { src = "https://github.com/sindrets/diffview.nvim" },
     { src = "https://github.com/nvim-tree/nvim-web-devicons" },
 
     -- AI assistant
@@ -265,4 +266,12 @@ require('octo').setup({
     -- Square bubbles: the rounded glyphs clip with alacritty's reduced line height.
     left_bubble_delimiter = ' ',
     right_bubble_delimiter = ' ',
+})
+
+-- The file panel at the bottom keeps the full width for the side-by-side diff.
+require('diffview').setup({
+    file_panel = {
+        listing_style = 'tree',
+        win_config = { position = 'bottom', height = 16 },
+    },
 })

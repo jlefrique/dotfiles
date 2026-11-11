@@ -69,5 +69,20 @@ vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<cr>', { desc = 'Open LazyGit' })
 vim.keymap.set('n', '<leader>gb', '<cmd>wall | botright 12split | terminal git beam<cr>',
     { desc = 'Save all and beam to the build host' })
 
+-- Review the branch: its changes since the merge-base with the remote default
+-- branch (fetch first, or the base is stale), or its commits.
+vim.keymap.set('n', '<leader>gd', '<cmd>DiffviewOpen origin/HEAD...HEAD<cr>', { desc = 'Review branch against the remote default branch' })
+vim.keymap.set('n', '<leader>gh', '<cmd>DiffviewFileHistory<cr>', { desc = 'Review branch commits' })
+vim.keymap.set('n', '<leader>gq', '<cmd>DiffviewClose<cr>', { desc = 'Close the review' })
+
+-- Send a review comment, with the selected code, to the attached Claude session.
+vim.keymap.set({ 'n', 'x' }, '<leader>ac', function()
+    vim.ui.input({ prompt = 'Comment for Claude: ' }, function(comment)
+        if comment and comment ~= '' then
+            require('sidekick.cli').send({ name = 'claude', msg = comment .. '\n\n{this}' })
+        end
+    end)
+end, { desc = 'Send a review comment to Claude' })
+
 -- Zen mode
 vim.keymap.set('n', '<leader>z', '<cmd>ZenMode<cr>', { desc = 'Toggle reading view' })
