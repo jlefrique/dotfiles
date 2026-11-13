@@ -71,7 +71,8 @@ vim.keymap.set('n', '<leader>gb', '<cmd>wall | botright 12split | terminal git b
 
 -- Review the branch: its changes since the merge-base with the remote default
 -- branch (fetch first, or the base is stale), or its commits.
-vim.keymap.set('n', '<leader>gd', '<cmd>DiffviewOpen origin/HEAD...HEAD<cr>', { desc = 'Review branch against the remote default branch' })
+vim.keymap.set('n', '<leader>gr', '<cmd>DiffviewOpen origin/HEAD...HEAD<cr>', { desc = 'Review branch against the remote default branch' })
+vim.keymap.set('n', '<leader>gd', '<cmd>DiffviewOpen<cr>', { desc = 'Review uncommitted changes' })
 vim.keymap.set('n', '<leader>gh', '<cmd>DiffviewFileHistory<cr>', { desc = 'Review branch commits' })
 vim.keymap.set('n', '<leader>gq', '<cmd>DiffviewClose<cr>', { desc = 'Close the review' })
 
